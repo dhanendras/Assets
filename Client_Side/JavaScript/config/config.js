@@ -22,26 +22,9 @@ config.logo.scrap_merchant = {};
 config.logo.width = '4em';
 config.logo.height = '1.6em';
 
-//Main Logo
-config.logo.main.src = 'Icons/IBM_logo.svg';
+//UST Logo
+config.logo.logo = 'Icons/logo.jpg';
 
-// Regulator Logo
-config.logo.regulator.src = 'Icons/Regulator/IBM_logo.svg';
-
-// Manufacturer Logo
-config.logo.manufacturer.src = 'Icons/Manufacturer/IBM_logo.svg';
-
-// Dealership Logo
-config.logo.dealership.src = 'Icons/Dealership/IBM_logo.svg';
-
-// Lease Company Logo
-config.logo.lease_company.src = 'Icons/Lease_Company/IBM_logo.svg';
-
-// Leasee Logo
-config.logo.leasee.src = 'Icons/Leasee/IBM_logo.svg';
-
-// Scrap Merchant Logo
-config.logo.scrap_merchant.src = 'Icons/Scrap_Merchant/IBM_logo.svg';
 
 /******* Participants *******/
 //This is where we define the details of the users for each company (name and password)
@@ -172,7 +155,7 @@ config.participants.scrap_merchant = config.participants.users.scrap_merchants[0
 
 function loadLogo(pageType)
 {
-    $('#logo').attr('src', config.logo[pageType.toLowerCase()].src);
+    $('#logo').attr('src', config.logo.logo);
     $('#logo').css('width', config.logo.width);
     $('#logo').css('height', config.logo.height);
 }

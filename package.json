@@ -1,5 +1,5 @@
 {
-  "name": "Car-Lease-Demo",
+  "name": "asset-diamond-Demo",
   "version": "0.7.3",
   "description": "A Node.js web application that demonstrates utilizing IBM Blockchain JS to call REST APIs on the blockchain.",
   "main": "app.js",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/IBM-Blockchain/car-lease-demo.git"
+    "url": "https://github.com/dhanendras/Assets.git"
   },
   "engines": {
     "node": "^6.9.1",
