@@ -13,8 +13,8 @@ const TYPES = [
     'distributor_to_dealership',
     'dealership_to_buyer',
     'buyer_to_trader',
-    'trader_to_cutter'
-'cutter_to_jewellery_maker'
+    'trader_to_cutter',
+'cutter_to_jewellery_maker',
 'jewellery_maker_to_customer'
 
 ];
