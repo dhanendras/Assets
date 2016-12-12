@@ -9,11 +9,14 @@ let initial_assets = require(__dirname+'/../../../blockchain/assets/assets/initi
 let fs = require('fs');
 
 const TYPES = [
-    'regulator_to_manufacturer',
-    'manufacturer_to_private',
-    'private_to_lease_company',
-    'lease_company_to_private',
-    'private_to_scrap_merchant'
+    'miner_to_distributor',
+    'distributor_to_dealership',
+    'dealership_to_buyer',
+    'buyer_to_trader',
+    'trader_to_cutter'
+'cutter_to_jewellery_maker'
+'jewellery_maker_to_customer'
+
 ];
 
 let assetData;
@@ -23,7 +26,7 @@ function create(req, res, next, usersToSecurityContext) {
         let chain = hfc.getChain('myChain');
         assetData = new Asset(usersToSecurityContext);
 
-        let cars;
+        let diamonds;
         res.write(JSON.stringify({message:'Creating assets'})+'&&');
         fs.writeFileSync(__dirname+'/../../../logs/demo_status.log', '{"logs": []}');
 
@@ -32,7 +35,7 @@ function create(req, res, next, usersToSecurityContext) {
         let scenario = req.body.scenario;
 
         if(scenario === 'simple' || scenario === 'full') {
-            cars = initial_assets[scenario];
+            diamonds = initial_assets[scenario];
         } else {
             let error = {};
             error.message = 'Scenario type not recognised';
@@ -41,39 +44,39 @@ function create(req, res, next, usersToSecurityContext) {
             return;
         }
 
-        if(cars.hasOwnProperty('cars')) {
-            tracing.create('INFO', 'Demo', 'Found cars');
-            cars = cars.cars;
-            let v5cIDResults;
+        if(diamonds.hasOwnProperty('diamonds')) {
+            tracing.create('INFO', 'Demo', 'Found diamonds');
+            diamonds = diamonds.diamonds;
+            let assetIDResults;
             updateDemoStatus({message: 'Creating assets'});
             chain.getEventHub().connect();
-            return createAssets(cars)
+            return createAssets(diamonds)
             .then(function(results) {
-                v5cIDResults = results;
-                return v5cIDResults.reduce(function(prev, v5cID, index) {
-                    let car = cars[index];
-                    let seller = map_ID.user_to_id('DVLA');
-                    let buyer = map_ID.user_to_id(car.Owners[1]);
+                assetIDResults = results;
+                return assetIDResults.reduce(function(prev, assetID, index) {
+                    let Diamond = diamonds[index];
+                    let seller = map_ID.user_to_id('Kollur');
+                    let buyer = map_ID.user_to_id(Diamond.Owners[1]);
                     return prev.then(function() {
-                        return transferAsset(v5cID, seller, buyer, 'authority_to_manufacturer');
+                        return transferAsset(assetID, seller, buyer, 'authority_to_distributor');
                     });
                 }, Promise.resolve());
             })
             .then(function() {
                 updateDemoStatus({message: 'Updating assets'});
-                return v5cIDResults.reduce(function(prev, v5cID, index){
-                    let car = cars[index];
+                return assetIDResults.reduce(function(prev, assetID, index){
+                    let Diamond = diamonds[index];
                     return prev.then(function() {
-                        return populateAsset(v5cID, car);
+                        return populateAsset(assetID, Diamond);
                     });
                 }, Promise.resolve());
             })
             .then(function() {
                 updateDemoStatus({message: 'Transfering assets between owners'});
-                return v5cIDResults.reduce(function(prev, v5cID, index) {
-                    let car = cars[index];
+                return assetIDResults.reduce(function(prev, assetID, index) {
+                    let Diamond = diamonds[index];
                     return prev.then(function() {
-                        return transferBetweenOwners(v5cID, car);
+                        return transferBetweenOwners(assetID, Diamond);
                     });
                 }, Promise.resolve());
             })
@@ -102,22 +105,22 @@ function create(req, res, next, usersToSecurityContext) {
     }
 }
 
-function transferBetweenOwners(v5cID, car, results) {
+function transferBetweenOwners(assetID, Diamond, results) {
     let functionName;
-    let newCar = JSON.parse(JSON.stringify(car));
+    let newDiamond = JSON.parse(JSON.stringify(Diamond));
     if (!results) {
         results = [];
     }
-    if (newCar.Owners.length > 2) {
-        let seller = map_ID.user_to_id(newCar.Owners[1]); // First after DVLA
-        let buyer = map_ID.user_to_id(newCar.Owners[2]); // Second after DVLA
+    if (newDiamond.Owners.length > 2) {
+        let seller = map_ID.user_to_id(newDiamond.Owners[1]); // First after Kollur
+        let buyer = map_ID.user_to_id(newDiamond.Owners[2]); // Second after Kollur
         functionName = TYPES[results.length + 1];
-        return transferAsset(v5cID, seller, buyer, functionName)
+        return transferAsset(assetID, seller, buyer, functionName)
         .then(function(result) {
-            console.log('[#] Transfer asset ' + v5cID + ' between ' + seller + ' -> ' + buyer);
+            console.log('[#] Transfer asset ' + assetID + ' between ' + seller + ' -> ' + buyer);
             results.push(result);
-            newCar.Owners.shift();
-            return transferBetweenOwners(v5cID, newCar, results);
+            newDiamond.Owners.shift();
+            return transferBetweenOwners(assetID, newDiamond, results);
         });
     } else {
         return Promise.resolve(results);
@@ -125,16 +128,16 @@ function transferBetweenOwners(v5cID, car, results) {
 }
 
 // Uses recurision because Promise.all() breaks HFC
-function createAssets(cars, results) {
-    let newCars = JSON.parse(JSON.stringify(cars));
+function createAssets(diamonds, results) {
+    let newdiamonds = JSON.parse(JSON.stringify(diamonds));
     if (!results) {results = [];}
-    if (newCars.length > 0) {
+    if (newdiamonds.length > 0) {
         return createAsset()
             .then(function(result) {
                 console.log('[#] Created asset ' + result);
                 results.push(result);
-                newCars.pop();
-                return createAssets(newCars, results);
+                newdiamonds.pop();
+                return createAssets(newdiamonds, results);
             });
     } else {
         return Promise.resolve(results);
@@ -143,32 +146,32 @@ function createAssets(cars, results) {
 
 function createAsset() {
     console.log('[#] Creating Asset');
-    return assetData.create('DVLA');
+    return assetData.create('Kollur');
 }
 
-function populateAssetProperty(v5cID, ownerId, propertyName, propertyValue) {
+function populateAssetProperty(assetID, ownerId, propertyName, propertyValue) {
     let normalisedPropertyName = propertyName.toLowerCase();
-    return assetData.updateAttribute(ownerId, 'update_'+normalisedPropertyName, propertyValue, v5cID);
+    return assetData.updateAttribute(ownerId, 'update_'+normalisedPropertyName, propertyValue, assetID);
 }
 
-function populateAsset(v5cID, car) {
+function populateAsset(assetID, Diamond) {
     console.log('[#] Populating Asset');
     let result = Promise.resolve();
-    for(let propertyName in car) {
+    for(let propertyName in Diamond) {
         let normalisedPropertyName = propertyName.toLowerCase();
-        let propertyValue = car[propertyName];
+        let propertyValue = Diamond[propertyName];
         if (propertyName !== 'Owners') {
             result = result.then(function() {
-                return populateAssetProperty(v5cID, map_ID.user_to_id(car.Owners[1]), normalisedPropertyName, propertyValue);
+                return populateAssetProperty(assetID, map_ID.user_to_id(Diamond.Owners[1]), normalisedPropertyName, propertyValue);
             });
         }
     }
     return result;
 }
 
-function transferAsset(v5cID, seller, buyer, functionName) {
+function transferAsset(assetID, seller, buyer, functionName) {
     console.log('[#] Transfering Asset to ' + buyer);
-    return assetData.transfer(seller, buyer, functionName, v5cID);
+    return assetData.transfer(seller, buyer, functionName, assetID);
 }
 
 function updateDemoStatus(status) {

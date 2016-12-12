@@ -15,7 +15,7 @@ let update = function(req, res, next, usersToSecurityContext, property)
     let newValue = req.body.value;
     let functionName = req.body.function_name;
     functionName = (functionName) ? functionName : 'update_'+property.toLowerCase();
-    let v5cID = req.params.v5cID;
+    let assetID = req.params.assetID;
 
     if(typeof req.cookies.user !== 'undefined')
     {
@@ -24,22 +24,22 @@ let update = function(req, res, next, usersToSecurityContext, property)
     }
     user_id = req.session.identity;
 
-    tracing.create('ENTER', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, req.body);
+    tracing.create('ENTER', 'PUT blockchain/assets/assets/'+assetID+'/' + property, req.body);
 
-    tracing.create('INFO', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, 'Formatting request');
+    tracing.create('INFO', 'PUT blockchain/assets/assets/'+assetID+'/' + property, 'Formatting request');
     res.write('{"message":"Formatting request"}&&');
 
-    return assetData.updateAttribute(user_id, functionName, newValue, v5cID)
+    return assetData.updateAttribute(user_id, functionName, newValue, assetID)
     .then(function(data) {
-        tracing.create('ENTER SUCCESS', 'PUT blockchain/assets/assets/'+v5cID+'/' + property);
+        tracing.create('ENTER SUCCESS', 'PUT blockchain/assets/assets/'+assetID+'/' + property);
 
-        tracing.create('INFO', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, 'Updating '+property+' value');
+        tracing.create('INFO', 'PUT blockchain/assets/assets/'+assetID+'/' + property, 'Updating '+property+' value');
         res.write('{"message":"Updating owner value"}&&');
-        tracing.create('INFO', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, 'Achieving Consensus');
+        tracing.create('INFO', 'PUT blockchain/assets/assets/'+assetID+'/' + property, 'Achieving Consensus');
         res.write('{"message":"Achieving Consensus"}&&');
         let result = {};
         result.message = property + ' updated';
-        tracing.create('EXIT', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, data);
+        tracing.create('EXIT', 'PUT blockchain/assets/assets/'+assetID+'/' + property, data);
         res.end(JSON.stringify(result));
     })
     .catch(function(err) {
@@ -47,21 +47,21 @@ let update = function(req, res, next, usersToSecurityContext, property)
         let error = {};
         error.error  = true;
         error.message = err;
-        tracing.create('ERROR', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, JSON.parse(err));
+        tracing.create('ERROR', 'PUT blockchain/assets/assets/'+assetID+'/' + property, JSON.parse(err));
         res.end(JSON.stringify(err));
     });
 
-    // return Util.invokeChaincode(securityContext, functionName, [ newValue, v5cID ])
+    // return Util.invokeChaincode(securityContext, functionName, [ newValue, assetID ])
     //     .then(function(data) {
-    //         tracing.create('ENTER SUCCESS', 'PUT blockchain/assets/assets/'+v5cID+'/' + property);
+    //         tracing.create('ENTER SUCCESS', 'PUT blockchain/assets/assets/'+assetID+'/' + property);
     //
-    //         tracing.create('INFO', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, 'Updating '+property+' value');
+    //         tracing.create('INFO', 'PUT blockchain/assets/assets/'+assetID+'/' + property, 'Updating '+property+' value');
     //         res.write('{"message":"Updating owner value"}&&');
-    //         tracing.create('INFO', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, 'Achieving Consensus');
+    //         tracing.create('INFO', 'PUT blockchain/assets/assets/'+assetID+'/' + property, 'Achieving Consensus');
     //         res.write('{"message":"Achieving Consensus"}&&');
     //         let result = {};
     //         result.message = property + ' updated';
-    //         tracing.create('EXIT', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, data);
+    //         tracing.create('EXIT', 'PUT blockchain/assets/assets/'+assetID+'/' + property, data);
     //         res.end(JSON.stringify(result));
     //     })
     //     .catch(function(err) {
@@ -69,7 +69,7 @@ let update = function(req, res, next, usersToSecurityContext, property)
     //         let error = {};
     //         error.error  = true;
     //         error.message = err;
-    //         tracing.create('ERROR', 'PUT blockchain/assets/assets/'+v5cID+'/' + property, JSON.parse(err));
+    //         tracing.create('ERROR', 'PUT blockchain/assets/assets/'+assetID+'/' + property, JSON.parse(err));
     //         res.end(JSON.stringify(err));
     //     });
 };

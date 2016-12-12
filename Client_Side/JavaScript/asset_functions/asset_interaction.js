@@ -69,7 +69,7 @@ function createAsset()
                     return function() {
                         errCreate(arg1);
                     };
-                }(JSON.parse(array[array.length -1]).v5cID);
+                }(JSON.parse(array[array.length -1]).assetID);
             }
             else
 			{
@@ -77,7 +77,7 @@ function createAsset()
                 $('#latestSpan').html('&nbsp;&#10004');
                 $('#loaderMessages').append('<br /><br /><span id="okTransaction" onclick="confTrans();">OK</span>');
                 $('#chooseConfHd').html('<span>Creation Complete</span>');
-                $('#confTxt').html('Created Asset: '+ JSON.parse(array[array.length - 1]).v5cID);
+                $('#confTxt').html('Created Asset: '+ JSON.parse(array[array.length - 1]).assetID);
             }
         }
     };
@@ -105,7 +105,7 @@ function transferAsset()
 {
     let found = [];
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', '/blockchain/assets/assets/'+transferArray[transferIndex-1].v5cID+'/owner', true); //PUT (Updates)
+    xhr.open('PUT', '/blockchain/assets/assets/'+transferArray[transferIndex-1].assetID+'/owner', true); //PUT (Updates)
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     xhr.overrideMimeType('text/plain');
     xhr.onprogress = function () {
@@ -201,13 +201,13 @@ function scrapAsset()
 {
 
 	/*
-	Scraps the chosen asset, specified by v5cAddr. Because we want to ensure the V5C identifier or the VIN is never assigned to another contract, we
+	Scraps the chosen asset, specified by v5cAddr. Because we want to ensure the V5C identifier or the clarity is never assigned to another contract, we
 	don't actually delete the contract, instead we update the scrapped attribute to be true.
 	*/
     let found = [];
     let objects = [];
     let xhr = new XMLHttpRequest();
-    xhr.open('DELETE', 'blockchain/assets/assets/'+scrapArray[scrapIndex-1].v5cID, true); //As it refers to an v5, the path is: blockchain/assets/assets/asset/..
+    xhr.open('DELETE', 'blockchain/assets/assets/'+scrapArray[scrapIndex-1].assetID, true); //As it refers to an v5, the path is: blockchain/assets/assets/asset/..
 
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     xhr.overrideMimeType('text/plain');
@@ -298,7 +298,7 @@ function scrapAsset()
 
 let bigData;
 let increment;
-function updateAsset(vin, make, model, colour, reg, v5cID, el)
+function updateAsset(clarity, diamondat, cut, colour, date, assetID, el)
 {
 	/*
 	Formats the transaction request to update an attribute of a V5C. The logic on who can update what is contained within the contract on the blockchain.
@@ -308,7 +308,7 @@ function updateAsset(vin, make, model, colour, reg, v5cID, el)
     $('#loaderMessages').html('');
 
 
-    bigData = [{'value':vin,'field':'VIN', 'title': 'VIN','v5cID':v5cID},{'value':make,'field':'make', 'title': 'Make','v5cID':v5cID},{'value':model,'field':'model', 'title': 'Model','v5cID':v5cID},{'value':colour,'field':'colour', 'title': 'Colour','v5cID':v5cID},{'value':reg,'field':'reg', 'title': 'Registration','v5cID':v5cID}];
+    bigData = [{'value':clarity,'field':'clarity', 'title': 'clarity','assetID':assetID},{'value':diamondat,'field':'diamondat', 'title': 'diamondat','assetID':assetID},{'value':cut,'field':'cut', 'title': 'cut','assetID':assetID},{'value':colour,'field':'colour', 'title': 'Colour','assetID':assetID},{'value':date,'field':'date', 'title': 'dateistration','assetID':assetID},[{'value':timestamp,'field':'timestamp', 'title': 'timestamp','assetID':assetID},[{'value':symmetry,'field':'symmetry', 'title': 'symmetry','assetID':assetID},[{'value':polish,'field':'polish', 'title': 'polish','assetID':assetID},[{'value':jewellery_type,'field':'jewellery_type', 'title': 'jewellery_type','assetID':assetID}];
     increment=0;
 
     for(var i = bigData.length-1; i >= 0; i--)
@@ -342,7 +342,7 @@ function updateAsset(vin, make, model, colour, reg, v5cID, el)
 }
 
 let errArr = [];
-let succArr = [];
+let succarr = [];
 
 function updateField()
 {
@@ -357,7 +357,7 @@ function updateField()
     let found = [];
     let field = bigData[increment].field;
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', '/blockchain/assets/assets/'+bigData[increment].v5cID+'/'+bigData[increment].field, true);
+    xhr.open('PUT', '/blockchain/assets/assets/'+bigData[increment].assetID+'/'+bigData[increment].field, true);
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     xhr.overrideMimeType('text/plain');
     xhr.onprogress = function () {
@@ -400,7 +400,7 @@ function updateField()
 		{
             if(errArr.indexOf(field) == -1)
 			{
-                succArr.push(field);
+                succarr.push(field);
             }
             if(increment == bigData.length - 1){
                 if(errArr.length == 0)
@@ -420,7 +420,7 @@ function updateField()
                         return function() {
                             errUpdate(arg1, arg2);
                         };
-                    }(errArr, succArr);
+                    }(errArr, succarr);
                 }
             }
             else

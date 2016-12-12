@@ -7,7 +7,7 @@ $(document).ready(function(){
 	})
 
 	$(document).on('click', '.userHldr', function(){	
-		$('.foundCars').remove();
+		$('.founddiamonds').remove();
 		$('#loaderMessages').html('0 assets')
 		$('#loader').show();
 		$('#fade').show();		
@@ -20,53 +20,87 @@ function showEditTbl(el)
 {
 	$('#chooseOptTbl').fadeIn(1000);
 	$('#fade').fadeIn(1000);
-	$('#v5cID').val($(el).parent().parent().find('.carID').html());
-	if($(el).siblings('.carVin').html() != '&lt;<i>VIN</i>&gt;')
+	$('#assetID').val($(el).parent().parent().find('.diamondID').html());
+	if($(el).siblings('.diamondclarity').html() != '&lt;<i>clarity</i>&gt;')
 	{
-		$('#vin').prop('readonly', true);
-		$('#vin').css('cursor', 'not-allowed');
+		$('#clarity').prop('readonly', true);
+		$('#clarity').css('cursor', 'not-allowed');
 	}
 	else
 	{
-		$('#vin').prop('readonly', false);
-		$('#vin').css('cursor', 'text');
+		$('#clarity').prop('readonly', false);
+		$('#clarity').css('cursor', 'text');
 	}
-	var vin = $(el).siblings('.carVin').html()
-	if(vin == '&lt;<i>VIN</i>&gt;')
+	var clarity = $(el).siblings('.diamondclarity').html()
+	if(clarity == '&lt;<i>clarity</i>&gt;')
 	{
-		vin = 0;
+		clarity = 0;
 	}
-	var make = $(el).siblings('.carMake').html()
-	if(make == '&lt;<i>make</i>&gt;')
+	var diamondat = $(el).siblings('.diamonddiamondat').html()
+	if(diamondat == '&lt;<i>diamondat</i>&gt;')
 	{
-		make = 'undefined'
+		diamondat = 'undefined'
 	}
-	var model = $(el).siblings('.carModel').html()
-	if(model == '&lt;<i>model</i>&gt;')
+	var cut = $(el).siblings('.diamondcut').html()
+	if(cut == '&lt;<i>cut</i>&gt;')
 	{
-		model = 'undefined'
+		cut = 'undefined'
 	}
-	var colour = $(el).siblings('.carColour').html()
+	var colour = $(el).siblings('.diamondColour').html()
 	if(colour == '&lt;<i>colour</i>&gt;')
 	{
 		colour = 'undefined'
 	}
-	var reg = $(el).siblings('.carReg').html()
-	if(reg == '&lt;<i>registration</i>&gt;')
+	var reg = $(el).siblings('.diamondDate').html()
+	if(date == '&lt;<i>date</i>&gt;')
 	{
-		reg = 'undefined'
+		date = 'undefined'
 	}
-	$('#vin').val(vin);
-	$('#make').val(make);
-	$('#model').val(model);
+var symmetry = $(el).siblings('.diamondSymmetry').html()
+	if(symmetry == '&lt;<i>symmetry</i>&gt;')
+	{
+		symmetry= 'undefined'
+	}
+var polish = $(el).siblings('.diamondPolish').html()
+	if(polish == '&lt;<i>polish</i>&gt;')
+	{
+		polish = 'undefined'
+	}
+var timestamp = $(el).siblings('.diamondTimestamp').html()
+	if(timestamp == '&lt;<i>timestamp</i>&gt;')
+	{
+		timestamp = 'undefined'
+	}
+var jewellery_type = $(el).siblings('.diamondJewellery_type ').html()
+	if(jewellery_type  == '&lt;<i>jewellery_type </i>&gt;')
+	{
+		jewellery_type  = 'undefined'
+	}
+
+
+
+
+	$('#clarity').val(clarity);
+	$('#diamondat').val(diamondat);
+	$('#cut').val(cut);
 	$('#colour').val(colour);
-	$('#reg').val(reg);
+	$('#date').val(date);
+$('#timestamp').val(timestamp);
+$('#symmetry').val(symmetry);
+$('#polish').val(polish);
+$('#jewellery_type').val(jewellery_type);
+
+
 	
-	$('#hidVin').val(vin);
-	$('#hidMake').val(make);
-	$('#hidModel').val(model);
+	$('#hidclarity').val(clarity);
+	$('#hiddiamondat').val(diamondat);
+	$('#hidcut').val(cut);
 	$('#hidColour').val(colour);
-	$('#hidReg').val(reg.toUpperCase());
+$('#hidsymmetry').val(symmetry);
+$('#hidpolish').val(polish);
+$('#hidjewellery_type').val(jewellery_type);
+$('#hidtimestamp').val(timestamp);
+	$('#hiddate').val(date.toUpperCase());
 }
 
 function closeEditTbl()
@@ -80,46 +114,46 @@ function validate(el)
 {
 	
 	/*
-	Validation on if details have been filled in for updating a car. This is not validation on what the person is allowed to update,
+	Validation on if details have been filled in for updating a diamond. This is not validation on what the person is allowed to update,
 	that is done within the contract on the blockchain.
 	*/
 	
 	$('#errorRw').html('<ul></ul>');
 	var failed = false;
-	if(isNaN(parseInt($('#vin').val().trim())))
+	if(isNaN(parseInt($('#clarity').val().trim())))
 	{
-		$('#errorRw').find('ul').append('<li>VIN must be a number</li>')
+		$('#errorRw').find('ul').append('<li>clarity must be a number</li>')
 		failed = true;
 	}
-	if($('#vin').val().trim().length != 15 && $('#vin').val().trim() != 0)
+	if($('#clarity').val().trim().length != 15 && $('#clarity').val().trim() != 0)
 	{
 		
-		$('#errorRw').find('ul').append('<li>VIN must be 15 characters (Currently ' + $('#vin').val().trim().length + ' characters)</li>')
+		$('#errorRw').find('ul').append('<li>clarity must be 15 characters (Currently ' + $('#clarity').val().trim().length + ' characters)</li>')
 		failed = true;
 	}
-	if($('#vin').val().trim() == 0 && $('#hidVin').val().trim() != 0)
+	if($('#clarity').val().trim() == 0 && $('#hidclarity').val().trim() != 0)
 	{
-		$('#errorRw').find('ul').append('<li>VIN cannot be reset to 0</li>')
+		$('#errorRw').find('ul').append('<li>clarity cannot be reset to 0</li>')
 		failed = true;
 	}
-	if($('#make').val().trim() == '')
+	if($('#diamondat').val().trim() == '')
 	{
-		$('#errorRw').find('ul').append('<li>Make cannot be blank</li>')
+		$('#errorRw').find('ul').append('<li>diamondat cannot be blank</li>')
 		failed = true;
 	}
-	if($('#make').val().trim().toLowerCase() == 'undefined' && $('#hidMake').val().trim().toLowerCase() != 'undefined')
+	if($('#diamondat').val().trim().toLowerCase() == 'undefined' && $('#hiddiamondat').val().trim().toLowerCase() != 'undefined')
 	{
-		$('#errorRw').find('ul').append('<li>Make cannot be reset to undefined</li>')
+		$('#errorRw').find('ul').append('<li>diamondat cannot be reset to undefined</li>')
 		failed = true;
 	}
-	if($('#model').val().trim() == '')
+	if($('#cut').val().trim() == '')
 	{
-		$('#errorRw').find('ul').append('<li>Model cannot be blank</li>')
+		$('#errorRw').find('ul').append('<li>cut cannot be blank</li>')
 		failed = true;
 	}
-	if($('#model').val().trim().toLowerCase() == 'undefined' && $('#hidModel').val().trim().toLowerCase() != 'undefined')
+	if($('#cut').val().trim().toLowerCase() == 'undefined' && $('#hidcut').val().trim().toLowerCase() != 'undefined')
 	{
-		$('#errorRw').find('ul').append('<li>Model cannot be reset to undefined</li>')
+		$('#errorRw').find('ul').append('<li>cut cannot be reset to undefined</li>')
 		failed = true;
 	}
 	if($('#colour').val().trim() == '')
@@ -145,7 +179,7 @@ function validate(el)
 	if(!failed)
 	{
 		$('#errorRw').hide();
-		updateAsset($('#vin').val().trim(), $('#make').val().trim(), $('#model').val().trim(), $('#colour').val().trim(), $('#reg').val().trim().toUpperCase(), $('#v5cID').val(), el)
+		updateAsset($('#clarity').val().trim(), $('#diamondat').val().trim(), $('#cut').val().trim(), $('#colour').val().trim(), $('#reg').val().trim().toUpperCase(), $('#assetID').val(), el)
 	}
 	else
 	{

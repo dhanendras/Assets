@@ -12,34 +12,58 @@ colour.update = colourFile.update;
 colour.read = colourFile.read;
 exports.colour = colour;
 
-var makeFile = require(__dirname+'/make/make.js');
-var make = {};
-make.update = makeFile.update;
-make.read = makeFile.read;
-exports.make = make;
+var diamondatFile = require(__dirname+'/diamondat/diamondat.js');
+var diamondat = {};
+diamondat.update = diamondatFile.update;
+diamondat.read = diamondatFile.read;
+exports.diamondat = diamondat;
 
-var modelFile = require(__dirname+'/model/model.js');
-var model = {};
-model.update = modelFile.update;
-model.read = modelFile.read;
-exports.model = model;
+var cutFile = require(__dirname+'/cut/cut.js');
+var cut = {};
+cut.update = cutFile.update;
+cut.read = cutFile.read;
+exports.cut = cut;
 
-var regFile = require(__dirname+'/reg/reg.js');
-var reg = {};
-reg.update = regFile.update;
-reg.read = regFile.read;
-exports.reg = reg;
+var dateFile = require(__dirname+'/date/date.js');
+var date = {};
+date.update = dateFile.update;
+date.read = dateFile.read;
+exports.date = date;
 
-var scrappedFile = require(__dirname+'/scrapped/scrapped.js');
-var scrapped = {};
-scrapped.read = scrappedFile.read;
-exports.scrapped = scrapped;
+var symmetryFile = require(__dirname+'/scrapped/symmetry.js');
+var symmetry = {};
+symmetry.update = symmetryFile.update;
+symmetry.read = symmetryFile.read;
+exports.symmetry = symmetry;
 
-var VINFile = require(__dirname+'/VIN/vin.js');
-var VIN = {};
-VIN.update = VINFile.update;
-VIN.read = VINFile.read;
-exports.VIN = VIN;
+var timestampFile = require(__dirname+'/scrapped/timestamp.js');
+var timestamp = {};
+timestamp.update = timestampFile.update;
+timestamp.read = timestampFile.read;
+exports.timestamp = timestamp;
+
+var polishFile = require(__dirname+'/scrapped/polish.js');
+var polish = {};
+polish.update = polishFile.update;
+polish.read = polishFile.read;
+exports.polish = polish;
+
+
+var clarityFile = require(__dirname+'/clarity/clarity.js');
+var clarity = {};
+clarity.update = clarityFile.update;
+clarity.read = clarityFile.read;
+exports.clarity = clarity;
+
+var jewellery_typeFile = require(__dirname+'/clarity/jewellery_type.js');
+var jewellery_type = {};
+jewellery_type.update = jewellery_typeFile.update;
+jewellery_type.read = jewellery_typeFile.read;
+exports.jewellery_type = jewellery_type;
+
+
+
+
 
 var ownerFile = require(__dirname+'/owner/owner.js');
 var owner = {};

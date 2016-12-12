@@ -17,11 +17,11 @@ function create (req, res, next, usersToSecurityContext) {
     let assetData = new Asset(usersToSecurityContext);
 
     return assetData.create(user_id)
-    .then(function(v5cID) {
+    .then(function(assetID) {
         tracing.create('INFO', 'POST blockchain/assets/assets', 'Created asset');
         let result = {};
         result.message = 'Creation Confirmed';
-        result.v5cID = v5cID;
+        result.assetID = assetID;
         res.end(JSON.stringify(result));
     })
     .catch(function(err) {

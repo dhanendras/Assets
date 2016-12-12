@@ -12,42 +12,42 @@ class Asset {
 
     create(userId) {
         let securityContext = this.usersToSecurityContext[userId];
-        let v5cID = Asset.newV5cID();
+        let assetID = Asset.newassetID();
 
-        return this.doesV5cIDExist(userId, v5cID)
+        return this.doesassetIDExist(userId, assetID)
         .then(function() {
-            return Util.invokeChaincode(securityContext, 'create_asset', [ v5cID ])
+            return Util.invokeChaincode(securityContext, 'create_asset', [ assetID ])
             .then(function() {
-                return v5cID;
+                return assetID;
             });
         });
     }
 
-    transfer(userId, buyer, functionName, v5cID) {
-        return this.updateAttribute(userId, functionName , buyer, v5cID);
+    transfer(userId, buyer, functionName, assetID) {
+        return this.updateAttribute(userId, functionName , buyer, assetID);
     }
 
-    updateAttribute(userId, functionName, value, v5cID) {
+    updateAttribute(userId, functionName, value, assetID) {
         let securityContext = this.usersToSecurityContext[userId];
-        return Util.invokeChaincode(securityContext, functionName, [ value, v5cID ]);
+        return Util.invokeChaincode(securityContext, functionName, [ value, assetID ]);
     }
 
-    doesV5cIDExist(userId, v5cID) {
+    doesassetIDExist(userId, assetID) {
         let securityContext = this.usersToSecurityContext[userId];
-        return Util.queryChaincode(securityContext, 'check_unique_v5c', [ v5cID ]);
+        return Util.queryChaincode(securityContext, 'check_unique_assetID', [ assetID ]);
     }
 
-    static newV5cID() {
+    static newassetID() {
         let numbers = '1234567890';
         let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let v5cID = '';
+        let assetID = '';
         for(let i = 0; i < 7; i++)
             {
-            v5cID += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            assetID += numbers.charAt(Math.floor(Math.random() * numbers.length));
         }
-        v5cID = characters.charAt(Math.floor(Math.random() * characters.length)) + v5cID;
-        v5cID = characters.charAt(Math.floor(Math.random() * characters.length)) + v5cID;
-        return v5cID;
+        assetID = characters.charAt(Math.floor(Math.random() * characters.length)) + assetID;
+        assetID = characters.charAt(Math.floor(Math.random() * characters.length)) + assetID;
+        return assetID;
     }
 }
 

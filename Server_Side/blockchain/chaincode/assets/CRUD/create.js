@@ -36,7 +36,7 @@
 // 						        api_url, randomVal
 // 						      ]
 // 						    },
-// 						    'secureContext': 'DVLA'
+// 						    'secureContext': 'Kollur'
 // 						  },
 // 						  'id': 12
 //     };

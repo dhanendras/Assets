@@ -34,22 +34,22 @@ $(document).ready(function(){
 	$("#subPg").click(function(){ //Transfer button
 		
 		/*
-		Formats the transaction request for a transfer of a V5C. Needs to have at least 1 V5C to transfer and a specified recipient.
+		Formats the transaction request for a transfer of a assetID. Needs to have at least 1 assetID to transfer and a specified recipient.
 		Constructs the transaction complete pop up at this point as well but only shows it once the transaction is complete.
 		*/
 		setCookie()
-		//var table = document.getElementById("selVhclsTbl");
+		//var table = document.getElementById("selAssetsTbl");
 		var index = 1;
 		var id;
 		var last = false;
 		
 		$('#fade').show();
 		
-		if($('#selVhclsTbl tr').length >= 1 && $("#recipientInfo").html() != "")
+		if($('#selAssetsTbl tr').length >= 1 && $("#recipientInfo").html() != "")
 		{
 			
 			var spans = '';
-			for(var i = 0; i < $('#selVhclsTbl tr').length; i++)
+			for(var i = 0; i < $('#selAssetsTbl tr').length; i++)
 			{
 				spans += '<div class="loaderSpan" id="span'+(i+1)+'"><u>Asset '+(i+1)+'</u><br /><br /><span id="msg'+(i+1)+'Part1"></i>waiting...</i></span><br /><span id="msg'+(i+1)+'Part2"></span><br /><span id="msg'+(i+1)+'Part3"></span><br /><span id="msg'+(i+1)+'Part4"></span><br /></div>&nbsp;';
 			}
@@ -58,29 +58,29 @@ $(document).ready(function(){
 
 			$('#loader').show();
 
-			var carDets = [];
+			var diamondDets = [];
 		
-			$("#selVhclsTbl tr").each(function() 
+			$("#selAssetsTbl tr").each(function() 
 			{
 				
-				var v5cID = $(this).find('.v5cID').val();
+				var assetID = $(this).find('.assetID').val();
 								
 				$('#chooseConfHd').html('<span>Transaction Complete</span>');
-				$('#confTxt').html('Transaction committed to the blockchain. <br /><br />'+sendDets+'<br /><br />'+recDets+': '+$('.delName').html()+' (Account '+$('.accAddr').html()+')<br /><br />Assets: '+$('#selVhclsTbl tr').length)
+				$('#confTxt').html('Transaction committed to the blockchain. <br /><br />'+sendDets+'<br /><br />'+recDets+': '+$('.delName').html()+' (Account '+$('.accAddr').html()+')<br /><br />Assets: '+$('#selAssetsTbl tr').length)
 				
 				var data = {}; //Data to be sent
 				data.function_name= transferName; //E.g. manufacturer_to_private
 				data.value= $('.accAddr').html(); //Recipent e.g. dealership name
-				data.v5cID = v5cID;
+				data.assetID = assetID;
 				
-				carDets.push(data); //Adds each assets data to array
+				diamondDets.push(data); //Adds each assets data to array
 				
 			});
 			
-			transferAssets(carDets);
+			transferAssets(diamondDets);
 				
 		}
-		else if(!($('#selVhclsTbl tr').length <= 1))
+		else if(!($('#selAssetsTbl tr').length <= 1))
 		{
 			$('#failTransfer').show();
 			$('#failTxt').html('You have not selected any assets to transfer.');
@@ -94,24 +94,24 @@ $(document).ready(function(){
 	
 	$("#scrapPg").click(function(){
 		/*
-		Formats the transaction request for the scrapping of a V5C. Needs to have at least 1 V5C selected. For each V5C selected
+		Formats the transaction request for the scrapping of a assetID. Needs to have at least 1 assetID selected. For each assetID selected
 		a separate transaction request is created, these details are also added to the transaction complete pop up which gets shown
 		when the transactions are complete.
 		*/
 
 		setCookie()		
 
-		//var table = document.getElementById("selVhclsTbl");
+		//var table = document.getElementById("selAssetsTbl");
 		var index = 1;
 		var id;
 		var last = false;
 		
 		$('#fade').show();
 		
-		if($('#selVhclsTbl tr').length >= 1)
+		if($('#selAssetsTbl tr').length >= 1)
 		{
 			var spans = '';
-			for(var i = 0; i < $('#selVhclsTbl tr').length; i++)
+			for(var i = 0; i < $('#selAssetsTbl tr').length; i++)
 			{
 				spans += '<div class="loaderSpan" id="span'+(i+1)+'"><u>Asset '+(i+1)+'</u><br /><br /><span id="msg'+(i+1)+'Part1"></i>waiting...</i></span><br /><span id="msg'+(i+1)+'Part2"></span><br /><span id="msg'+(i+1)+'Part3"></span><br /><span id="msg'+(i+1)+'Part4"></span><br /></div>&nbsp;';
 			}
@@ -120,26 +120,26 @@ $(document).ready(function(){
 
 			$('#loader').show();
 		
-			var carDets = [];
+			var diamondDets = [];
 		
-			$("#selVhclsTbl tr").each(function()
+			$("#selAssetsTbl tr").each(function()
 			{
 				
-				var v5cAddr = $(this).find('.v5cID').val();
-				if(index == $('#selVhclsTbl tr').length)
+				var assetIDAddr = $(this).find('.assetID').val();
+				if(index == $('#selAssetsTbl tr').length)
 				{
 					last = true;
 				}
-				$('#confTxt').html('Transaction committed to the blockchain. <br /><br />'+sendDets+'<br /><br />Assets: '+$('#selVhclsTbl tr').length)
+				$('#confTxt').html('Transaction committed to the blockchain. <br /><br />'+sendDets+'<br /><br />Assets: '+$('#selAssetsTbl tr').length)
 				
 				var data = {}
-				data.v5cID = v5cAddr;
+				data.assetID = assetIDAddr;
 				
-				carDets.push(data)
+				diamondDets.push(data)
 				
 			});
 			
-			scrapAssets(carDets);
+			scrapAssets(diamondDets);
 			
 		}
 		else

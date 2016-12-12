@@ -10,9 +10,9 @@ let securityContext;
 
 let read = function (req,res,next,usersToSecurityContext)
 {
-    let v5cID = req.params.v5cID;
+    let assetID = req.params.assetID;
 
-    tracing.create('ENTER', 'GET blockchain/assets/assets/asset/'+v5cID, {});
+    tracing.create('ENTER', 'GET blockchain/assets/assets/asset/'+assetID, {});
     if(typeof req.cookies.user != 'undefined')
     {
         req.session.user = req.cookies.user;
@@ -22,22 +22,22 @@ let read = function (req,res,next,usersToSecurityContext)
     user_id = req.session.identity;
     securityContext = usersToSecurityContext[user_id];
 
-    return Util.queryChaincode(securityContext, 'get_asset_details', [ v5cID ])
+    return Util.queryChaincode(securityContext, 'get_asset_details', [ assetID ])
     .then(function(data) {
-        let car = JSON.parse(data.toString());
+        let diamond = JSON.parse(data.toString());
         let result = {};
-        result.asset = car;
-        tracing.create('EXIT', 'GET blockchain/assets/assets/asset/'+v5cID, result);
+        result.asset = diamond;
+        tracing.create('EXIT', 'GET blockchain/assets/assets/asset/'+assetID, result);
         res.send(result.asset);
     })
     .catch(function(err) {
         res.status(400);
-        tracing.create('ERROR', 'GET blockchain/assets/assets/asset/'+v5cID, 'Unable to get asset. v5cID: '+ v5cID);
+        tracing.create('ERROR', 'GET blockchain/assets/assets/asset/'+assetID, 'Unable to get asset. assetID: '+ assetID);
         let error = {};
         error.message = err;
-        error.v5cID = v5cID;
+        error.assetID = assetID;
         error.error = true;
-        tracing.create('ERROR', 'GET blockchain/assets/assets/asset/'+v5cID, error);
+        tracing.create('ERROR', 'GET blockchain/assets/assets/asset/'+assetID, error);
         res.send(error);
     });
 };

@@ -19,7 +19,7 @@ import (
 //==============================================================================================================================
 //CURRENT WORKAROUND USES ROLES CHANGE WHEN OWN USERS CAN BE CREATED SO THAT IT READ 1, 2, 3, 4, 5
 const   MINER           =  1
-const   SHOPKEEPER      =  2
+const   DISTRIBUTOR      =  2
 const   DEALER          =  3
 const   BUYER           =  4
 const   TRADER          =  5

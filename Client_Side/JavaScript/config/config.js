@@ -11,20 +11,46 @@ let config = {};
 // Variable Setup
 config.logo = {};
 config.logo.main = {};
-config.logo.regulator = {};
-config.logo.manufacturer = {};
+config.logo.miner = {};
+config.logo.distributor = {};
 config.logo.dealership = {};
-config.logo.lease_company = {};
-config.logo.leasee = {};
-config.logo.scrap_merchant = {};
+config.logo.buyer = {};
+config.logo.trader = {};
+config.logo.cutter = {};
+config.logo.jewellery_maker = {};
+config.logo.customer = {};
 
 // Logo size
 config.logo.width = '4em';
 config.logo.height = '1.6em';
 
-//UST Logo
-config.logo.logo = 'Icons/logo.jpg';
+//Main Logo
+config.logo.main.src = 'Icons/IBM_logo.svg';
 
+// Miner Logo
+config.logo.miner.src = 'Icons/Miner/IBM_logo.svg';
+
+// Distributor Logo
+config.logo.distributor.src = 'Icons/Distributor/IBM_logo.svg';
+
+// Dealership Logo
+config.logo.dealership.src = 'Icons/Dealership/IBM_logo.svg';
+
+// Buyer Logo
+config.logo.buyer.src = 'Icons/Buyer/IBM_logo.svg';
+
+// Trader Logo
+config.logo.trader.src = 'Icons/Trader/IBM_logo.svg';
+
+// Cutter Logo
+config.logo.cutter.src = 'Icons/Cutter/IBM_logo.svg';
+
+// Jewellery_maker Logo
+config.logo.jewellery_maker .src = 'Icons/Jewellery_maker /IBM_logo.svg';
+
+
+// Customer Logo
+config.logo.customer.src = 'Icons/Customer/IBM_logo.svg';
 
 /******* Participants *******/
 //This is where we define the details of the users for each company (name and password)
@@ -32,44 +58,52 @@ config.logo.logo = 'Icons/logo.jpg';
 // Variable Setup
 config.participants = {};
 config.participants.users = {};
-config.participants.users.regulators = [];
-config.participants.users.manufacturers = [];
+config.participants.users.miners = [];
+config.participants.users.distributors = [];
 config.participants.users.dealerships = [];
-config.participants.users.lease_companies = [];
-config.participants.users.leasees = [];
-config.participants.users.scrap_merchants = [];
-config.participants.regulator = {};
-config.participants.manufacturer = {};
+config.participants.users.buyers = [];
+config.participants.users.traders = [];
+config.participants.users.cutters = [];
+config.participants.users.jewellery_makers = {};
+config.participants.users.customers = {};
+config.participants.miner = {};
+config.participants.distributor = {};
 config.participants.dealership = {};
-config.participants.lease_company = {};
-config.participants.leasee = {};
-config.participants.scrap_merchant = {};
+config.participants.buyer = {};
+config.participants.trader = {};
+config.participants.cutter = {};
+config.participants.jewellery_maker = {};
+config.participants.customer = {};
 
-// Regulators
-config.participants.users.regulators[0]= {};
-config.participants.users.regulators[0].company = 'DVLA';
-config.participants.users.regulators[0].type = 'Regulator';
-config.participants.users.regulators[0].user = 'Ronald';
 
-// Manufacturers
-config.participants.users.manufacturers[0] = {};
-config.participants.users.manufacturers[0].company = 'Alfa Romeo';
-config.participants.users.manufacturers[0].type = 'Manufacturer';
-config.participants.users.manufacturers[0].user = 'Martin';
 
-config.participants.users.manufacturers[1] = {};
-config.participants.users.manufacturers[1].company = 'Toyota';
-config.participants.users.manufacturers[1].type = 'Manufacturer';
-config.participants.users.manufacturers[1].user = 'Maria';
 
-config.participants.users.manufacturers[2] = {};
-config.participants.users.manufacturers[2].company = 'Jaguar Land Rover';
-config.participants.users.manufacturers[2].type = 'Manufacturer';
-config.participants.users.manufacturers[2].user = 'Mandy';
+
+// Miners
+config.participants.users.miners[0]= {};
+config.participants.users.miners[0].company = 'Kollur';
+config.participants.users.miners[0].type = 'Miner';
+config.participants.users.miners[0].user = 'Ronald';
+
+// Distributors
+config.participants.users.distributors[0] = {};
+config.participants.users.distributors[0].company = 'Soham_Industrial_Diamonds';
+config.participants.users.distributors[0].type = 'Distributor';
+config.participants.users.distributors[0].user = 'Martin';
+
+config.participants.users.distributors[1] = {};
+config.participants.users.distributors[1].company = 'Laxmi_Impex';
+config.participants.users.distributors[1].type = 'Distributor';
+config.participants.users.distributors[1].user = 'Maria';
+
+config.participants.users.distributors[2] = {};
+config.participants.users.distributors[2].company = 'Harshal_diamonds;
+config.participants.users.distributors[2].type = 'Distributor';
+config.participants.users.distributors[2].user = 'Mandy';
 
 // Dealerships
 config.participants.users.dealerships[0] = {};
-config.participants.users.dealerships[0].company = 'Beechvale Group';
+config.participants.users.dealerships[0].company = 'Beon_ Group';
 config.participants.users.dealerships[0].type = 'Dealership';
 config.participants.users.dealerships[0].user = 'Deborah';
 
@@ -83,79 +117,125 @@ config.participants.users.dealerships[2].company = 'Viewers Alfa Romeo';
 config.participants.users.dealerships[2].type = 'Dealership';
 config.participants.users.dealerships[2].user = 'Delia';
 
-// Lease Companies
-config.participants.users.lease_companies[0] = {};
-config.participants.users.lease_companies[0].company = 'LeaseCan';
-config.participants.users.lease_companies[0].type = 'Lease Company';
-config.participants.users.lease_companies[0].user = 'Lesley';
+// Buyers
+config.participants.users.buyers[0] = {};
+config.participants.users.buyers[0].company = 'Shah';
+config.participants.users.buyers[0].type = 'Buyer';
+config.participants.users.buyers[0].user = 'Lesley';
 
-config.participants.users.lease_companies[1] = {};
-config.participants.users.lease_companies[1].company = 'Every Car Leasing';
-config.participants.users.lease_companies[1].type = 'Lease Company';
-config.participants.users.lease_companies[1].user = 'Larry';
+config.participants.users.buyers[1] = {};
+config.participants.users.buyers[1].company = 'Kothari';
+config.participants.users.buyers[1].type = 'Buyer';
+config.participants.users.buyers[1].user = 'Larry';
 
-config.participants.users.lease_companies[2] = {};
-config.participants.users.lease_companies[2].company = 'Regionwide Asset Contracts';
-config.participants.users.lease_companies[2].type = 'Lease Company';
-config.participants.users.lease_companies[2].user = 'Luke';
+config.participants.users.buyers[2] = {};
+config.participants.users.buyers[2].company = 'Agarwal';
+config.participants.users.buyers[2].type = 'Buyer';
+config.participants.users.buyers[2].user = 'Luke';
 
-// Leasees
-config.participants.users.leasees[0] = {};
-config.participants.users.leasees[0].company = 'Joe Payne';
-config.participants.users.leasees[0].type = 'Leasee';
-config.participants.users.leasees[0].user = 'Joe';
+// Traders
+config.participants.users.traders[0] = {};
+config.participants.users.traders[0].company = 'Anil Gosh';
+config.participants.users.traders[0].type = 'Trader';
+config.participants.users.traders[0].user = 'Joe';
 
-config.participants.users.leasees[1] = {};
-config.participants.users.leasees[1].company = 'Andrew Hurt';
-config.participants.users.leasees[1].type = 'Leasee';
-config.participants.users.leasees[1].user = 'Andrew';
+config.participants.users.traders[1] = {};
+config.participants.users.traders[1].company = 'Andrew Hurt';
+config.participants.users.traders[1].type = 'Trader';
+config.participants.users.traders[1].user = 'Andrew';
 
-config.participants.users.leasees[2] = {};
-config.participants.users.leasees[2].company = 'Anthony O\'Dowd';
-config.participants.users.leasees[2].type = 'Leasee';
-config.participants.users.leasees[2].user = 'Anthony';
+config.participants.users.traders[2] = {};
+config.participants.users.traders[2].company = 'Rahul Ajay Gandhi';
+config.participants.users.traders[2].type = 'Trader';
+config.participants.users.traders[2].user = 'Rahul';
 
-// Scrap Merchants
-config.participants.users.scrap_merchants[0] = {};
-config.participants.users.scrap_merchants[0].company = 'Cray Bros (London) Ltd';
-config.participants.users.scrap_merchants[0].type = 'Scrap Merchant';
-config.participants.users.scrap_merchants[0].user = 'Sandy';
+// Cutters
+config.participants.users.cutters[0] = {};
+config.participants.users.cutters[0].company = 'Cray Bros (London) Ltd';
+config.participants.users.cutters[0].type = 'Cutter';
+config.participants.users.cutters[0].user = 'Sandy';
 
-config.participants.users.scrap_merchants[1] = {};
-config.participants.users.scrap_merchants[1].company = 'Aston Scrap Centre';
-config.participants.users.scrap_merchants[1].type = 'Scrap Merchant';
-config.participants.users.scrap_merchants[1].user = 'Scott';
+config.participants.users.cutters[1] = {};
+config.participants.users.cutters[1].company = 'Aston Cutting Centre';
+config.participants.users.cutters[1].type = 'Cutter';
+config.participants.users.cutters[1].user = 'Scott';
 
-config.participants.users.scrap_merchants[2] = {};
-config.participants.users.scrap_merchants[2].company = 'ScrapIt! UK';
-config.participants.users.scrap_merchants[2].type = 'Scrap Merchant';
-config.participants.users.scrap_merchants[2].user = 'Sid';
+config.participants.users.cutters[2] = {};
+config.participants.users.cutters[2].company = 'ScrapIt! UK';
+config.participants.users.cutters[2].type = 'Cutter';
+config.participants.users.cutters[2].user = 'Sid';
+
+// Jewellery_makers
+config.participants.users.jewellery_makers[0] = {};
+config.participants.users.jewellery_makers[0].company = 'Adora;
+config.participants.users.jewellery_makers[0].type = 'Jewellery_maker';
+config.participants.users.jewellery_makers[0].user = 'Sandy';
+
+config.participants.users.jewellery_makers[1] = {};
+config.participants.users.jewellery_makers[1].company = 'Tanishq';
+config.participants.users.jewellery_makers[1].type = 'Jewellery_maker';
+config.participants.users.jewellery_makers[1].user = 'Scott';
+
+config.participants.users.jewellery_makers[2] = {};
+config.participants.users.jewellery_makers[2].company = 'Kiah';
+config.participants.users.jewellery_makers[2].type = 'Jewellery_maker;
+config.participants.users.jewellery_makers[2].user = 'Sid';
+
+// Customers
+config.participants.users.customers[0] = {};
+config.participants.users.customers[0].user = 'Gaurav Singh';
+config.participants.users.customers[0].type = 'Customer';
+config.participants.users.customers[0].user = 'Sandy';
+
+config.participants.users.customers[1] = {};
+config.participants.users.customers[1].user = 'Adwaith';
+config.participants.users.customers[1].type = 'Customer';
+config.participants.users.customers[1].user = 'Scott';
+
+config.participants.users.customers[2] = {};
+config.participants.users.customers[2].user = 'Amardev';
+config.participants.users.customers[2].type = 'Customer';
+config.participants.users.customers[2].user = 'Sid';
+
+
 
 
 /******* Used Particpants *******/
 //This is where we select which participants will be used for the pages
 
-// Regulator
-config.participants.regulator = config.participants.users.regulators[0];
+// Miner
+config.participants.miner = config.participants.users.miners[0];
 
-// Manufacturer
-config.participants.manufacturer = config.participants.users.manufacturers[0];
+// Distributor
+config.participants.distributor = config.participants.users.distributors[0];
 
 // Dealership
 config.participants.dealership = config.participants.users.dealerships[0];
 
-// Lease Company
-config.participants.lease_company = config.participants.users.lease_companies[0];
+// Buyer
+config.participants.buyer = config.participants.users.buyers[0];
 
-// Leasee
-config.participants.leasee = config.participants.users.leasees[0];
+// Trader
+config.participants.trader = config.participants.users.traders[0];
 
-// Scrap Merchant
-config.participants.scrap_merchant = config.participants.users.scrap_merchants[0];
+// Cutter
+config.participants.cutter = config.participants.users.cutters[0];
+
+// Jewellery_maker
+config.participants.jewellery_maker = config.participants.users.jewellery_makers[0];
+
+// Customer
+config.participants.customer = config.participants.users.customers[0];
+
+
+
+
+
+
 
 function loadLogo(pageType)
 {
-    $('#logo').attr('src', config.logo.logo);
+    $('#logo').attr('src', config.logo[pageType.toLowerCase()].src);
     $('#logo').css('width', config.logo.width);
     $('#logo').css('height', config.logo.height);
 }
@@ -165,3 +245,4 @@ function loadParticipant(pageType)
     $('#username').html(config.participants[pageType].user);
     $('#company').html(config.participants[pageType].company);
 }
+

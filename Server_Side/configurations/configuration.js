@@ -48,50 +48,50 @@ config.asset = 'github.com/hyperledger/fabric/asset_code';
 
 config.users = [
     {
-        enrollmentID: 'DVLA',
+        enrollmentID: 'Kollur',
         attributes: [
-            {name: 'role', value: 'regulator'},
-            {name: 'username', value: 'DVLA'}
+            {name: 'role', value: 'miner'},
+            {name: 'username', value: 'Kollur'}
         ],
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Toyota',
+        enrollmentID: 'soham industrial diamonds',
         attributes: [
-            {name: 'role', value: 'manufacturer'},
-            {name: 'username', value: 'Toyota'}
+            {name: 'role', value: 'distributor'},
+            {name: 'username', value: 'soham industrial diamonds'}
         ],
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Alfa_Romeo',
+        enrollmentID: 'laxmi_impex',
         attributes: [
-            {name: 'role', value: 'manufacturer'},
-            {name: 'username', value: 'Alfa_Romeo'}
+            {name: 'role', value: 'distributor'},
+            {name: 'username', value: 'laxmi_impex'}
         ],
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Jaguar_Land_Rover',
+        enrollmentID: 'harshal_diamonds',
         attributes: [
-            {name: 'role', value: 'manufacturer'},
-            {name: 'username', value: 'Jaguar_Land_Rover'}
+            {name: 'role', value: 'distributor'},
+            {name: 'username', value: 'harshal_diamonds'}
         ],
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Beechvale_Group',
+        enrollmentID: 'Beon_Group',
         attributes: [
-            {name: 'role', value: 'private'},
-            {name: 'username', value: 'Beechvale_Group'}
+            {name: 'role', value: 'dealership'},
+            {name: 'username', value: 'Beon_Group'}
         ],
         registrar: {},
         roles: [],
@@ -100,7 +100,7 @@ config.users = [
     {
         enrollmentID: 'Milescape',
         attributes: [
-            {name: 'role', value: 'private'},
+            {name: 'role', value: 'dealership'},
             {name: 'username', value: 'Milescape'}
         ],
         registrar: {},
@@ -108,20 +108,50 @@ config.users = [
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Viewers_Alfa_Romeo',
+        enrollmentID: 'Viewers_laxmi_impex',
         attributes: [
-            {name: 'role', value: 'private'},
-            {name: 'username', value: 'Viewers_Alfa_Romeo'}
+            {name: 'role', value: 'dealership'},
+            {name: 'username', value: 'Viewers_laxmi_impex'}
         ],
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Joe_Payne',
+        enrollmentID: 'shah',
         attributes: [
-            {name: 'role', value: 'private'},
-            {name: 'username', value: 'Joe_Payne'}
+            {name: 'role', value: 'buyer'},
+            {name: 'username', value: 'shah'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+    {
+        enrollmentID: 'Kothari',
+        attributes: [
+            {name: 'role', value: 'buyer'},
+            {name: 'username', value: 'Kothari'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+    {
+        enrollmentID: 'Agarwal',
+        attributes: [
+            {name: 'role', value: 'buyer'},
+            {name: 'username', value: 'Agarwal'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+    {
+        enrollmentID: 'Ajay_Gosh',
+        attributes: [
+            {name: 'role', value: 'trader'},
+            {name: 'username', value: 'Ajay_Gosh'}
         ],
         registrar: {},
         roles: [],
@@ -130,7 +160,7 @@ config.users = [
     {
         enrollmentID: 'Andrew_Hurt',
         attributes: [
-            {name: 'role', value: 'private'},
+            {name: 'role', value: 'trader'},
             {name: 'username', value: 'Andrew_Hurt'}
         ],
         registrar: {},
@@ -138,40 +168,10 @@ config.users = [
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Anthony_O_Dowd',
+        enrollmentID: 'Rahul_Ajay_Gandhi',
         attributes: [
-            {name: 'role', value: 'private'},
-            {name: 'username', value: 'Anthony_O_Dowd'}
-        ],
-        registrar: {},
-        roles: [],
-        affiliation: 'institution_a'
-    },
-    {
-        enrollmentID: 'LeaseCan',
-        attributes: [
-            {name: 'role', value: 'lease_company'},
-            {name: 'username', value: 'LeaseCan'}
-        ],
-        registrar: {},
-        roles: [],
-        affiliation: 'institution_a'
-    },
-    {
-        enrollmentID: 'Every_Car_Leasing',
-        attributes: [
-            {name: 'role', value: 'lease_company'},
-            {name: 'username', value: 'Every_Car_Leasing'}
-        ],
-        registrar: {},
-        roles: [],
-        affiliation: 'institution_a'
-    },
-    {
-        enrollmentID: 'Regionwide_Asset_Contracts',
-        attributes: [
-            {name: 'role', value: 'lease_company'},
-            {name: 'username', value: 'Regionwide_Asset_Contracts'}
+            {name: 'role', value: 'trader'},
+            {name: 'username', value: 'Rahul_Ajay_Gandhi'}
         ],
         registrar: {},
         roles: [],
@@ -180,7 +180,7 @@ config.users = [
     {
         enrollmentID: 'Cray_Bros_London_Ltd',
         attributes: [
-            {name: 'role', value: 'scrap_merchant'},
+            {name: 'role', value: 'cutters'},
             {name: 'username', value: 'Cray_Bros_London_Ltd'}
         ],
         registrar: {},
@@ -188,9 +188,9 @@ config.users = [
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Aston_Scrap_Centre',
+        enrollmentID: 'Aston_Cutting_Centre',
         attributes: [
-            {name: 'role', value: 'scrap_merchant'},
+            {name: 'role', value: 'cutters'},
             {name: 'username', value: 'Aston_Scrap_Centre'}
         ],
         registrar: {},
@@ -200,13 +200,76 @@ config.users = [
     {
         enrollmentID: 'ScrapIt_UK',
         attributes: [
-            {name: 'role', value: 'scrap_merchant'},
+            {name: 'role', value: 'cutters'},
             {name: 'username', value: 'ScrapIt_UK'}
         ],
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
     }
+
+    {
+        enrollmentID: 'Adora',
+        attributes: [
+            {name: 'role', value: 'jewellery_makers'},
+            {name: 'username', value: 'Adora'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+    {
+        enrollmentID: 'Tanishiq',
+        attributes: [
+            {name: 'role', value: 'jewellery_makers'},
+            {name: 'username', value: 'Tanishq'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+    {
+        enrollmentID: 'Kiah',
+        attributes: [
+            {name: 'role', value: 'jewellery_makers'},
+            {name: 'username', value: 'Kiah'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+
+    {
+        enrollmentID: 'Gaurav_Singh',
+        attributes: [
+            {name: 'role', value: 'customers'},
+            {name: 'username', value: 'Gaurav_Singh'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+    {
+        enrollmentID: 'Adwaith',
+        attributes: [
+            {name: 'role', value: 'customers'},
+            {name: 'username', value: 'Adwaith'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+    {
+        enrollmentID: 'Amardev',
+        attributes: [
+            {name: 'role', value: 'customers'},
+            {name: 'username', value: 'Amardev'}
+        ],
+        registrar: {},
+        roles: [],
+        affiliation: 'institution_a'
+    },
+
 ];
 
 //--------------------------------------------------------------------------------------------------------------------
