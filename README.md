@@ -1,4 +1,4 @@
-Car Lease Demo
+Diamond Demo
 =======
 
 ##Deploying the demo##
