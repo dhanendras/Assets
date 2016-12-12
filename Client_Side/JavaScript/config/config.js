@@ -73,7 +73,7 @@ config.participants.users.distributors[1].type = 'Distributor';
 config.participants.users.distributors[1].user = 'Maria';
 
 config.participants.users.distributors[2] = {};
-config.participants.users.distributors[2].company = 'Harshal_diamonds;
+config.participants.users.distributors[2].company = 'Harshal_diamonds';
 config.participants.users.distributors[2].type = 'Distributor';
 config.participants.users.distributors[2].user = 'Mandy';
 
@@ -143,7 +143,7 @@ config.participants.users.cutters[2].user = 'Sid';
 
 // Jewellery_makers
 config.participants.users.jewellery_makers[0] = {};
-config.participants.users.jewellery_makers[0].company = 'Adora;
+config.participants.users.jewellery_makers[0].company = 'Adora';
 config.participants.users.jewellery_makers[0].type = 'Jewellery_maker';
 config.participants.users.jewellery_makers[0].user = 'Sandy';
 
@@ -154,7 +154,7 @@ config.participants.users.jewellery_makers[1].user = 'Scott';
 
 config.participants.users.jewellery_makers[2] = {};
 config.participants.users.jewellery_makers[2].company = 'Kiah';
-config.participants.users.jewellery_makers[2].type = 'Jewellery_maker;
+config.participants.users.jewellery_makers[2].type = 'Jewellery_maker';
 config.participants.users.jewellery_makers[2].user = 'Sid';
 
 // Customers
