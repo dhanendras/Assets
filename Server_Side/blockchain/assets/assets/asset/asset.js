@@ -30,19 +30,19 @@ date.update = dateFile.update;
 date.read = dateFile.read;
 exports.date = date;
 
-var symmetryFile = require(__dirname+'/scrapped/symmetry.js');
+var symmetryFile = require(__dirname+'/symmetry.js');
 var symmetry = {};
 symmetry.update = symmetryFile.update;
 symmetry.read = symmetryFile.read;
 exports.symmetry = symmetry;
 
-var timestampFile = require(__dirname+'/scrapped/timestamp.js');
+var timestampFile = require(__dirname+'/timestamp.js');
 var timestamp = {};
 timestamp.update = timestampFile.update;
 timestamp.read = timestampFile.read;
 exports.timestamp = timestamp;
 
-var polishFile = require(__dirname+'/scrapped/polish.js');
+var polishFile = require(__dirname+'/polish/polish.js');
 var polish = {};
 polish.update = polishFile.update;
 polish.read = polishFile.read;
@@ -55,7 +55,7 @@ clarity.update = clarityFile.update;
 clarity.read = clarityFile.read;
 exports.clarity = clarity;
 
-var jewellery_typeFile = require(__dirname+'/clarity/jewellery_type.js');
+var jewellery_typeFile = require(__dirname+'/jewellery_type/jewellery_type.js');
 var jewellery_type = {};
 jewellery_type.update = jewellery_typeFile.update;
 jewellery_type.read = jewellery_typeFile.read;
