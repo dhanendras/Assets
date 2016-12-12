@@ -434,7 +434,7 @@ startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPass
     return startup.enrollUsers(chain, users, registrar);
 })
 .then(function(users) {
-    tracing.create('INFO', 'Startup', 'All users Dateistered');
+    tracing.create('INFO', 'Startup', 'All users Reistered');
     users.forEach(function(user) {
         usersToSecurityContext[user.getName()] = new SecurityContext(user);
     });
@@ -454,7 +454,7 @@ startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPass
 .then(function(cc) { //ChaincodeID exists or doesnt
     if (cc) {
         chaincodeID = cc;
-        let sc = new SecurityContext(usersToSecurityContext.DVLA.getEnrolledMember());
+        let sc = new SecurityContext(usersToSecurityContext.Kollur.getEnrolledMember());
         sc.setChaincodeID(chaincodeID);
         tracing.create('INFO', 'Chaincode error may appear here - Ignore, chaincode has been pinged', '');
         try {
@@ -486,7 +486,7 @@ startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPass
 .then(function() {
     // Query the chaincode every 3 minutes
     setInterval(function(){
-        startup.pingChaincode(chain, usersToSecurityContext.DVLA);
+        startup.pingChaincode(chain, usersToSecurityContext.Kollur);
     }, 0.5 * 60000);
 })
 .catch(function(err) {
