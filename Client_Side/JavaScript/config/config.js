@@ -21,36 +21,12 @@ config.logo.jewellery_maker = {};
 config.logo.customer = {};
 
 // Logo size
-config.logo.width = '4em';
-config.logo.height = '1.6em';
+config.logo.width = '199px';
+config.logo.height = '196px';
 
 //Main Logo
-config.logo.main.src = 'Icons/IBM_logo.svg';
+config.logo.logo = 'Icons/logo.jpg';
 
-// Miner Logo
-config.logo.miner.src = 'Icons/Miner/IBM_logo.svg';
-
-// Distributor Logo
-config.logo.distributor.src = 'Icons/Distributor/IBM_logo.svg';
-
-// Dealership Logo
-config.logo.dealership.src = 'Icons/Dealership/IBM_logo.svg';
-
-// Buyer Logo
-config.logo.buyer.src = 'Icons/Buyer/IBM_logo.svg';
-
-// Trader Logo
-config.logo.trader.src = 'Icons/Trader/IBM_logo.svg';
-
-// Cutter Logo
-config.logo.cutter.src = 'Icons/Cutter/IBM_logo.svg';
-
-// Jewellery_maker Logo
-config.logo.jewellery_maker .src = 'Icons/Jewellery_maker /IBM_logo.svg';
-
-
-// Customer Logo
-config.logo.customer.src = 'Icons/Customer/IBM_logo.svg';
 
 /******* Participants *******/
 //This is where we define the details of the users for each company (name and password)
@@ -235,7 +211,7 @@ config.participants.customer = config.participants.users.customers[0];
 
 function loadLogo(pageType)
 {
-    $('#logo').attr('src', config.logo[pageType.toLowerCase()].src);
+    $('#logo').attr('src', config.logo.logo);
     $('#logo').css('width', config.logo.width);
     $('#logo').css('height', config.logo.height);
 }
