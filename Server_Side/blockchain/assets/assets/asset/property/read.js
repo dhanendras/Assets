@@ -8,8 +8,8 @@ let user;
 let securityContext;
 
 function read(req,res,next,usersToSecurityContext,property) {
-    let v5cID = req.params.v5cID;
-    tracing.create('ENTER', 'GET blockchain/assets/assets/asset/'+v5cID+'/' + property, {});
+    let assetID = req.params.assetID;
+    tracing.create('ENTER', 'GET blockchain/assets/assets/asset/'+assetID+'/' + property, {});
 
     if(typeof req.cookies.user !== 'undefined')
     {
@@ -20,21 +20,21 @@ function read(req,res,next,usersToSecurityContext,property) {
     securityContext = usersToSecurityContext[user_id];
     user = securityContext.getEnrolledMember();
 
-    return Util.queryChaincode(securityContext, 'get_asset_details', [ v5cID ]).
+    return Util.queryChaincode(securityContext, 'get_asset_details', [ assetID ]).
     then(function(data) {
         let asset = JSON.parse(data.toString());
         let result = {};
         result.message = asset[property];
-        tracing.create('EXIT', 'GET blockchain/assets/assets/asset/'+v5cID+'/' + property, result);
+        tracing.create('EXIT', 'GET blockchain/assets/assets/asset/'+assetID+'/' + property, result);
         res.send(result);
     })
     .catch(function(err) {
         res.status(400);
         let error = {};
         error.message = err;
-        error.v5cID = v5cID;
+        error.assetID = assetID;
         error.error = true;
-        tracing.create('ERROR', 'GET blockchain/assets/assets/asset/'+v5cID+'/' + property, error);
+        tracing.create('ERROR', 'GET blockchain/assets/assets/asset/'+assetID+'/' + property, error);
         res.send(error);
     });
 }

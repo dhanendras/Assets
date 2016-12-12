@@ -119,7 +119,7 @@ app.get('/blockchain/assets/assets' , function(req,res, next)
 //    Blockchain - Assets - Assets - Asset
 //-----------------------------------------------------------------------------------------------
 
-app.get('/blockchain/assets/assets/:v5cID' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID' , function(req,res,next)
 {
     asset.read(req,res,next,usersToSecurityContext);
 });
@@ -127,95 +127,134 @@ app.get('/blockchain/assets/assets/:v5cID' , function(req,res,next)
 //-----------------------------------------------------------------------------------------------
 //    Blockchain - Assets - Assets - Asset - Owner
 //-----------------------------------------------------------------------------------------------
-app.get('/blockchain/assets/assets/:v5cID/owner' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/owner' , function(req,res,next)
 {
     asset.owner.read(req,res,next,usersToSecurityContext);
 });
 
-app.put('/blockchain/assets/assets/:v5cID/owner' , function(req,res,next)
+app.put('/blockchain/assets/assets/:assetID/owner' , function(req,res,next)
 {
     asset.owner.update(req,res,next,usersToSecurityContext);
 });
 
 //-----------------------------------------------------------------------------------------------
-//    Blockchain - Assets - Assets - Asset - VIN
+//    Blockchain - Assets - Assets - Asset - clarity
 //-----------------------------------------------------------------------------------------------
-app.get('/blockchain/assets/assets/:v5cID/VIN' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/clarity' , function(req,res,next)
 {
-    asset.VIN.read(req,res,next,usersToSecurityContext);
+    asset.clarity.read(req,res,next,usersToSecurityContext);
 });
 
-app.put('/blockchain/assets/assets/:v5cID/VIN' , function(req,res,next)
+app.put('/blockchain/assets/assets/:assetID/clarity' , function(req,res,next)
 {
-    asset.VIN.update(req,res,next,usersToSecurityContext);
+    asset.clarity.update(req,res,next,usersToSecurityContext);
 });
 
 //-----------------------------------------------------------------------------------------------
 //    Blockchain - Assets - Assets - Asset - Colour
 //-----------------------------------------------------------------------------------------------
-app.get('/blockchain/assets/assets/:v5cID/colour' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/colour' , function(req,res,next)
 {
     asset.colour.read(req,res,next,usersToSecurityContext);
 });
 
-app.put('/blockchain/assets/assets/:v5cID/colour' , function(req,res,next)
+app.put('/blockchain/assets/assets/:assetID/colour' , function(req,res,next)
 {
     asset.colour.update(req,res,next,usersToSecurityContext);
 });
 
 
 //-----------------------------------------------------------------------------------------------
-//    Blockchain - Assets - Assets - Asset - Make
+//    Blockchain - Assets - Assets - Asset - cut
 //-----------------------------------------------------------------------------------------------
-app.get('/blockchain/assets/assets/:v5cID/make' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/cut' , function(req,res,next)
 {
-    asset.make.read(req,res,next,usersToSecurityContext);
+    asset.cut.read(req,res,next,usersToSecurityContext);
 });
 
-app.put('/blockchain/assets/assets/:v5cID/make' , function(req,res,next)
+app.put('/blockchain/assets/assets/:assetID/cut' , function(req,res,next)
 {
-    asset.make.update(req,res,next,usersToSecurityContext);
-});
-
-//-----------------------------------------------------------------------------------------------
-//    Blockchain - Assets - Assets - Asset - Model
-//-----------------------------------------------------------------------------------------------
-app.get('/blockchain/assets/assets/:v5cID/model' , function(req,res,next)
-{
-    asset.model.read(req,res,next,usersToSecurityContext);
-});
-
-app.put('/blockchain/assets/assets/:v5cID/model' , function(req,res,next)
-{
-    asset.model.update(req,res,next,usersToSecurityContext);
+    asset.cut.update(req,res,next,usersToSecurityContext);
 });
 
 //-----------------------------------------------------------------------------------------------
-//    Blockchain - Assets - Assets - Asset - Reg
+//    Blockchain - Assets - Assets - Asset - Diamondat
 //-----------------------------------------------------------------------------------------------
-app.get('/blockchain/assets/assets/:v5cID/reg' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/Diamondat' , function(req,res,next)
 {
-    asset.reg.read(req,res,next,usersToSecurityContext);
+    asset.Diamondat.read(req,res,next,usersToSecurityContext);
 });
 
-app.put('/blockchain/assets/assets/:v5cID/reg' , function(req,res,next)
+app.put('/blockchain/assets/assets/:assetID/Diamondat' , function(req,res,next)
 {
-
-    asset.reg.update(req,res,next,usersToSecurityContext);
+    asset.Diamondat.update(req,res,next,usersToSecurityContext);
 });
 
 //-----------------------------------------------------------------------------------------------
-//    Blockchain - Assets - Assets - Asset - Scrapped
+//    Blockchain - Assets - Assets - Asset - Date
 //-----------------------------------------------------------------------------------------------
-app.delete('/blockchain/assets/assets/:v5cID' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/Date' , function(req,res,next)
+{
+    asset.Date.read(req,res,next,usersToSecurityContext);
+});
+
+app.put('/blockchain/assets/assets/:assetID/Date' , function(req,res,next)
+{
+
+    asset.Date.update(req,res,next,usersToSecurityContext);
+});
+
+//-----------------------------------------------------------------------------------------------
+//    Blockchain - Assets - Assets - Asset - Symmetry
+//-----------------------------------------------------------------------------------------------
+app.delete('/blockchain/assets/assets/:assetID' , function(req,res,next)
 {
     asset.delete(req,res,next,usersToSecurityContext);
 });
 
-app.get('/blockchain/assets/assets/:v5cID/scrap' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/symmetry' , function(req,res,next)
 {
-    asset.scrapped.read(req,res,next,usersToSecurityContext);
+    asset.Symmetry.read(req,res,next,usersToSecurityContext);
 });
+//-----------------------------------------------------------------------------------------------
+//    Blockchain - Assets - assets - asset - timestamp
+//-----------------------------------------------------------------------------------------------
+app.delete('/blockchain/assets/assets/:assetID' , function(req,res,next)
+{
+    asset.delete(req,res,next,usersToSecurityContext);
+});
+
+app.get('/blockchain/assets/assets/:assetID/timestamp' , function(req,res,next)
+{
+    asset.timestamp.read(req,res,next,usersToSecurityContext);
+});
+//-----------------------------------------------------------------------------------------------
+//    Blockchain - Assets - assets - asset - polish
+//-----------------------------------------------------------------------------------------------
+app.delete('/blockchain/assets/assets/:assetID' , function(req,res,next)
+{
+    asset.delete(req,res,next,usersToSecurityContext);
+});
+
+app.get('/blockchain/assets/assets/:assetID/polish' , function(req,res,next)
+{
+    asset.polish.read(req,res,next,usersToSecurityContext);
+
+});
+//-----------------------------------------------------------------------------------------------
+//    Blockchain - Assets - assets - asset - jewellery_type
+//-----------------------------------------------------------------------------------------------
+app.delete('/blockchain/assets/assets/:assetID' , function(req,res,next)
+{
+    asset.delete(req,res,next,usersToSecurityContext);
+});
+
+app.get('/blockchain/assets/assets/:assetID/jewellery_type' , function(req,res,next)
+{
+    asset.jewellery_type.read(req,res,next,usersToSecurityContext);
+
+});
+//-----------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------------------
 //    Blockchain - Participants
@@ -232,25 +271,32 @@ app.get('/blockchain/participants/regulators', function(req, res,next){
     participants.regulators.read(req,res,next,usersToSecurityContext);
 });
 
-app.get('/blockchain/participants/manufacturers', function(req, res,next){
-    participants.manufacturers.read(req,res,next,usersToSecurityContext);
+app.get('/blockchain/participants/Distributors', function(req, res,next){
+    participants.Distributors.read(req,res,next,usersToSecurityContext);
 });
 
 app.get('/blockchain/participants/dealerships', function(req, res,next){
     participants.dealerships.read(req,res,next,usersToSecurityContext);
 });
 
-app.get('/blockchain/participants/lease_companies', function(req, res,next){
-    participants.lease_companies.read(req,res,next,usersToSecurityContext);
+app.get('/blockchain/participants/buyers', function(req, res,next){
+    participants.buyers.read(req,res,next,usersToSecurityContext);
 });
 
-app.get('/blockchain/participants/leasees', function(req, res,next){
-    participants.leasees.read(req,res,next,usersToSecurityContext);
+app.get('/blockchain/participants/traders', function(req, res,next){
+    participants.traders.read(req,res,next,usersToSecurityContext);
 });
 
-app.get('/blockchain/participants/scrap_merchants', function(req, res,next){
-    participants.scrap_merchants.read(req,res,next,usersToSecurityContext);
+app.get('/blockchain/participants/cutters', function(req, res,next){
+    participants.cutters.read(req,res,next,usersToSecurityContext);
 });
+app.get('/blockchain/participants/jewellery_makers', function(req, res,next){
+    participants.cutters.read(req,res,next,usersToSecurityContext);
+});
+app.get('/blockchain/participants/customers', function(req, res,next){
+    participants.cutters.read(req,res,next,usersToSecurityContext);
+});
+
 
 
 //-----------------------------------------------------------------------------------------------
@@ -310,9 +356,9 @@ process.env.GOPATH = path.resolve(__dirname, 'Chaincode');
 let vcapServices;
 let pem;
 let server;
-let registrar;
+let Dateistrar;
 let credentials;
-let webAppAdminPassword = configFile.config.registrar_password;
+let webAppAdminPassword = configFile.config.Dateistrar_password;
 if (process.env.VCAP_SERVICES) {
     console.log('\n[!] VCAP_SERVICES detected');
     port = process.env.VCAP_APP_PORT;
@@ -344,14 +390,14 @@ if (process.env.VCAP_SERVICES) { // We are running in bluemix
     startup.connectToEventHub(chain, credentials.peers[0], pem);
 
     // Get the WebAppAdmins password
-    webAppAdminPassword = configFile.config.bluemix_registrar_password;
+    webAppAdminPassword = configFile.config.bluemix_Dateistrar_password;
 
 } else if (pem) { // We are running outside bluemix, connecting to bluemix fabric
     console.log('\n[!] Running locally with bluemix fabric');
     credentials = fs.readFileSync(__dirname + '/credentials.json');
     credentials = JSON.parse(credentials);
 
-    webAppAdminPassword = configFile.config.bluemix_registrar_password;
+    webAppAdminPassword = configFile.config.bluemix_Dateistrar_password;
 
     startup.connectToPeers(chain, credentials.peers, pem);
     startup.connectToCA(chain, credentials.ca, pem);
@@ -374,21 +420,21 @@ server = http.createServer(app).listen(port, function () {
 server.timeout = 2400000;
 
 let chaincodeID;
-startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPassword)
+startup.enrollDateistrar(chain, configFile.config.Dateistrar_name, webAppAdminPassword)
 .then(function(r) {
-    registrar = r;
-    chain.setRegistrar(registrar);
-    tracing.create('INFO', 'Startup', 'Set registrar');
+    Dateistrar = r;
+    chain.setDateistrar(Dateistrar);
+    tracing.create('INFO', 'Startup', 'Set Dateistrar');
     let users = configFile.config.users;
     if (vcapServices || pem) {
         users.forEach(function(user){
             user.affiliation = 'group1';
         });
     }
-    return startup.enrollUsers(chain, users, registrar);
+    return startup.enrollUsers(chain, users, Dateistrar);
 })
 .then(function(users) {
-    tracing.create('INFO', 'Startup', 'All users registered');
+    tracing.create('INFO', 'Startup', 'All users Dateistered');
     users.forEach(function(user) {
         usersToSecurityContext[user.getName()] = new SecurityContext(user);
     });
@@ -425,7 +471,7 @@ startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPass
     if (!exists) {
         let certPath = (vcapServices) ? vcapServices.cert_path : '/certs/peer/cert.pem';
         chain.getEventHub().connect();
-        return startup.deployChaincode(registrar, 'asset_code', 'Init', [], certPath);
+        return startup.deployChaincode(Dateistrar, 'asset_code', 'Init', [], certPath);
     } else {
         tracing.create('INFO', 'Startup', 'Chaincode already deployed');
         return {'chaincodeID': chaincodeID};

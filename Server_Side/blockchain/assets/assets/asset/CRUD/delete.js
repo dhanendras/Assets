@@ -19,31 +19,31 @@ let update = function(req, res, next, usersToSecurityContext)
 
     user_id = req.session.identity;
 
-    let v5cID = req.params.v5cID;
+    let assetID = req.params.assetID;
 
-    tracing.create('ENTER', 'DELETE blockchain/assets/assets/asset/'+v5cID+'/scrap', {});
+    tracing.create('ENTER', 'DELETE blockchain/assets/assets/asset/'+assetID+'/scrap', {});
 
     res.write('{"message":"Formatting request"}&&');
 
     let securityContext = usersToSecurityContext[user_id];
 
-    return Util.invokeChaincode(securityContext, 'scrap_asset', [ v5cID ])
+    return Util.invokeChaincode(securityContext, 'scrap_asset', [ assetID ])
     .then(function(data) {
-        tracing.create('INFO', 'DELETE blockchain/assets/assets/asset/'+v5cID+'/scrap', 'Achieving consensus');
+        tracing.create('INFO', 'DELETE blockchain/assets/assets/asset/'+assetID+'/scrap', 'Achieving consensus');
         res.write('{"message":"Achieving consensus"}&&');
         let result = {};
         result.message = 'Scrap updated';
-        tracing.create('EXIT', 'DELETE blockchain/assets/assets/asset/'+v5cID+'/scrap', result);
+        tracing.create('EXIT', 'DELETE blockchain/assets/assets/asset/'+assetID+'/scrap', result);
         res.end(JSON.stringify(result));
     })
     .catch(function(err) {
         res.status(400);
-        tracing.create('ERROR', 'DELETE blockchain/assets/assets/asset/'+v5cID+'/scrap', 'Unable to update scrap. v5cID: '+ v5cID);
+        tracing.create('ERROR', 'DELETE blockchain/assets/assets/asset/'+assetID+'/scrap', 'Unable to update scrap. assetID: '+ assetID);
         let error = {};
         error.error = true;
         error.message = 'Unable to update scrap. ' + err;
-        error.v5cID = v5cID;
-        tracing.create('ERROR', 'DELETE blockchain/assets/assets/asset/'+v5cID+'/scrap', error);
+        error.assetID = assetID;
+        tracing.create('ERROR', 'DELETE blockchain/assets/assets/asset/'+assetID+'/scrap', error);
         res.end(JSON.stringify(error));
     });
 };

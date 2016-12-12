@@ -18,7 +18,7 @@
 {
 	margin-top:0!important;
 }
-.regTxt
+.clarityTxt
 {
 	color:#00648D;
 	display:inline-block;
@@ -157,7 +157,7 @@ label
 	border-radius: 0.6em;
 	margin-left:5px;
 }
-.carRw
+.diamondRw
 {
 	border-top: 2px solid #00648D;
 	border-bottom: 2px solid #00648D;
@@ -270,7 +270,7 @@ label
 	font-size: 1em;
 	font-family: HelveticaNeue-Light,Helvetica,Arial,sans-serif;
 }
-#reg
+#clarity
 {
 	text-transform:uppercase;
 }

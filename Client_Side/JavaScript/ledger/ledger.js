@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	loadParticipant('regulator')
+	loadParticipant('miner')
 	setCookie();
 	getAltUsers();
 	getTransactions();
@@ -9,7 +9,7 @@ $(document).ready(function(){
 	$('#searchBar').focusout(function(){
 		if($('#searchBar').val().trim() == '')
 		{
-			$('#searchBar').val('Search by V5C ID...')
+			$('#searchBar').val('Search by assetID ID...')
 		}
 	})
 	$(document).on('mouseover', '.userGroup', function(){
@@ -122,12 +122,12 @@ function toggleMenu()
 	menuShowing = !menuShowing
 }
 
-var found_cars = {};
+var found_diamonds = {};
 
 function getTransactions(){
 	
 	$('#menuBtn').hide()
-	found_cars = {};
+	found_diamonds = {};
 	$.ajax({
 		type: 'GET',
 		dataType: 'json',
@@ -146,64 +146,70 @@ function getTransactions(){
 					var function_name = "";
 					var update_type = "";
 					var failed = obj.failed;
-					if(payload.indexOf("authority_to_manufacturer") != -1)
+					if(payload.indexOf("miner_to_distributor") != -1)
 					{
 						type = "Transfer";
-						function_name = "authority_to_manufacturer";
+						function_name = "miner_to_distributor";
 					}
-					if(payload.indexOf("manufacturer_to_private") != -1)
+					if(payload.indexOf("distributor_to_dealership") != -1)
 					{
 						type = "Transfer";
-						function_name = "manufacturer_to_private";
+						function_name = "distributor_to_dealership";
 					}
-					if(payload.indexOf("private_to_private") != -1)
+					if(payload.indexOf("dealership_to_buyer") != -1)
 					{
 						type = "Transfer";
-						function_name = "private_to_private";
+						function_name = "dealership_to_buyer";
 					}
-					if(payload.indexOf("private_to_lease_company") != -1)
+					if(payload.indexOf("buyer_to_trader") != -1)
 					{
 						type = "Transfer";
-						function_name = "private_to_lease_company";
+						function_name = "buyer_to_trader";
 					}
-					if(payload.indexOf("lease_company_to_private") != -1)
+					if(payload.indexOf("trader_to_cutter") != -1)
 					{
 						type = "Transfer";
-						function_name = "lease_company_to_private";
+						function_name = "trader_to_cutter";
 					}
-					if(payload.indexOf("private_to_scrap_merchant") != -1)
+					if(payload.indexOf("cutter_to_jewellery_maker") != -1)
 					{
 						type = "Transfer";
-						function_name = "private_to_scrap_merchant";
+						function_name = "cutter_to_jewellery_maker";
 					}
+if(payload.indexOf("jewellery_maker_to_customer != -1)
+					{
+						type = "Transfer";
+						function_name = "jewellery_maker_to_customer";
+					}
+
 					if(payload.indexOf("create_asset") != -1)
 					{
 						type = "Create";
 						function_name = "create_asset";
 					}
-					if(payload.indexOf("update_make") != -1)
+					if(payload.indexOf("update_diamondat") != -1)
 					{
 						type = "Update";
-						function_name = "update_make";
-						update_type = "Make";
+						function_name = "update_diamondat";
+						update_type = "diamondat";
 					}
-					if(payload.indexOf("update_model") != -1)
+					if(payload.indexOf("update_cut") != -1)
 					{
 						type = "Update";
-						function_name = "update_model";
-						update_type = "Model";
+						function_name = "update_cut";
+						update_type = "cut";
 					}
-					if(payload.indexOf("update_registration") != -1)
+					if(payload.indexOf("update_dateistration") != -1)
 					{
 						type = "Update";
-						function_name = "update_registration";
-						update_type = "Registration";
+						function_name = "update_date";
+						update_type = "date";
 					}
-					if(payload.indexOf("update_vin") != -1)
+					if(payload.indexOf("update_clarity") != -1)
 					{
 						type = "Update";
-						function_name = "update_vin";
-						update_type = "VIN";
+						function_name = "update_clarity";
+						update_type = "clarity";
 					}
 					if(payload.indexOf("update_colour") != -1)
 					{
@@ -211,58 +217,89 @@ function getTransactions(){
 						function_name = "update_colour";
 						update_type = "Colour";
 					}
-					if(payload.indexOf("scrap_asset") != -1)
+					if(payload.indexOf("symmetry") != -1)
 					{
-						type = "Scrap";
-						function_name = "scrap_asset";
+						type = "symmetry";
+						function_name = "symmetry";
+update_type = "symmetry";
 					}
-					var v5cID = 'undefined';
+if(payload.indexOf("polish") != -1)
+					{
+						type = "polish";
+						function_name = "polish";
+update_type = "polish";
+					}
+if(payload.indexOf("jewellery_type") != -1)
+					{
+						type = "jewellery_type";
+						function_name = "jeellery_type";
+update_type = "jewellery_type";
+					}
+if(payload.indexOf("timestamp") != -1)
+					{
+						type = "timestamp";
+						function_name = "timestamp";
+update_type = "timestamp";
+					}
+
+
+
+
+					var assetID = 'undefined';
 					var timestamp = 'undefined';
 					var caller = 'undefined';
 					var arguments = 'undfined';
 					if(type != "undefined")
 					{
-						v5cID = obj.payload.match(/[A-Z]{2}[0-9]{7}/g);
+						assetID = obj.payload.match(/[A-Z]{2}[0-9]{7}/g);
 						caller = obj.caller;
 						var date = new Date(obj.timestamp.seconds*1000);
 						timestamp = pad(date.getDate())+"/"+pad((date.getMonth()+1))+"/"+pad(date.getFullYear())+" "+pad(date.getHours())+":"+pad(date.getMinutes())+":"+pad(date.getSeconds());
-						arguments = payload.substring(payload.indexOf(function_name)+function_name.length, payload.indexOf(v5cID)).trim();
-						if(!found_cars.hasOwnProperty(v5cID))
+						arguments = payload.substring(payload.indexOf(function_name)+function_name.length, payload.indexOf(assetID)).trim();
+						if(!found_diamonds.hasOwnProperty(assetID))
 						{
-							found_cars[v5cID] = [];
+							found_diamonds[assetID] = [];
 						}
-						found_cars[v5cID].push({"function_name": function_name, "args": arguments});
+						found_diamonds[assetID].push({"function_name": function_name, "args": arguments});
 					}
 
 					if(type == "Transfer")
 					{
-						var vin = get_update("vin", v5cID);
-						var make = get_update("make", v5cID);
-						var model = get_update("model", v5cID);
-						var reg = get_update("registration", v5cID);
-						var colour = get_update("colour", v5cID);
-						var carDetails = '['+vin+'] '+make+' '+model+', '+reg+', '+colour
+						var clarity = get_update("clarity", assetID);
+						var diamondat = get_update("diamondat", assetID);
+						var cut = get_update("cut", assetID);
+						var date = get_update("dateistration", assetID);
+						var colour = get_update("colour", assetID);
+var symmetry = get_update("symmetry", assetID);
+var polish = get_update("polish", assetID);
+var jewellery_type = get_update("jewellery_type", assetID);
+var timestamp = get_update("timestamp", assetID);
+
+
+
+
+						var diamondDetails = '['+clarity+'] '+diamondat+' '+cut+', '+date+', '+colour+','+symmetry+','+polish+','+jewellery_type+','+timestamp+'
 						
-						if(carDetails.indexOf('undefined') != -1)
+						if(diamondDetails.indexOf('undefined') != -1)
 						{
-							carDetails = 'Asset Template' 
+							diamondDetails = 'Asset Template' 
 						}
 			
-						$('<tr class="retrievedRw" ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+v5cID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Transfer</span><span class="message">: '+caller+' &rarr; '+arguments+'</span></td><td colspan="2" class="transRw">'+carDetails+'</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')
+						$('<tr class="retrievedRw" ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+assetID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Transfer</span><span class="message">: '+caller+' &rarr; '+arguments+'</span></td><td colspan="2" class="transRw">'+diamondDetails+'</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')
 	
 					}
 					if(type == "Create")
 					{
-						$('<tr class="retrievedRw" ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+v5cID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Create</span><span class="message">: '+caller+'</span></td><td colspan="2" class="transRw">Create V5C</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')
+						$('<tr class="retrievedRw" ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+assetID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Create</span><span class="message">: '+caller+'</span></td><td colspan="2" class="transRw">Create assetID</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')
 					}
 					if(type == "Update")
 					{
-						var prev = get_update(update_type.toLowerCase(), v5cID);
-						$('<tr class="retrievedRw " ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+v5cID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Update</span><span class="message">: '+caller+'</span></td><td colspan="2" class="transRw">'+update_type+': '+prev+' &rarr; '+arguments+'</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')			
+						var prev = get_update(update_type.toLowerCase(), assetID);
+						$('<tr class="retrievedRw " ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+assetID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Update</span><span class="message">: '+caller+'</span></td><td colspan="2" class="transRw">'+update_type+': '+prev+' &rarr; '+arguments+'</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')			
 					}
 					if(type == "Scrap")
 					{
-						$('<tr class="retrievedRw" ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+v5cID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Scrap</span><span class="message">: '+caller+'</span></td><td colspan="2" class="transRw">Scrap V5C</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')
+						$('<tr class="retrievedRw" ><td class="smlBrk"></td><td style="width:1%; white-space:nowrap" class="transRw">['+assetID+'] </td><td class="transRw" style="width:1%; white-space:nowrap"><span class="type" >Scrap</span><span class="message">: '+caller+'</span></td><td colspan="2" class="transRw">Scrap assetID</td><td class="transRw txtRight">'+timestamp+'</td><td class="smlBrk"></td></tr>').insertAfter('#insAft')
 					}	
 					if(failed)
 					{
@@ -296,13 +333,13 @@ function getTransactions(){
 		}
 	})
 }
-function get_update(field, v5cID)
+function get_update(field, assetID)
 {
-	for(var i = found_cars[v5cID].length-2; i > -1; i--)
+	for(var i = found_diamonds[assetID].length-2; i > -1; i--)
 	{
-		if(found_cars[v5cID][i].function_name == 'update_'+field)
+		if(found_diamonds[assetID][i].function_name == 'update_'+field)
 		{
-			return found_cars[v5cID][i].args;
+			return found_diamonds[assetID][i].args;
 		}
 	}
 	return 'undefined'
@@ -478,9 +515,9 @@ function sortTimeIntoArray()
 	return storage;
 }
 
-function sortV5CID(type)
+function sortassetID(type)
 {
-	var arr = sortV5CIDIntoArray()
+	var arr = sortassetIDIntoArray()
 	if(type == 'desc')
 	{
 		arr = arr.reverse();
@@ -493,7 +530,7 @@ function sortV5CID(type)
 	toggleSorts();
 }
 
-function sortV5CIDIntoArray()
+function sortassetIDIntoArray()
 {
 	var storage = [];
 	$('.retrievedRw').each(function()
@@ -529,7 +566,7 @@ function sortV5CIDIntoArray()
 
 function clearSearch()
 {
-	if($('#searchBar').val() == 'Search by V5C ID...')
+	if($('#searchBar').val() == 'Search by assetID ID...')
 	{
 		$('#searchBar').val('')
 	}
@@ -596,12 +633,15 @@ function changeUser(company, parent, pos)
 }
 
 var colours = {}
-colours.regulator = "#00648D"
-colours.manufacturer = "#016059"
+colours.miner = "#00648D"
+colours.distributor = "#016059"
 colours.dealership = "#008A52"
-colours.lease_company = "#372052"
-colours.leasee = "#BA0E6F"
-colours.scrap_merchant = "#DD721B"
+colours.buyer= "#372052"
+colours.trader = "#BA0E6F"
+colours.cutter= "#DD721B"
+colours.jewellery_maker= "#CD725B"
+colours.customer= "#DB421B"
+
 
 function changePageColour(type)
 {

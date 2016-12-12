@@ -77,7 +77,7 @@ function get_block(req, res, number) //Retrieves block, and retrieves transactio
             if(number + 1 < height) {
                 get_block(req, res, number + 1);
             }
-            else if (req.session.user === 'DVLA') {
+            else if (req.session.user === 'Kollur') {
                 tracing.create('EXIT', 'GET blockchain/transactions', 'result');
                 res.send(result);
             } else {
@@ -98,22 +98,22 @@ function get_block(req, res, number) //Retrieves block, and retrieves transactio
 
 function evaluate_transactions(req, res)
 {
-    let validV5cs = '';
+    let validassetIDs = '';
     let user_id = map_ID.user_to_id(req.session.user);
 
     if (result.transactions) {
         for(let i = 0; i < result.transactions.length; i++)
     {
             let transaction = result.transactions[i];
-            let v5cID = transaction.payload.match(/[A-Z]{2}[0-9]{7}/g);
-            if(JSON.stringify(transaction).indexOf(user_id) === -1 && validV5cs.indexOf(v5cID) === -1)
+            let assetID = transaction.payload.match(/[A-Z]{2}[0-9]{7}/g);
+            if(JSON.stringify(transaction).indexOf(user_id) === -1 && validassetIDs.indexOf(assetID) === -1)
         {
                 result.transactions.splice(i, 1);
                 i--;
             }
-            else if (validV5cs.indexOf(v5cID) === -1)
+            else if (validassetIDs.indexOf(assetID) === -1)
         {
-                validV5cs += '['+v5cID+']';
+                validassetIDs += '['+assetID+']';
             }
         }
     }

@@ -1,118 +1,170 @@
-'use strict';
-let simple_scenario = {
-    'cars': [
-        {
-            'VIN': '287437467447767',
-            'Make': 'Toyota',
-            'Model': 'Auris',
-            'Colour': 'Blue',
-            'Reg': 'LM16 YHU',
-            'Owners': ['DVLA', 'Toyota', 'Beechvale Group', 'LeaseCan']
-        },
-        {
-            'VIN': '549523556856725',
-            'Make': 'Jaguar',
-            'Model': 'F-Type',
-            'Colour': 'Red',
-            'Reg': 'HE16 WDZ',
-            'Owners': ['DVLA', 'Jaguar Land Rover', 'Beechvale Group']
-        },
-        {
-            'VIN': '880352730316924',
-            'Make': 'Alfa Romeo',
-            'Model': 'MiTo',
-            'Colour': 'Blue',
-            'Reg': 'NL65 DTU',
-            'Owners': ['DVLA', 'Alfa Romeo']
-        }
-    ]
+var simple_scenario = {
+	"diamonds": [
+		{
+			"Date": "05/07/2016",
+			"Timestamp": "08:05:02",
+			"diamondat": "2.0",
+			"Cut": "Point",
+			"Colour": "Blue",
+			"Clarity": "VVS1",
+			"Polish": "abr",
+			"Symmetry": "LHV",
+			"Jewellery_type": "ring",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+		},
+		{
+			"Date": "10/07/2016",
+			"Timestamp": "10:10:05",
+			"diamondat": "2.0",
+			"Cut": "Crown_facet",
+			"Colour": "Pink",
+			"Clarity": "VS1",
+			"Polish":"Brn_Dop",
+			"Symmetry": "CHV",
+			"Jewellery_type": "pendant",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+		},
+		{
+			"Date": "28/07/2016",
+			"Timestamp": "11:15:03",
+			"diamondat": "2.0",
+			"Cut": "Crown_facet",
+			"Colour": "Blue",
+			"Clarity": "SI1",
+			"Polish": "scr",
+			"Symmetry": "CV",
+			"Jewellery_type": "earrings",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+		}
+	]
 };
 
-let full_scenario = {
-    'cars': [
-        {
-            'VIN': '720965981630055',
-            'Make': 'Toyota',
-            'Model': 'Yaris',
-            'Colour': 'Red',
-            'Reg': 'QD65 YKR',
-            'Owners': ['DVLA', 'Toyota', 'Beechvale Group', 'LeaseCan', 'Joe Payne', 'Cray Bros (London) Ltd']
-        },
-        {
-            'VIN': '287437467447767',
-            'Make': 'Toyota',
-            'Model': 'Auris',
-            'Colour': 'Blue',
-            'Reg': 'LM16 YHU',
-            'Owners': ['DVLA', 'Toyota', 'Beechvale Group', 'LeaseCan']
-        },
-        {
-            'VIN': '948881310167423',
-            'Make': 'Toyota',
-            'Model': 'Celica',
-            'Colour': 'Silver',
-            'Reg': 'DG16 FVG',
-            'Owners': ['DVLA', 'Toyota', 'Beechvale Group']
-        },
-        {
-            'VIN': '181255391772389',
-            'Make': 'Jaguar',
-            'Model': 'XJ',
-            'Colour': 'Black',
-            'Reg': 'FM65 ESL',
-            'Owners': ['DVLA', 'Jaguar Land Rover', 'Beechvale Group', 'LeaseCan']
-        },
-        {
-            'VIN': '549523556856725',
-            'Make': 'Jaguar',
-            'Model': 'F-Type',
-            'Colour': 'Red',
-            'Reg': 'HE16 WDZ',
-            'Owners': ['DVLA', 'Jaguar Land Rover', 'Beechvale Group']
-        },
-        {
-            'VIN': '523447019546831',
-            'Make': 'Land Rover',
-            'Model': 'Defender',
-            'Colour': 'Silver',
-            'Reg': 'EY16 FRV',
-            'Owners': ['DVLA', 'Jaguar Land Rover', 'Beechvale Group']
-        },
-        {
-            'VIN': '546303780997253',
-            'Make': 'Alfa Romeo',
-            'Model': 'Giulietta',
-            'Colour': 'White',
-            'Reg': 'JU65 XMH',
-            'Owners': ['DVLA', 'Alfa Romeo']
-        },
-        {
-            'VIN': '128994473011261',
-            'Make': 'Alfa Romeo',
-            'Model': 'MiTO',
-            'Colour': 'Black',
-            'Reg': 'YD65 FTB',
-            'Owners': ['DVLA', 'Alfa Romeo']
-        },
-        {
-            'VIN': '747542562791231',
-            'Make': 'Alfa Romeo',
-            'Model': '4C',
-            'Colour': 'Red',
-            'Reg': 'RX65 RNG',
-            'Owners': ['DVLA', 'Alfa Romeo']
-        },
-        {
-            'VIN': '880352730316924',
-            'Make': 'Alfa Romeo',
-            'Model': 'MiTo',
-            'Colour': 'Blue',
-            'Reg': 'NL65 DTU',
-            'Owners': ['DVLA', 'Alfa Romeo']
-        }
-    ]
+var full_scenario = {
+	"diamonds": [
+		{
+			"Date": "01/08/2016",
+			"Timestamp": "09:05:20",
+			"diamondat": "2.0",
+			"Cut": "Table",
+			"Colour": "Colourless",
+			"Clarity": "VVS2",
+			"Polish": "abr",
+			"Symmetry": "GTV",
+			"Jewellery_type": "ring",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+		},
+		{
+			"Date": "15/08/2016",
+			"Timestamp": "07:45:10",
+			"diamondat": "5.0",
+			"Cut": "Point",
+			"Colour": "Blue",
+			"Clarity": "I1",
+			"Polish": "Brn_Dop",
+			"Symmetry":"LPV",
+			"Jewellery_type": "pendant",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Amardev"]
+		},
+		{
+			"Date": "20/08/2016",
+			"Timestamp": "13:20:20",
+			"diamondat": "2.0",
+			"Cut": "mazarin",
+			"Colour": "Blue",
+			"Clarity": "VS1",
+			"Polish":"abr",
+			"Symmetry":"CHV",
+			"Jewellery_type": "earrings",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+		},
+		{
+			"Date": "15/09/2016",
+			"Timestamp": "23:10:05",
+			"diamondat": "1.0",
+			"Cut": "mazarin",
+			"Colour": "Pink",
+			"Clarity": "VS1",
+			"Polish":"scr",
+			"Symmetry":"CHV",
+			"Jewelery_type": "nose_pin",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Amardev"]
+		},
+		{
+			"Date": "12/10/2016",
+			"Timestamp": "20:10:05",
+			"diamondat": "2.0",
+			"Cut": "Point",
+			"Colour": "Pink",
+			"Clarity": "VS2",
+			"Polish":"Brn_Dop",
+			"Symmetry": "CV",
+			"Jewellery_type": "ring",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+		},
+		{
+			"Date": "20/10/2016",
+			"Timestamp": "06:15:20",
+			"diamondat": "2.0",
+			"Cut": "Point",
+			"Colour": "Colourless",
+			"Clarity": "VVS1",
+			"Polish": "scr",
+			"Symmetry":"GTV",
+			"jewellery_type": "ring",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+		},
+		{
+			"Date": "20/10/2016",
+			"Timestamp": "18:05:02",
+			"diamondat": "5.0",
+			"Cut": "Point",
+			"Colour": "Blue",
+			"Clarity": "SI1",
+			"Polish": "abr",
+			"Symmetry":"GTV",
+			"Jewellery_type": "pendant",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+		},
+		{
+			"Date": "21/10/2016",
+			"Timestamp": "19:45:23",
+			"diamondat": "5.0",
+			"Cut": "mazarin",
+			"Colour": "Pink",
+			"Clarity": "SI2",
+			"Polish": "Brn_Dop",
+			"Symmetry": "LPV",
+			"Jeellery_type": "pendant",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Amardev"]
+		},
+		{
+			"Date": "25/10/2016",
+			"Timestamp":"20:10:20",
+			"diamondat": "2.0",
+			"Cut": "Table",
+			"Colour": "Blue",
+			"Clarity": "VS1",
+			"Polish": "abr",
+			"Symmetry": "CHV",
+			"Jewellery_type": "ring",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+		},
+		{
+			"Date": "10/11/2016",
+			"Timestamp":"21:02:01",
+			"diamondat": "2.0",
+			"Cut": "Point",
+			"Colour": "Blue",
+			"Clarity": "VVS1",
+			"Polish": "scr",
+			"Symmetry": "CV",
+			"Jewellery_type": "bracelet",
+			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+		}
+	]
 };
 
 
-exports.simple = simple_scenario;
-exports.full = full_scenario;
+exports.simple_scenario = simple_scenario;
+exports.full_scenario = full_scenario;
+

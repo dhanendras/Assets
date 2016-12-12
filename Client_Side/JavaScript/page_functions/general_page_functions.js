@@ -133,11 +133,11 @@ function confTrans()
     $('#loaderMessages').html('');
 }
 
-function errCreate(v5cID)
+function errCreate(assetID)
 {
     $('#failHd span').html('Creation Failed');
     $('#failTransfer').show();
-    $('#failTxt').html('Failed to create car with v5cID: '+v5cID);
+    $('#failTxt').html('Failed to create car with assetID: '+assetID);
     $('#loader').hide();
     $('#loaderMessages').html('');
 }
