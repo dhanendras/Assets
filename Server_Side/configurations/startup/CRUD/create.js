@@ -94,6 +94,7 @@ function deployChaincode(enrolledMember, chaincodePath, functionName, args, cert
         });
 
         transactionContext.on('complete', function (result) {
+			console.log('Chaincode deployed with chaincodeID ' , result.chaincodeID);
             tracing.create('INFO', 'Chaincode deployed with chaincodeID ' + result.chaincodeID, '');
             fs.writeFileSync(__dirname + '/../../../../chaincode.txt', result.chaincodeID, 'utf8');
             resolve(result);

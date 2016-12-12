@@ -434,7 +434,7 @@ startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPass
     return startup.enrollUsers(chain, users, registrar);
 })
 .then(function(users) {
-    tracing.create('INFO', 'Startup', 'All users registered');
+    tracing.create('INFO', 'Startup', 'All users Dateistered');
     users.forEach(function(user) {
         usersToSecurityContext[user.getName()] = new SecurityContext(user);
     });
