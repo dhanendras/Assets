@@ -356,9 +356,9 @@ process.env.GOPATH = path.resolve(__dirname, 'Chaincode');
 let vcapServices;
 let pem;
 let server;
-let Dateistrar;
+let registrar;
 let credentials;
-let webAppAdminPassword = configFile.config.Dateistrar_password;
+let webAppAdminPassword = configFile.config.registrar_password;
 if (process.env.VCAP_SERVICES) {
     console.log('\n[!] VCAP_SERVICES detected');
     port = process.env.VCAP_APP_PORT;
@@ -390,14 +390,14 @@ if (process.env.VCAP_SERVICES) { // We are running in bluemix
     startup.connectToEventHub(chain, credentials.peers[0], pem);
 
     // Get the WebAppAdmins password
-    webAppAdminPassword = configFile.config.bluemix_Dateistrar_password;
+    webAppAdminPassword = configFile.config.bluemix_registrar_password;
 
 } else if (pem) { // We are running outside bluemix, connecting to bluemix fabric
     console.log('\n[!] Running locally with bluemix fabric');
     credentials = fs.readFileSync(__dirname + '/credentials.json');
     credentials = JSON.parse(credentials);
 
-    webAppAdminPassword = configFile.config.bluemix_Dateistrar_password;
+    webAppAdminPassword = configFile.config.bluemix_registrar_password;
 
     startup.connectToPeers(chain, credentials.peers, pem);
     startup.connectToCA(chain, credentials.ca, pem);
@@ -420,21 +420,21 @@ server = http.createServer(app).listen(port, function () {
 server.timeout = 2400000;
 
 let chaincodeID;
-startup.enrollDateistrar(chain, configFile.config.Dateistrar_name, webAppAdminPassword)
+startup.enrollRegistrar(chain, configFile.config.registrar_name, webAppAdminPassword)
 .then(function(r) {
-    Dateistrar = r;
-    chain.setDateistrar(Dateistrar);
-    tracing.create('INFO', 'Startup', 'Set Dateistrar');
+    registrar = r;
+    chain.setRegistrar(registrar);
+    tracing.create('INFO', 'Startup', 'Set registrar');
     let users = configFile.config.users;
     if (vcapServices || pem) {
         users.forEach(function(user){
             user.affiliation = 'group1';
         });
     }
-    return startup.enrollUsers(chain, users, Dateistrar);
+    return startup.enrollUsers(chain, users, registrar);
 })
 .then(function(users) {
-    tracing.create('INFO', 'Startup', 'All users Dateistered');
+    tracing.create('INFO', 'Startup', 'All users registered');
     users.forEach(function(user) {
         usersToSecurityContext[user.getName()] = new SecurityContext(user);
     });
@@ -471,7 +471,7 @@ startup.enrollDateistrar(chain, configFile.config.Dateistrar_name, webAppAdminPa
     if (!exists) {
         let certPath = (vcapServices) ? vcapServices.cert_path : '/certs/peer/cert.pem';
         chain.getEventHub().connect();
-        return startup.deployChaincode(Dateistrar, 'asset_code', 'Init', [], certPath);
+        return startup.deployChaincode(registrar, 'asset_code', 'Init', [], certPath);
     } else {
         tracing.create('INFO', 'Startup', 'Chaincode already deployed');
         return {'chaincodeID': chaincodeID};
