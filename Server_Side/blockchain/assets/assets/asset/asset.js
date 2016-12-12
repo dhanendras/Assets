@@ -30,13 +30,13 @@ date.update = dateFile.update;
 date.read = dateFile.read;
 exports.date = date;
 
-var symmetryFile = require(__dirname+'/symmetry.js');
+var symmetryFile = require(__dirname+'/symmetry/symmetry.js');
 var symmetry = {};
 symmetry.update = symmetryFile.update;
 symmetry.read = symmetryFile.read;
 exports.symmetry = symmetry;
 
-var timestampFile = require(__dirname+'/timestamp.js');
+var timestampFile = require(__dirname+'/timestamp/timestamp.js');
 var timestamp = {};
 timestamp.update = timestampFile.update;
 timestamp.read = timestampFile.read;
