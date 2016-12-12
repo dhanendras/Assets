@@ -206,8 +206,7 @@ config.users = [
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
-    }
-
+    },
     {
         enrollmentID: 'Adora',
         attributes: [
@@ -268,7 +267,7 @@ config.users = [
         registrar: {},
         roles: [],
         affiliation: 'institution_a'
-    },
+    }
 
 ];
 
