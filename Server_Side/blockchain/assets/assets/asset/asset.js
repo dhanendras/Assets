@@ -55,11 +55,11 @@ clarity.update = clarityFile.update;
 clarity.read = clarityFile.read;
 exports.clarity = clarity;
 
-var jewellery_typeFile = require(__dirname+'/jewellery_type/jewellery_type.js');
-var jewellery_type = {};
-jewellery_type.update = jewellery_typeFile.update;
-jewellery_type.read = jewellery_typeFile.read;
-exports.jewellery_type = jewellery_type;
+var JewelleryTypeFile = require(__dirname+'/JewelleryType/JewelleryType.js');
+var JewelleryType = {};
+JewelleryType.update = JewelleryTypeFile.update;
+JewelleryType.read = JewelleryTypeFile.read;
+exports.JewelleryType = JewelleryType;
 
 
 

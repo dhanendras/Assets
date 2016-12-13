@@ -229,11 +229,11 @@ if(payload.indexOf("polish") != -1)
 						function_name = "polish";
 update_type = "polish";
 					}
-if(payload.indexOf("jewellery_type") != -1)
+if(payload.indexOf("JewelleryType") != -1)
 					{
-						type = "jewellery_type";
+						type = "JewelleryType";
 						function_name = "jeellery_type";
-update_type = "jewellery_type";
+update_type = "JewelleryType";
 					}
 if(payload.indexOf("timestamp") != -1)
 					{
@@ -272,13 +272,13 @@ update_type = "timestamp";
 						var colour = get_update("colour", assetID);
 var symmetry = get_update("symmetry", assetID);
 var polish = get_update("polish", assetID);
-var jewellery_type = get_update("jewellery_type", assetID);
+var JewelleryType = get_update("JewelleryType", assetID);
 var timestamp = get_update("timestamp", assetID);
 
 
 
 
-						var diamondDetails = '['+clarity+'] '+diamondat+' '+cut+', '+date+', '+colour+','+symmetry+','+polish+','+jewellery_type+','+timestamp+'
+						var diamondDetails = '['+clarity+'] '+diamondat+' '+cut+', '+date+', '+colour+','+symmetry+','+polish+','+JewelleryType+','+timestamp+'
 						
 						if(diamondDetails.indexOf('undefined') != -1)
 						{

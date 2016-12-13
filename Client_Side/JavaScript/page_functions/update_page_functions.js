@@ -71,10 +71,10 @@ var timestamp = $(el).siblings('.diamondTimestamp').html()
 	{
 		timestamp = 'undefined'
 	}
-var jewellery_type = $(el).siblings('.diamondJewellery_type ').html()
-	if(jewellery_type  == '&lt;<i>jewellery_type </i>&gt;')
+var JewelleryType = $(el).siblings('.diamondJewelleryType ').html()
+	if(JewelleryType  == '&lt;<i>JewelleryType </i>&gt;')
 	{
-		jewellery_type  = 'undefined'
+		JewelleryType  = 'undefined'
 	}
 
 
@@ -88,7 +88,7 @@ var jewellery_type = $(el).siblings('.diamondJewellery_type ').html()
 $('#timestamp').val(timestamp);
 $('#symmetry').val(symmetry);
 $('#polish').val(polish);
-$('#jewellery_type').val(jewellery_type);
+$('#JewelleryType').val(JewelleryType);
 
 
 	
@@ -98,7 +98,7 @@ $('#jewellery_type').val(jewellery_type);
 	$('#hidColour').val(colour);
 $('#hidsymmetry').val(symmetry);
 $('#hidpolish').val(polish);
-$('#hidjewellery_type').val(jewellery_type);
+$('#hidJewelleryType').val(JewelleryType);
 $('#hidtimestamp').val(timestamp);
 	$('#hiddate').val(date.toUpperCase());
 }

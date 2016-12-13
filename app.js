@@ -242,16 +242,16 @@ app.get('/blockchain/assets/assets/:assetID/polish' , function(req,res,next)
 
 });
 //-----------------------------------------------------------------------------------------------
-//    Blockchain - Assets - assets - asset - jewellery_type
+//    Blockchain - Assets - assets - asset - JewelleryType
 //-----------------------------------------------------------------------------------------------
 app.delete('/blockchain/assets/assets/:assetID' , function(req,res,next)
 {
     asset.delete(req,res,next,usersToSecurityContext);
 });
 
-app.get('/blockchain/assets/assets/:assetID/jewellery_type' , function(req,res,next)
+app.get('/blockchain/assets/assets/:assetID/JewelleryType' , function(req,res,next)
 {
-    asset.jewellery_type.read(req,res,next,usersToSecurityContext);
+    asset.JewelleryType.read(req,res,next,usersToSecurityContext);
 
 });
 //-----------------------------------------------------------------------------------------------
