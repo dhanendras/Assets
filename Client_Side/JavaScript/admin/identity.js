@@ -34,7 +34,7 @@ function createSession()
 
 
     console.log('CREATE SESSION:', $('#company').html());
-
+alert("participantType:"+pgNmPlural+", account: "+$('#company').html());
     $.ajax({
         type: 'POST',
         data: '{"participantType":"'+pgNmPlural+'", "account": "'+$('#company').html()+'"}',
