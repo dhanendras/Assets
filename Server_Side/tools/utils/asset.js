@@ -34,7 +34,7 @@ class Asset {
 
     doesassetIDExist(userId, assetID) {
         let securityContext = this.usersToSecurityContext[userId];
-        return Util.queryChaincode(securityContext, 'check_unique_assetID', [ assetID ]);
+        return Util.queryChaincode(securityContext, 'check_unique_asset', [ assetID ]);
     }
 
     static newassetID() {

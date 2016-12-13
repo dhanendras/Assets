@@ -204,6 +204,20 @@ func (t *SimpleChaincode) get_caller_data(stub  shim.ChaincodeStubInterface) (st
 
 	return user, affiliation, nil
 }
+//=================================================================================================================================
+//	 check_unique_asset
+//=================================================================================================================================
+func (t *SimpleChaincode) check_unique_asset(stub shim.ChaincodeStubInterface, asset string, caller string, caller_affiliation string) ([]byte, error) {
+	_, err := t.retrieve_assets(stub, asset)
+	if err == nil {
+		return []byte("false"), errors.New("Asset is not unique")
+	} else {
+		return []byte("true"), nil
+	}
+}
+
+
+
 //==============================================================================================================================
 //	 retrieve_assets           - Gets the state of the data at assetsID in the ledger then converts it from the stored 
 //					JSON into the Diamond struct for use in the contract. Returns the Diamond struct.
@@ -322,6 +336,10 @@ func (t *SimpleChaincode) Query(stub  shim.ChaincodeStubInterface, function stri
 	} else if function == "get_ecert" {
 			return t.get_ecert(stub, args[0])
 	}
+	 else if function == "check_unique_asset" {
+		return t.check_unique_asset(stub, args[0], caller, caller_affiliation)
+	}
+	
 
 	return nil, errors.New("Received unknown function invocation")
 
