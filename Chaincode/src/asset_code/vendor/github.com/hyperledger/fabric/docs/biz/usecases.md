@@ -62,7 +62,7 @@ Why is this specific example an abstract use case? Because while all blockchain 
 
 *  Payment upon delivery of goods - Integration with off-chain payment systems is required, so that payment instructions can be sent when parts are received.
 
-*  Third party Audit -  All supplied parts must be auditable by third parties. For example, regulators might need to track the total number of parts supplied by a specific supplier, for tax accounting purposes.
+*  Third party Audit -  All supplied parts must be auditable by third parties. For example, miners might need to track the total number of parts supplied by a specific supplier, for tax accounting purposes.
 
 *  Obfuscation of shipments - Balances must be obfuscated so that no supplier can deduce the business activities of any other supplier.
 
@@ -98,7 +98,7 @@ Assets such as financial securities must be able to be dematerialized on a block
 
 *  Asset Timer - Many types of financial assets have predefined life spans and are required to make periodic payments to their owners, so a timer is required to automate the operation management of these assets.
 
-*  Asset Auditor - Asset transactions must be made auditable to third parties. For example, regulators may want to audit transactions and movements of assets to measure market risks.
+*  Asset Auditor - Asset transactions must be made auditable to third parties. For example, miners may want to audit transactions and movements of assets to measure market risks.
 
 *  Obfuscation of account balances - Individual account balances must be obfuscated so that no one can deduce the exact amount that an investor owns.
 

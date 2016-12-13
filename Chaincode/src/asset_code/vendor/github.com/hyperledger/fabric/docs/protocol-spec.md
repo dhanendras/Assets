@@ -189,7 +189,7 @@ The following terminology is defined within the limited scope of this specificat
 
 **Confidentiality** is the ability to render the transaction content inaccessible to anyone other than the stakeholders of the transaction.
 
-**Auditability** of the blockchain is required, as business usage of blockchain needs to comply with regulations to make it easy for regulators to investigate transaction records.
+**Auditability** of the blockchain is required, as business usage of blockchain needs to comply with regulations to make it easy for miners to investigate transaction records.
 
 
 

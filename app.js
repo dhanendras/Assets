@@ -267,8 +267,8 @@ app.get('/blockchain/participants', function(req,res,next){
     participants.read(req,res,next,usersToSecurityContext);
 });
 
-app.get('/blockchain/participants/regulators', function(req, res,next){
-    participants.regulators.read(req,res,next,usersToSecurityContext);
+app.get('/blockchain/participants/miners', function(req, res,next){
+    participants.miners.read(req,res,next,usersToSecurityContext);
 });
 
 app.get('/blockchain/participants/Distributors', function(req, res,next){
