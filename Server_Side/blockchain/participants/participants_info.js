@@ -178,9 +178,7 @@ var participants_info = {
 			"postcode": "SO29 9BL"
 
 }
-],
-
-		"Customers": [
+],		"Customers": [
 		{
 			"name": "Gaurav Singh",
 			"identity": "Gaurav_Singh",
@@ -208,5 +206,5 @@ var participants_info = {
 	]
 	
 
-}
+};
 exports.participants_info = participants_info;
