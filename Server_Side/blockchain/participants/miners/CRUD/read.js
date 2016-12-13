@@ -7,7 +7,7 @@ let read = function(req, res)
 {
     tracing.create('ENTER', 'GET blockchain/participants/miners', {});
 	console.log(participants);
-    if(!participants.hasOwnProperty('miners'))
+    if(!participants.hasOwnProperty("miners"))
     {
         res.status(404);
         let error = {};
