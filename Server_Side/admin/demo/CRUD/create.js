@@ -1,4 +1,4 @@
-'use strict';
+
 
 const hfc = require('hfc');
 const Asset = require(__dirname+'/../../../tools/utils/asset');
