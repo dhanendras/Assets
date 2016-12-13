@@ -1,6 +1,6 @@
 'use strict';
 
-let participants_info = {
+var participants_info = {
 	"miners": [
 		{
 			"name": "Kollur",
