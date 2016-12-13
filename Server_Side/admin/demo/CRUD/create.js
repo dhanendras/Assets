@@ -147,7 +147,7 @@ function createAssets(diamonds, results) {
 }
 
 function createAsset() {
-    console.log('[#] Creating Asset');
+    console.log('[#] Creating Asset',assetData.usersToSecurityContext);
     return assetData.create('Kollur');
 }
 
