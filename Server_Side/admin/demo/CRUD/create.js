@@ -7,7 +7,7 @@ let tracing = require(__dirname+'/../../../tools/traces/trace.js');
 let map_ID = require(__dirname+'/../../../tools/map_ID/map_ID.js');
 let initial_assets = reload(__dirname+'/../../../blockchain/assets/assets/initial_assets.js');
 var reload = require('require-reload')(require),
-let fs = require('fs');
+ fs = require('fs');
 
 const TYPES = [
     'miner_to_distributor',
