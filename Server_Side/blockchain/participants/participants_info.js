@@ -1,7 +1,7 @@
 'use strict';
 
-let participants_info = {
-	'miners': [
+var participants_info = {};
+participants_info['miners'] = '[
 		{
 			'name': 'Kollur',
 			'identity': 'Kollur',
@@ -12,7 +12,7 @@ let participants_info = {
 			'address_line_4': 'India',
 			'postcode': 'SA7 0AN'
 		}
-	]
+	]';
 
-};
+
 exports.participants_info = participants_info;
