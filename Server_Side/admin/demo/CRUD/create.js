@@ -36,6 +36,7 @@ function create(req, res, next, usersToSecurityContext) {
 
         if(scenario === 'simple' || scenario === 'full') {
             diamonds = initial_assets[scenario];
+			console.log("<=========>",diamonds);
         } else {
             let error = {};
             error.message = 'Scenario type not recognised';
