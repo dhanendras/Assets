@@ -1,6 +1,6 @@
 'use strict';
 
-var simple_scenario = {
+var simple = {
 	"diamonds": [
 		{
 			"Date": "05/07/2016",
@@ -41,7 +41,7 @@ var simple_scenario = {
 	]
 };
 
-var full_scenario = {
+var full = {
 	"diamonds": [
 		{
 			"Date": "01/08/2016",
@@ -167,6 +167,6 @@ var full_scenario = {
 };
 
 
-exports.simple_scenario = simple_scenario;
-exports.full_scenario = full_scenario;
+exports.simple = simple;
+exports.full = full;
 
