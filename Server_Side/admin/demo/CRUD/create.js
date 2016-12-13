@@ -5,7 +5,8 @@ const Asset = require(__dirname+'/../../../tools/utils/asset');
 
 let tracing = require(__dirname+'/../../../tools/traces/trace.js');
 let map_ID = require(__dirname+'/../../../tools/map_ID/map_ID.js');
-let initial_assets = require(__dirname+'/../../../blockchain/assets/assets/initial_assets.js');
+let initial_assets = reload(__dirname+'/../../../blockchain/assets/assets/initial_assets.js');
+var reload = require('require-reload')(require),
 let fs = require('fs');
 
 const TYPES = [
@@ -23,6 +24,7 @@ let assetData;
 
 function create(req, res, next, usersToSecurityContext) {
     try {
+		initial_assets = reload(__dirname+'/../../../blockchain/assets/assets/initial_assets.js');
         let chain = hfc.getChain('myChain');
         assetData = new Asset(usersToSecurityContext);
 
