@@ -1,25 +1,31 @@
-'use strict';
+/*eslint-env node */
 
-let tracing = require(__dirname+'/../../../../tools/traces/trace.js');
-let participants = require(__dirname+'/../../participants_info.js');
+var tracing = require(__dirname+'/../../../../tools/traces/trace.js');
+var reload = require('require-reload')(require),
+    participants = reload(__dirname+'/../../participants_info.js');
 
-let read = function(req, res)
+var read = function(req, res)
 {
-    tracing.create('ENTER', 'GET blockchain/participants/miners', {});
-	console.log(participants);
-    if(!participants.hasOwnProperty("miners"))
-    {
-        res.status(404);
-        let error = {};
-        error.message = 'Unable to retrieve miners';
-        error.error = true;
-        tracing.create('ERROR', 'GET blockchain/participants/miners', error);
-        res.send(error);
-    }
-    else
-    {
-        tracing.create('EXIT', 'GET blockchain/participants/miners', {'result':participants.miners});
-        res.send({'result':participants.miners});
-    }
-};
+	participants = reload(__dirname+'/../../participants_info.js');
+	tracing.create('ENTER', 'GET blockchain/participants/miners', {});
+	for (var key in participants) {
+  
+    console.log(key + " -> " );
+  
+}
+	if(!participants.participants_info.hasOwnProperty('miners'))
+	{
+		res.status(404)
+		var error = {}
+		error.message = 'Unable to retrieve miners'
+		error.error = true;
+		tracing.create('ERROR', 'GET blockchain/participants/miners', error);
+		res.send(error)
+	} 
+	else
+	{
+		tracing.create('EXIT', 'GET blockchain/participants/miners', {"result":participants.participants_info.miners});
+		res.send({"result":participants.participants_info.miners})
+	}
+}
 exports.read = read;
