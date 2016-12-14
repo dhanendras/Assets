@@ -207,7 +207,7 @@ func (t *SimpleChaincode) get_caller_data(stub  shim.ChaincodeStubInterface) (st
 //=================================================================================================================================
 //	 check_unique_asset
 //=================================================================================================================================
-func (t *SimpleChaincode) check_unique_asset(stub shim.ChaincodeStubInterface, asset string, caller string, caller_affiliation string) ([]byte, error) {
+func (t *SimpleChaincode) check_unique_asset(stub shim.ChaincodeStubInterface, asset string, caller string, caller_affiliation int) ([]byte, error) {
 	_, err := t.retrieve_assets(stub, asset)
 	if err == nil {
 		return []byte("false"), errors.New("Asset is not unique")
@@ -335,8 +335,7 @@ func (t *SimpleChaincode) Query(stub  shim.ChaincodeStubInterface, function stri
 			return t.get_diamonds(stub, caller, caller_affiliation)
 	} else if function == "get_ecert" {
 			return t.get_ecert(stub, args[0])
-	}
-	 else if function == "check_unique_asset" {
+	} else if function == "check_unique_asset" {
 		return t.check_unique_asset(stub, args[0], caller, caller_affiliation)
 	}
 	
