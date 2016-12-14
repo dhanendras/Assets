@@ -216,7 +216,14 @@ func (t *SimpleChaincode) check_unique_asset(stub shim.ChaincodeStubInterface, a
 	}
 }
 
-
+//=================================================================================================================================
+//	 Ping Function
+//=================================================================================================================================
+//	 Pings the peer to keep the connection alive
+//=================================================================================================================================
+func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
+	return []byte("Hello, world!"), nil
+}
 
 //==============================================================================================================================
 //	 retrieve_assets           - Gets the state of the data at assetsID in the ledger then converts it from the stored 
@@ -269,7 +276,9 @@ func (t *SimpleChaincode) Invoke(stub  shim.ChaincodeStubInterface, function str
 
 	
 	if function == "create_diamond" { return t.create_diamond(stub, caller, caller_affiliation, args[0])
-	} else { 																				// If the function is not a create then there must be a Diamond so we need to retrieve the Diamond.
+	} else if function == "ping" {
+        return t.ping(stub)
+    }  else { 																				// If the function is not a create then there must be a Diamond so we need to retrieve the Diamond.
 		
 		argPos := 1
 		
@@ -337,6 +346,8 @@ func (t *SimpleChaincode) Query(stub  shim.ChaincodeStubInterface, function stri
 			return t.get_ecert(stub, args[0])
 	} else if function == "check_unique_asset" {
 		return t.check_unique_asset(stub, args[0], caller, caller_affiliation)
+	} else if function == "ping" {
+		return t.ping(stub)
 	}
 	
 
