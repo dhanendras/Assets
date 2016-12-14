@@ -90,7 +90,7 @@ function deployChaincode(enrolledMember, chaincodePath, functionName, args, cert
         let transactionContext = enrolledMember.deploy(deployRequest);
 
         transactionContext.on('submitted', function(result) {
-            console.log('Attempted to deploy chaincode');
+            console.log('Attempted to deploy chaincode',result);
         });
 
         transactionContext.on('complete', function (result) {
@@ -101,8 +101,9 @@ function deployChaincode(enrolledMember, chaincodePath, functionName, args, cert
         });
 
         transactionContext.on('error', function (error) {
+			console.log('error in deploy chaincode',error);
             if (error instanceof hfc.EventTransactionError) {
-                reject(new Error(error.msg));
+			                reject(new Error(error.msg));
             } else {
                 reject(error);
             }
