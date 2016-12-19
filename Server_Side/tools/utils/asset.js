@@ -16,8 +16,12 @@ class Asset {
 
         return this.doesassetIDExist(userId, assetID)
         .then(function() {
-            return Util.invokeChaincode(securityContext, 'create_asset', [ assetID ])
+			let tem=Util.invokeChaincode(securityContext, 'create_asset', [ assetID ]);
+			console.log('[#] Asset created',tem);
+            return tem
             .then(function() {
+				console.log('[#] Asset created id',assetID);
+           
                 return assetID;
             });
         });

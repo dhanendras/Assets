@@ -54,6 +54,7 @@ function create(req, res, next, usersToSecurityContext) {
             chain.getEventHub().connect();
             return createAssets(diamonds)
             .then(function() {
+				console.log('got assets');
                 return assetIDResults.reduce(function(prev, assetID, index) {
                     let Diamond = diamonds[index];
                     let seller = map_ID.user_to_id('Kollur');
@@ -125,7 +126,7 @@ function transferBetweenOwners(assetID, Diamond, results) {
             return transferBetweenOwners(assetID, newDiamond, results);
 			})
         .catch((err) => {
-            console.log('[X] Unable to transfer vehicle', err);
+            console.log('[X] Unable to transfer Diamond', err);
         });
     } else {
         return Promise.resolve(results);
@@ -133,24 +134,21 @@ function transferBetweenOwners(assetID, Diamond, results) {
 }
 
 // Uses recurision because Promise.all() breaks HFC
-function createAssets(diamonds, results) {
-    let newdiamonds = JSON.parse(JSON.stringify(diamonds));
-    if (!results) {results = [];}
-    if (newdiamonds.length > 0) {
-        return createAsset()
+function createAssets(diamonds) {
+ 
+	
+	return diamonds.reduce(function(prev, diamond, index) {
+        return prev.then(function() {
+            return createAsset()
             .then(function(result) {
-                console.log('[#] Created asset ' + result);
-                results.push(result);
-                newdiamonds.pop();
-                return createAssets(newdiamonds, results);
+                assetIDResults.push(result);
             });
-    } else {
-        return Promise.resolve(results);
-    }
+        });
+    }, Promise.resolve());
 }
 
 function createAsset() {
-    console.log('[#] Creating Asset',assetData.usersToSecurityContext);
+    console.log('[#] Creating Asset');
     return assetData.create('Kollur');
 }
 
