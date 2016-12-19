@@ -21,9 +21,10 @@ const TYPES = [
 ];
 
 let assetData;
-
+let assetIDResults;
 function create(req, res, next, usersToSecurityContext) {
     try {
+		assetIDResults=[];
 		initial_assets = reload(__dirname+'/../../../blockchain/assets/assets/initial_assets.js');
         let chain = hfc.getChain('myChain');
         assetData = new Asset(usersToSecurityContext);
@@ -49,12 +50,10 @@ function create(req, res, next, usersToSecurityContext) {
         if(diamonds.hasOwnProperty('diamonds')) {
             tracing.create('INFO', 'Demo', 'Found diamonds');
             diamonds = diamonds.diamonds;
-            let assetIDResults;
             updateDemoStatus({message: 'Creating assets'});
             chain.getEventHub().connect();
             return createAssets(diamonds)
-            .then(function(results) {
-                assetIDResults = results;
+            .then(function() {
                 return assetIDResults.reduce(function(prev, assetID, index) {
                     let Diamond = diamonds[index];
                     let seller = map_ID.user_to_id('Kollur');
@@ -65,6 +64,7 @@ function create(req, res, next, usersToSecurityContext) {
                 }, Promise.resolve());
             })
             .then(function() {
+				
                 updateDemoStatus({message: 'Updating assets'});
                 return assetIDResults.reduce(function(prev, assetID, index){
                     let Diamond = diamonds[index];
@@ -88,9 +88,9 @@ function create(req, res, next, usersToSecurityContext) {
                 res.end(JSON.stringify({message: 'Demo setup'}));
             })
             .catch(function(err) {
-                tracing.create('ERROR   DEMO', err, '');
-                updateDemoStatus({'message: ': JSON.parse(err), error: true});
-                tracing.create('ERROR', 'POST admin/demo', err.stack);
+                tracing.create('ERROR   DEMO', JSON.stringify(err), '');
+                updateDemoStatus({'message: ': JSON.stringify(err), error: true});
+               tracing.create('ERROR', 'POST admin/demo', err.stack);
                 chain.getEventHub().disconnect();
                 res.end(JSON.stringify(err));
             });
@@ -123,6 +123,9 @@ function transferBetweenOwners(assetID, Diamond, results) {
             results.push(result);
             newDiamond.Owners.shift();
             return transferBetweenOwners(assetID, newDiamond, results);
+			})
+        .catch((err) => {
+            console.log('[X] Unable to transfer vehicle', err);
         });
     } else {
         return Promise.resolve(results);
