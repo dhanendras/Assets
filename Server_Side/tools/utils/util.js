@@ -32,8 +32,10 @@ class Util {
                 };
 
                 console.log('[#] Query: ', JSON.stringify(query));
-
+				console.log('[#] Query user: ', user);
+				
                 let tx = user.query(query);
+				console.log('[#] Query trans: ', tx);
 
                 tx.on('submitted', function() {
                 });
