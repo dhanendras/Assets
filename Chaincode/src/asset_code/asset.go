@@ -61,7 +61,7 @@ type Diamond struct {
 	Clarity         string   `json:"clarity"`
 	Location        string   `json:"location"`
 	Date            int      `json:"date"`
-	Stamp           string	`json:"stamp"`
+	Timestamp           string	`json:"Timestamp"`
 	Polish          string   `json:"polish"`
 	Symmetry        string   `json:"symmetry"`
     JewelleryType  string   `json:"jewelleryType"`
@@ -342,13 +342,13 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	clarity        := "\"clarity\":\"UNDEFINED\", "
 	location       := "\"location\":\"UNDEFINED\", "
 	date           := "\"date\":\"UNDEFINED\", "
-	stamp          := "\"stamp\":\"UNDEFINED\", "
+	Timestamp          := "\"Timestamp\":\"UNDEFINED\", "
 	polish         := "\"polish\":\"UNDEFINED\", "
 	symmetry       := "\"Symmetry\":\"UNDEFINED\", "
     jewelleryType :="\"jewelleryType\":\"UNDEFINED\", " 
 	status         :="\"status\":0"
 	
-	diamond_json := "{"+assetsID+colour+Diamondat+cut+clarity+location+date+stamp+polish+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
+	diamond_json := "{"+assetsID+colour+Diamondat+cut+clarity+location+date+Timestamp+polish+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(assets_ID))  				// matched = true if the assetsID passed fits format of two letters followed by seven digits
 	
@@ -409,7 +409,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 //=================================================================================================================================
 func (t *SimpleChaincode) miner_to_distributor(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, recipient_name string, recipient_affiliation string) ([]byte, error) {
 	
-if 		        d.Stamp 	 == "TIMESTAMP" || 
+if 		        d.Timestamp 	 == "TIMESTAMP" || 
 			d.Location       == "UNDEFINED"	&&
 	     	d.Status				== STATE_MINING	&&
 			d.Owner					== caller			&&

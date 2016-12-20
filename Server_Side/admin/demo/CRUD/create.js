@@ -49,15 +49,18 @@ function create(req, res, next, usersToSecurityContext) {
 
         if(diamonds.hasOwnProperty('diamonds')) {
             tracing.create('INFO', 'Demo', 'Found diamonds');
-            diamonds = diamonds.diamonds;
-            updateDemoStatus({message: 'Creating assets'});
+            let diamondVal = diamonds.diamonds;
+             console.log('diamondval',diamondVal);
+                updateDemoStatus({message: 'Creating assets'});
             //chain.getEventHub().connect();
-            return createAssets(diamonds)
+            return createAssets(diamondVal)
             .then(function() {
 				console.log('got assets');
                 return assetIDResults.reduce(function(prev, assetID, index) {
-                    let Diamond = diamonds[index];
-                    let seller = map_ID.user_to_id('Kollur');
+                   
+					let Diamond = diamondVal[index];
+                     console.log('diamond',Diamond);
+					let seller = map_ID.user_to_id('Kollur');
                     let buyer = map_ID.user_to_id(Diamond.Owners[1]);
                     return prev.then(function() {
                         return transferAsset(assetID, seller, buyer, 'miner_to_distributor');
@@ -68,7 +71,7 @@ function create(req, res, next, usersToSecurityContext) {
 				
                 updateDemoStatus({message: 'Updating assets'});
                 return assetIDResults.reduce(function(prev, assetID, index){
-                    let Diamond = diamonds[index];
+                    let Diamond = diamondVal[index];
                     return prev.then(function() {
                         return populateAsset(assetID, Diamond);
                     });
@@ -77,7 +80,7 @@ function create(req, res, next, usersToSecurityContext) {
             .then(function() {
                 updateDemoStatus({message: 'Transfering assets between owners'});
                 return assetIDResults.reduce(function(prev, assetID, index) {
-                    let Diamond = diamonds[index];
+                    let Diamond = diamondVal[index];
                     return prev.then(function() {
                         return transferBetweenOwners(assetID, Diamond);
                     });
