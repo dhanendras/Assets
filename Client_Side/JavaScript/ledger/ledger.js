@@ -139,7 +139,7 @@ function getTransactions(){
 			for(var i = d.transactions.length-1; i >= 0 ; i--)
 			{
 				var obj = d.transactions[i];
-				if(obj.payload.indexOf("create_asset_log") == -1)
+				if(obj.payload.indexOf("create_diamond_log") == -1)
 				{
 					var payload = obj.payload;
 					var type = "undefined";
@@ -182,10 +182,10 @@ if(payload.indexOf("jewellery_maker_to_customer != -1)
 						function_name = "jewellery_maker_to_customer";
 					}
 
-					if(payload.indexOf("create_asset") != -1)
+					if(payload.indexOf("create_diamond") != -1)
 					{
 						type = "Create";
-						function_name = "create_asset";
+						function_name = "create_diamond";
 					}
 					if(payload.indexOf("update_diamondat") != -1)
 					{

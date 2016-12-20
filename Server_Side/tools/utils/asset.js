@@ -16,7 +16,7 @@ class Asset {
 
         return this.doesassetIDExist(userId, assetID)
         .then(function() {
-			let tem=Util.invokeChaincode(securityContext, 'create_asset', [ assetID ]);
+			let tem=Util.invokeChaincode(securityContext, 'create_diamond', [ assetID ]);
 			console.log('[#] Asset created',tem);
             return tem
             .then(function() {
