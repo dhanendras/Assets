@@ -51,7 +51,7 @@ function create(req, res, next, usersToSecurityContext) {
             tracing.create('INFO', 'Demo', 'Found diamonds');
             diamonds = diamonds.diamonds;
             updateDemoStatus({message: 'Creating assets'});
-            chain.getEventHub().connect();
+            //chain.getEventHub().connect();
             return createAssets(diamonds)
             .then(function() {
 				console.log('got assets');
