@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"regexp"
 )
-
+var logger = shim.NewLogger("CLDChaincode")
 //==============================================================================================================================
 //	 Participant types - Each participant type is mapped to an integer which we use to compare to the value stored in a
 //						 user`s eCert
@@ -103,7 +103,7 @@ func (t *SimpleChaincode) Init(stub  shim.ChaincodeStubInterface, function strin
 	bytes, err := json.Marshal(assetHolder)
 												if err != nil { return nil, errors.New("Error creating assetHolder record") }
 																
-	err = stub.PutState("assetHolder", bytes)
+	err = stub.PutState("assetIDs", bytes)
 	
 	for i:=0; i < len(args); i=i+2 {
 		
@@ -182,26 +182,6 @@ func (t *SimpleChaincode) get_caller_data(stub  shim.ChaincodeStubInterface) (st
 
 	return user, affiliation, nil
 }
-//=================================================================================================================================
-//	 check_unique_asset
-//=================================================================================================================================
-func (t *SimpleChaincode) check_unique_asset(stub shim.ChaincodeStubInterface, asset string, caller string, caller_affiliation string) ([]byte, error) {
-	_, err := t.retrieve_assets(stub, asset)
-	if err == nil {
-		return []byte("false"), errors.New("Asset is not unique")
-	} else {
-		return []byte("true"), nil
-	}
-}
-
-//=================================================================================================================================
-//	 Ping Function
-//=================================================================================================================================
-//	 Pings the peer to keep the connection alive
-//=================================================================================================================================
-func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
-	return []byte("Hello, world!"), nil
-}
 
 //==============================================================================================================================
 //	 retrieve_assets           - Gets the state of the data at assetsID in the ledger then converts it from the stored 
@@ -239,6 +219,7 @@ func (t *SimpleChaincode) save_changes(stub  shim.ChaincodeStubInterface, d Diam
 	
 	return true, nil
 }
+
 
 //==============================================================================================================================
 //	 Router Functions
@@ -291,8 +272,18 @@ func (t *SimpleChaincode) Invoke(stub  shim.ChaincodeStubInterface, function str
 			
 	}
 }
-//=================================================================================================================================	
-//	Query - Called on chaincode query. Takes a function name passed and calls that function. Passes the
+//=================================================================================================================================
+//	 check_unique_asset
+//=================================================================================================================================
+func (t *SimpleChaincode) check_unique_asset(stub shim.ChaincodeStubInterface, asset string, caller string, caller_affiliation string) ([]byte, error) {
+	_, err := t.retrieve_assets(stub, asset)
+	if err == nil {
+		return []byte("false"), errors.New("Asset is not unique")
+	} else {
+		return []byte("true"), nil
+	}
+}
+//=================================================================================================================================	//	Query - Called on chaincode query. Takes a function name passed and calls that function. Passes the
 //  		initial arguments passed are passed on to the called function.
 //=================================================================================================================================	
 func (t *SimpleChaincode) Query(stub  shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
@@ -324,6 +315,15 @@ func (t *SimpleChaincode) Query(stub  shim.ChaincodeStubInterface, function stri
 
 	return nil, errors.New("Received unknown function invocation")
 
+}
+
+//=================================================================================================================================
+//	 Ping Function
+//=================================================================================================================================
+//	 Pings the peer to keep the connection alive
+//=================================================================================================================================
+func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error) {
+	return []byte("Hello, world!"), nil
 }
 
 //=================================================================================================================================
