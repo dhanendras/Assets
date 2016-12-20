@@ -85,14 +85,14 @@ function create(req, res, next, usersToSecurityContext) {
             })
             .then(function() {
                 updateDemoStatus({message: 'Demo setup'});
-                chain.getEventHub().disconnect();
+                //chain.getEventHub().disconnect();
                 res.end(JSON.stringify({message: 'Demo setup'}));
             })
             .catch(function(err) {
                 tracing.create('ERROR   DEMO', JSON.stringify(err), '');
                 updateDemoStatus({'message: ': JSON.stringify(err), error: true});
                tracing.create('ERROR', 'POST admin/demo', err.stack);
-                chain.getEventHub().disconnect();
+                //chain.getEventHub().disconnect();
                 res.end(JSON.stringify(err));
             });
         } else {
