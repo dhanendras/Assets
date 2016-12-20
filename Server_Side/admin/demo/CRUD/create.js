@@ -50,7 +50,6 @@ function create(req, res, next, usersToSecurityContext) {
         if(diamonds.hasOwnProperty('diamonds')) {
             tracing.create('INFO', 'Demo', 'Found diamonds');
             let diamondVal = diamonds.diamonds;
-             console.log('diamondval',diamondVal);
                 updateDemoStatus({message: 'Creating assets'});
             //chain.getEventHub().connect();
             return createAssets(diamondVal)
@@ -59,10 +58,11 @@ function create(req, res, next, usersToSecurityContext) {
                 return assetIDResults.reduce(function(prev, assetID, index) {
                    
 					let Diamond = diamondVal[index];
+					 console.log('Diamond<><><>',Diamond);
+					 
                   let seller = map_ID.user_to_id('Kollur');
                     let buyer = map_ID.user_to_id(Diamond.Owners[1]);
-                      console.log('buyer',buyer);
-					 return prev.then(function() {
+                     return prev.then(function() {
                         return transferAsset(assetID, seller, buyer, 'miner_to_distributor');
                     });
                 }, Promise.resolve());
