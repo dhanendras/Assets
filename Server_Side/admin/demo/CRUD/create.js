@@ -58,7 +58,7 @@ function create(req, res, next, usersToSecurityContext) {
                 return assetIDResults.reduce(function(prev, assetID, index) {
                    
 					let Diamond = diamondVal[index];
-					 console.log('Diamond<><><>',Diamond);
+					 console.log('Diamond<><><>',Diamond.Owners);
 					 
                   let seller = map_ID.user_to_id('Kollur');
                     let buyer = map_ID.user_to_id(Diamond.Owners[1]);
@@ -113,7 +113,7 @@ function create(req, res, next, usersToSecurityContext) {
 
 function transferBetweenOwners(assetID, Diamond, results) {
     let functionName;
-    let newDiamond = JSON.parse(JSON.stringify(Diamond));
+    let newDiamond = Diamond;//JSON.parse(JSON.stringify(Diamond));
     if (!results) {
         results = [];
     }
