@@ -59,10 +59,10 @@ function create(req, res, next, usersToSecurityContext) {
                 return assetIDResults.reduce(function(prev, assetID, index) {
                    
 					let Diamond = diamondVal[index];
-                     console.log('diamond',Diamond);
-					let seller = map_ID.user_to_id('Kollur');
+                  let seller = map_ID.user_to_id('Kollur');
                     let buyer = map_ID.user_to_id(Diamond.Owners[1]);
-                    return prev.then(function() {
+                      console.log('buyer',buyer);
+					 return prev.then(function() {
                         return transferAsset(assetID, seller, buyer, 'miner_to_distributor');
                     });
                 }, Promise.resolve());
@@ -121,6 +121,7 @@ function transferBetweenOwners(assetID, Diamond, results) {
         let seller = map_ID.user_to_id(newDiamond.Owners[1]); // First after Kollur
         let buyer = map_ID.user_to_id(newDiamond.Owners[2]); // Second after Kollur
         functionName = TYPES[results.length + 1];
+		console.log('transferAsset============><',assetID, seller, buyer, functionName,'<><><>');
         return transferAsset(assetID, seller, buyer, functionName)
         .then(function(result) {
             console.log('[#] Transfer asset ' + assetID + ' between ' + seller + ' -> ' + buyer);
