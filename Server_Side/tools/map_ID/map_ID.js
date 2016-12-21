@@ -19,18 +19,18 @@ let id_to_user = function(data)
 
 let user_to_id = function(data)
 {
-	
-    for(let role in participants)
+	let participant=participants.participants_info
+    for(let role in participant)
     {
 		console.log('key rolw',role);
        
-        for(let j = 0; j < participants[role].length; j++)
+        for(let j = 0; j < participant[role].length; j++)
         {
-			console.log('key rolw j',participants[role][j]);
+			console.log('key rolw j',participant[role][j]);
        
-            if(participants[role][j].name === data)
+            if(participant[role][j].name === data)
             {
-                return participants[role][j].identity;
+                return participant[role][j].identity;
             }
         }
     }
