@@ -171,7 +171,7 @@ function populateAsset(assetID, Diamond) {
         let propertyValue = Diamond[propertyName];
         if (propertyName !== 'Owners') {
             result = result.then(function() {
-                return populateAssetProperty(assetID, map_ID.user_to_id(Diamond.Owners[1]), normalisedPropertyName, propertyValue);
+                return populateAssetProperty(assetID, Diamond.Owners[1], normalisedPropertyName, propertyValue);
             });
         }
     }

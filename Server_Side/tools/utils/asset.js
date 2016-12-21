@@ -34,7 +34,7 @@ class Asset {
     updateAttribute(userId, functionName, value, assetID) {
 		console.log("#user securityContext userId",userId);
 		console.log("############################");
-		console.log("#user security",this.usersToSecurityContext);
+		
 		
         let securityContext = this.usersToSecurityContext[userId];
         return Util.invokeChaincode(securityContext, functionName, [ value, assetID ]);
