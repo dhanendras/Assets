@@ -58,10 +58,10 @@ config.users = [
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'soham industrial diamonds',
+        enrollmentID: 'soham_industrial_diamonds',
         attributes: [
             {name: 'role', value: 'distributor'},
-            {name: 'username', value: 'soham industrial diamonds'}
+            {name: 'username', value: 'soham_industrial_diamonds'}
         ],
         registrar: {},
         roles: [],
