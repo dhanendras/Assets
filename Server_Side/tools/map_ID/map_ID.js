@@ -19,7 +19,18 @@ let id_to_user = function(data)
 
 let user_to_id = function(data)
 {
-    for(let role in participants)
+	for (var key in participants) {
+       var arr = participants[key];
+       for( var i = 0; i < arr.length; i++ ) {
+           var obj = arr[ i ];
+		    if(obj['name']=== data)
+            {
+                return obj['identity'];
+            }
+           
+       }
+    }
+    /*for(let role in participants)
     {
         for(let j = 0; j < participants[role].length; j++)
         {
@@ -28,7 +39,7 @@ let user_to_id = function(data)
                 return participants[role][j].identity;
             }
         }
-    }
+    }*/
 };
 
 let get_password = function(partType, data)
