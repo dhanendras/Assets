@@ -113,11 +113,13 @@ function create(req, res, next, usersToSecurityContext) {
 
 function transferBetweenOwners(assetID, Diamond, results) {
     let functionName;
-    let newDiamond = Diamond;//JSON.parse(JSON.stringify(Diamond));
+    let newDiamond = JSON.parse(JSON.stringify(Diamond));
     if (!results) {
         results = [];
     }
     if (newDiamond.Owners.length > 2) {
+		console.log('transferAsset owners============><',newDiamond.Owners[1], newDiamond.Owners[2], '<><><>');
+        
         let seller = map_ID.user_to_id(newDiamond.Owners[1]); // First after Kollur
         let buyer = map_ID.user_to_id(newDiamond.Owners[2]); // Second after Kollur
         functionName = TYPES[results.length + 1];
