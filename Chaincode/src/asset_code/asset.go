@@ -439,7 +439,8 @@ if 		        d.Timestamp 	 == "TIMESTAMP" ||
 //=================================================================================================================================
 func (t *SimpleChaincode) distributor_to_dealer(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, recipient_name string, recipient_affiliation string) ([]byte, error) {
 	
-	
+	 console.log('[#] distributor_to_dealer',d.Status,d.Owner,caller_affiliation,recipient_affiliation);
+   
 	
 	if 		d.Status				== STATE_DISTRIBUTING	&& 
 			d.Owner					== caller				&& 
