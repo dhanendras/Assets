@@ -25,7 +25,7 @@ let user_to_id = function(data)
        var arr = partInfo[key];
        for( var i = 0; i < arr.length; i++ ) {
            var obj = arr[ i ];
-		  	console.log('obj name',obj['name'],data);
+		  	console.log('obj name',obj,obj['name'],data);
       if(obj['name']=== data)
             {
                 return obj['identity'];
