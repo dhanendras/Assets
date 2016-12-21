@@ -20,10 +20,12 @@ let id_to_user = function(data)
 let user_to_id = function(data)
 {
 	for (var key in participants) {
+		console.log('key',key);
        var arr = participants[key];
        for( var i = 0; i < arr.length; i++ ) {
            var obj = arr[ i ];
-		    if(obj['name']=== data)
+		  	console.log('obj name',obj['name'],data);
+      if(obj['name']=== data)
             {
                 return obj['identity'];
             }
