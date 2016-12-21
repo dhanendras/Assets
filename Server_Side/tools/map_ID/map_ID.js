@@ -19,31 +19,21 @@ let id_to_user = function(data)
 
 let user_to_id = function(data)
 {
-	for (var partInfo in participants) {
-	for (var key in partInfo) {
-		console.log('key',key);
-       var arr = partInfo[key];
-       for( var i = 0; i < arr.length; i++ ) {
-           var obj = arr[ i ];
-		  	console.log('obj name',obj,obj['name'],data);
-      if(obj['name']=== data)
-            {
-                return obj['identity'];
-            }
-           
-       }
-    }
-	}
-    /*for(let role in participants)
+	
+    for(let role in participants)
     {
+		console.log('key rolw',role);
+       
         for(let j = 0; j < participants[role].length; j++)
         {
+			console.log('key rolw j',participants[role][j]);
+       
             if(participants[role][j].name === data)
             {
                 return participants[role][j].identity;
             }
         }
-    }*/
+    }
 };
 
 let get_password = function(partType, data)
