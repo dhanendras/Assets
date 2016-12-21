@@ -23,12 +23,10 @@ let user_to_id = function(data)
 	let participant=participants.participants_info
     for(let role in participant)
     {
-		console.log('key rolw',role);
-       
+		
         for(let j = 0; j < participant[role].length; j++)
         {
-			console.log('key rolw j',participant[role][j]);
-       
+			
             if(participant[role][j].name === data)
             {
                 return participant[role][j].identity;

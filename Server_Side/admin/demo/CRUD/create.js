@@ -58,7 +58,6 @@ function create(req, res, next, usersToSecurityContext) {
                 return assetIDResults.reduce(function(prev, assetID, index) {
                    
 					let Diamond = diamondVal[index];
-					 console.log('Diamond<><><>',Diamond.Owners);
 					 
                   let seller = map_ID.user_to_id('Kollur');
                     let buyer = map_ID.user_to_id(Diamond.Owners[1]);
@@ -118,8 +117,7 @@ function transferBetweenOwners(assetID, Diamond, results) {
         results = [];
     }
     if (newDiamond.Owners.length > 2) {
-		console.log('transferAsset owners============><',newDiamond.Owners[1], newDiamond.Owners[2], '<><><>');
-        
+		 
         let seller = map_ID.user_to_id(newDiamond.Owners[1]); // First after Kollur
         let buyer = map_ID.user_to_id(newDiamond.Owners[2]); // Second after Kollur
         functionName = TYPES[results.length + 1];
@@ -160,6 +158,8 @@ function createAsset() {
 
 function populateAssetProperty(assetID, ownerId, propertyName, propertyValue) {
     let normalisedPropertyName = propertyName.toLowerCase();
+	console.log('[#] populateAsset',ownerId, 'update_'+normalisedPropertyName, propertyValue, assetID);
+    
     return assetData.updateAttribute(ownerId, 'update_'+normalisedPropertyName, propertyValue, assetID);
 }
 
