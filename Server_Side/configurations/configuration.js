@@ -90,7 +90,7 @@ config.users = [
     {
         enrollmentID: 'Beon_Group',
         attributes: [
-            {name: 'role', value: 'dealership'},
+            {name: 'role', value: 'dealer'},
             {name: 'username', value: 'Beon_Group'}
         ],
         registrar: {},
@@ -100,7 +100,7 @@ config.users = [
     {
         enrollmentID: 'Milescape',
         attributes: [
-            {name: 'role', value: 'dealership'},
+            {name: 'role', value: 'dealer'},
             {name: 'username', value: 'Milescape'}
         ],
         registrar: {},
@@ -110,7 +110,7 @@ config.users = [
     {
         enrollmentID: 'Viewers_laxmi_impex',
         attributes: [
-            {name: 'role', value: 'dealership'},
+            {name: 'role', value: 'dealer'},
             {name: 'username', value: 'Viewers_laxmi_impex'}
         ],
         registrar: {},
