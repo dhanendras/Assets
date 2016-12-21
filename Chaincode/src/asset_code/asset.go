@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"strconv"
 	"strings"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"encoding/json"
@@ -55,12 +54,12 @@ type  SimpleChaincode struct {
 
 type Diamond struct {
 	assetsID       string      `json:"assetsID"`
-	Colour          int   `json:"colour"`
-	Diamondat           int      `json:"Diamondat"`
+	Colour          string   `json:"colour"`
+	Diamondat           string      `json:"Diamondat"`
 	Cut             string   `json:"cut"`					
 	Clarity         string   `json:"clarity"`
 	Location        string   `json:"location"`
-	Date            int      `json:"date"`
+	Date            string      `json:"date"`
 	Timestamp           string	`json:"Timestamp"`
 	Polish          string   `json:"polish"`
 	Symmetry        string   `json:"symmetry"`
@@ -266,10 +265,16 @@ func (t *SimpleChaincode) Invoke(stub  shim.ChaincodeStubInterface, function str
 		} else if function == "update_cut"          { return t.update_cut(stub, d, caller, caller_affiliation, args[0])
 		} else if function == "update_clarity"   { return t.update_clarity(stub, d, caller, caller_affiliation, args[0])
 		} else if function == "update_symmetry" 		{ return t.update_symmetry(stub, d, caller, caller_affiliation, args[0])
+		} else if function == "update_polish" 		{ return t.update_polish(stub, d, caller, caller_affiliation, args[0])
+		} else if function == "update_diamondat" 		{ return t.update_diamondat(stub, d, caller, caller_affiliation, args[0])
+		} else if function == "update_date" 		{ return t.update_date(stub, d, caller, caller_affiliation, args[0])
+		} else if function == "update_timestamp" 		{ return t.update_timestamp(stub, d, caller, caller_affiliation, args[0])
+		} else if function == "update_jewellerytype" 		{ return t.update_jewellerytype(stub, d, caller, caller_affiliation, args[0])
 		} 
 		
 																						return nil, errors.New("Function of that name doesn`t exist.")
 			
+
 	}
 }
 //=================================================================================================================================
@@ -594,35 +599,6 @@ if 		        d.JewelleryType	    == "UNDEFINED" ||
 	
 }
 
-//=================================================================================================================================
-//	 Update Functions
-//=================================================================================================================================
-//	 update_colour
-//=================================================================================================================================
-func (t *SimpleChaincode) update_colour(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
-	
-	new_colour, err := strconv.Atoi(string(new_value)) 		                // will return an error if the new vin contains non numerical chars
-	
-															if err != nil || len(string(new_value)) != 15 { return nil, errors.New("Invalid value passed for new VIN") }
-	
-	if 		d.Status			== STATE_MINING	&& 
-			d.Owner				== caller				&&
-			caller_affiliation	== MINER				{		// Can`t change the colour after its initial assignment
-			
-					d.Colour = new_colour					// Update to the new value
-	} else {
-	
-															return nil, errors.New("Permission denied")
-		
-	}
-	
-	_, err  = t.save_changes(stub, d)						// Save the changes in the blockchain
-	
-															if err != nil { fmt.Printf("UPDATE_colour: Error saving changes: %s", err); return nil, errors.New("Error saving changes") } 
-	
-	return nil, nil
-	
-}
 
 
 //=================================================================================================================================
@@ -631,8 +607,7 @@ func (t *SimpleChaincode) update_colour(stub  shim.ChaincodeStubInterface, d Dia
 func (t *SimpleChaincode) update_cut(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
 
 	
-	if		d.Owner				== caller			&& 
-			caller_affiliation	!=    CUTTER	{
+	if		d.Owner				== caller		{
 			
 					d.Cut = new_value
 	
@@ -648,13 +623,38 @@ func (t *SimpleChaincode) update_cut(stub  shim.ChaincodeStubInterface, d Diamon
 	
 }
 
+
+//=================================================================================================================================
+//	 update_colour
+//=================================================================================================================================
+func (t *SimpleChaincode) update_colour(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
+
+	
+	if		d.Owner				== caller		{
+			
+					d.Colour = new_value
+	
+	} else {
+															return nil, errors.New("Permission denied")
+	}
+	
+	_, err := t.save_changes(stub, d)
+	
+															if err != nil { fmt.Printf("update_colour: Error saving changes: %s", err); return nil, errors.New("Error saving changes") }
+	
+	return nil, nil
+	
+}
+
+
+
+
 //=================================================================================================================================
 //	 update_clarity
 //=================================================================================================================================
 func (t *SimpleChaincode) update_clarity(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
 	
-	if 		d.Owner				== caller				&&
-			caller_affiliation	== CUTTER		{
+	if 		d.Owner				== caller		{
 			
 					d.Clarity = new_value
 	} else {
@@ -671,13 +671,11 @@ func (t *SimpleChaincode) update_clarity(stub  shim.ChaincodeStubInterface, d Di
 }
 
 //=================================================================================================================================
-//	 update_DiamondAT
+//	 update_diamondat
 //=================================================================================================================================
-func (t *SimpleChaincode) update_DiamondAT(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value int) ([]byte, error) {
+func (t *SimpleChaincode) update_diamondat(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
 	
-	if 		d.Status			== STATE_MINING	&&
-			d.Owner				== caller				&& 
-			caller_affiliation	== MINER		{
+	if 		d.Owner				== caller		{
 			
 					d.Diamondat = new_value
 	} else {
@@ -699,9 +697,7 @@ func (t *SimpleChaincode) update_DiamondAT(stub  shim.ChaincodeStubInterface, d 
 //=================================================================================================================================
 func (t *SimpleChaincode) update_symmetry(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
 	
-	if 		d.Status			== STATE_CUTTING	&&
-			d.Owner				== caller				&& 
-			caller_affiliation	== CUTTER		{
+	if 		d.Owner				== caller		{
 			
 					d.Symmetry = new_value
 					
@@ -720,12 +716,10 @@ func (t *SimpleChaincode) update_symmetry(stub  shim.ChaincodeStubInterface, d D
 //=================================================================================================================================
 //	 update_POLISH
 //=================================================================================================================================
-func (t *SimpleChaincode) update_POLISH(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string) ([]byte, error) {
+func (t *SimpleChaincode) update_polish(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
 
-	if		d.Status			== STATE_CUTTING	&& 
-			d.Owner				== caller				&& 
-			caller_affiliation	== CUTTER		{
-			
+	if		d.Owner				== caller		{
+			d.Polish=new_value
 					
 	} else {
 		return nil, errors.New("Permission denied")
@@ -738,6 +732,66 @@ func (t *SimpleChaincode) update_POLISH(stub  shim.ChaincodeStubInterface, d Dia
 	return nil, nil
 	
 }
+//=================================================================================================================================
+//	 update_date
+//=================================================================================================================================
+func (t *SimpleChaincode) update_date(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
+
+	if		d.Owner				== caller		{
+			d.Date=new_value
+					
+	} else {
+		return nil, errors.New("Permission denied")
+	}
+	
+	_, err := t.save_changes(stub, d)
+	
+															if err != nil { fmt.Printf("SCRAP_assets: Error saving changes: %s", err); return nil, errors.New("SCRAP_assetsrror saving changes") }
+	
+	return nil, nil
+	
+}
+//=================================================================================================================================
+//	 update_timestamp 
+//=================================================================================================================================
+func (t *SimpleChaincode) update_timestamp(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
+
+	if		d.Owner				== caller		{
+			d.Date=new_value
+					
+	} else {
+		return nil, errors.New("Permission denied")
+	}
+	
+	_, err := t.save_changes(stub, d)
+	
+															if err != nil { fmt.Printf("SCRAP_assets: Error saving changes: %s", err); return nil, errors.New("SCRAP_assetsrror saving changes") }
+	
+	return nil, nil
+	
+}
+
+//=================================================================================================================================
+//	 update_jewellerytype
+//=================================================================================================================================
+func (t *SimpleChaincode) update_jewellerytype(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, new_value string) ([]byte, error) {
+
+	if		d.Owner				== caller		{
+			d.JewelleryType=new_value
+					
+	} else {
+		return nil, errors.New("Permission denied")
+	}
+	
+	_, err := t.save_changes(stub, d)
+	
+															if err != nil { fmt.Printf("SCRAP_assets: Error saving changes: %s", err); return nil, errors.New("SCRAP_assetsrror saving changes") }
+	
+	return nil, nil
+	
+}
+
+
 
 //=================================================================================================================================
 //	 Read Functions
