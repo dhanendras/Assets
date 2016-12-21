@@ -19,9 +19,10 @@ let id_to_user = function(data)
 
 let user_to_id = function(data)
 {
-	for (var key in participants) {
+	for (var partInfo in participants) {
+	for (var key in partInfo) {
 		console.log('key',key);
-       var arr = participants[key];
+       var arr = partInfo[key];
        for( var i = 0; i < arr.length; i++ ) {
            var obj = arr[ i ];
 		  	console.log('obj name',obj['name'],data);
@@ -32,6 +33,7 @@ let user_to_id = function(data)
            
        }
     }
+	}
     /*for(let role in participants)
     {
         for(let j = 0; j < participants[role].length; j++)
