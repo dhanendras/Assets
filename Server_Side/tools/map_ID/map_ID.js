@@ -5,13 +5,14 @@ let participants = require(__dirname+'/../../blockchain/participants/participant
 
 let id_to_user = function(data)
 {
-    for(let role in participants)
+   let participant=participants.participants_info
+   for(let role in participant)
     {
-        for(let j = 0; j < participants[role].length; j++)
+        for(let j = 0; j < participant[role].length; j++)
         {
-            if(participants[role][j].identity === data)
+            if(participant[role][j].identity === data)
             {
-                return participants[role][j].name;
+                return participant[role][j].name;
             }
         }
     }
@@ -38,11 +39,12 @@ let user_to_id = function(data)
 
 let get_password = function(partType, data)
 {
-    for(let i = 0; i < participants[partType].length; i++)
+    let participant=participants.participants_info
+    for(let i = 0; i < participant[partType].length; i++)
     {
-        if(participants[partType][i].name === data || participants[partType][i].identity === data)
+        if(participant[partType][i].name === data || participant[partType][i].identity === data)
         {
-            return participants[partType][i].password;
+            return participant[partType][i].password;
         }
     }
 };

@@ -17,12 +17,12 @@ var logger = shim.NewLogger("CLDChaincode")
 //CURRENT WORKAROUND USES ROLES CHANGE WHEN OWN USERS CAN BE CREATED SO THAT IT READ 1, 2, 3, 4, 5
 const   MINER           =  "miner"
 const   DISTRIBUTOR      =  "distributor"
-const   DEALER          =  "distributor"
-const   BUYER           =  "distributor"
-const   TRADER          =  "distributor"
-const   CUTTER          =  "distributor"
-const   JEWELLERYMAKER	=  "distributor"
-const   CUSTOMER        =  "distributor"
+const   DEALER          =  "dealer"
+const   BUYER           =  "buyer"
+const   TRADER          =  "trader"
+const   CUTTER          =  "cutter"
+const   JEWELLERYMAKER	=  "jewellery_maker"
+const   CUSTOMER        =  "customer"
 
 
 //==============================================================================================================================
@@ -254,12 +254,12 @@ func (t *SimpleChaincode) Invoke(stub  shim.ChaincodeStubInterface, function str
 			
 					
 				if 		   function == "miner_to_distributor" { return t.miner_to_distributor(stub, d, caller, caller_affiliation, args[0], "distributor")
-				} else if  function == "distributor_to_dealer"   { return t.distributor_to_dealer(stub, d, caller, caller_affiliation, args[0], "distributor")
-				} else if  function == "dealer_to_buyer" 	   { return t.dealer_to_buyer(stub, d, caller, caller_affiliation, args[0], "distributor")
-				} else if  function == "buyer_to_trader"  { return t.buyer_to_trader(stub, d, caller, caller_affiliation, args[0], "distributor")
-				} else if  function == "trader_to_cutter"  { return t.trader_to_cutter(stub, d, caller, caller_affiliation, args[0], "distributor")
-				} else if  function == "cutter_to_jewellery_maker" { return t.cutter_to_jewellery_maker(stub, d, caller, caller_affiliation, args[0], "distributor")
-				} else if  function == "jewellery_maker_to_customer" { return t.jewellery_maker_to_customer(stub, d, caller, caller_affiliation, args[0], "distributor")
+				} else if  function == "distributor_to_dealer"   { return t.distributor_to_dealer(stub, d, caller, caller_affiliation, args[0], "dealer")
+				} else if  function == "dealer_to_buyer" 	   { return t.dealer_to_buyer(stub, d, caller, caller_affiliation, args[0], "buyer")
+				} else if  function == "buyer_to_trader"  { return t.buyer_to_trader(stub, d, caller, caller_affiliation, args[0], "trader")
+				} else if  function == "trader_to_cutter"  { return t.trader_to_cutter(stub, d, caller, caller_affiliation, args[0], "cutter")
+				} else if  function == "cutter_to_jewellery_maker" { return t.cutter_to_jewellery_maker(stub, d, caller, caller_affiliation, args[0], "jewellery_maker")
+				} else if  function == "jewellery_maker_to_customer" { return t.jewellery_maker_to_customer(stub, d, caller, caller_affiliation, args[0], "customer")
                                 }
 			
 		} else if function == "update_colour"  	    { return t.update_colour(stub, d, caller, caller_affiliation, args[0])
