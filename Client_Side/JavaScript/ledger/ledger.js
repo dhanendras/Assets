@@ -151,10 +151,10 @@ function getTransactions(){
 						type = "Transfer";
 						function_name = "miner_to_distributor";
 					}
-					if(payload.indexOf("distributor_to_dealership") != -1)
+					if(payload.indexOf("distributor_to_dealer") != -1)
 					{
 						type = "Transfer";
-						function_name = "distributor_to_dealership";
+						function_name = "distributor_to_dealer";
 					}
 					if(payload.indexOf("dealership_to_buyer") != -1)
 					{
