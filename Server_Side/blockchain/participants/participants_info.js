@@ -100,15 +100,15 @@ let participants_info = {
 	],
 	'traders': [
 		{
-			'name': 'Anil Gosh',
-			'identity': 'Anil_Gosh',
+			'name': 'Ajay_Gosh',
+			'identity': 'Ajay_Gosh',
 			'password': 'BKwnxTfJGNyK',
 			'address_line_1': 'Mahadhipura',
 			'address_line_2': 'Gujarat',
 			'postcode': 'SO50 8JR'
 		},
 		{
-			'name': 'Andrew Hurt',
+			'name': 'Andrew_Hurt',
 			'identity': 'Andrew_Hurt',
 			'password': 'tkGIRxBywwMk',
 			'address_line_1': 'Ahmedabad',
@@ -116,7 +116,7 @@ let participants_info = {
 			'postcode': 'SO50 9CL'
 		},
 		{
-			'name': 'Rahul Ajay Gandhi',
+			'name': 'Rahul_Ajay_Gandhi',
 			'identity': 'Rahul_Ajay_Gandhi',
 			'password': 'MrcAgjpBwhmI',
 			'address_line_1': 'Mahadhipura',
@@ -135,7 +135,7 @@ let participants_info = {
 			'postcode': 'SE51 9DR'
 		},
 		{
-			'name': 'Aston Cutting Centre',
+			'name': 'Aston_Cutting_Centre',
 			'identity': 'Aston_Cutting_Centre',
 			'password': 'AzdeAZuGtlUT',
 			'address_line_1': '11 Willow Park Way',
@@ -180,7 +180,7 @@ let participants_info = {
 }
 ],		'Customers': [
 		{
-			'name': 'Gaurav Singh',
+			'name': 'Gaurav_Singh',
 			'identity': 'Gaurav_Singh',
 			'password': 'BTaWHtHrCZry',
 			'address_line_1': 'Mumbai',
@@ -189,7 +189,7 @@ let participants_info = {
 		},
 		{
 			'name': 'Adwaith',
-			'identity': 'Tanishq',
+			'identity': 'Adwaith',
 			'password': 'AzdeAZuGtlUT',
 			'address_line_1': 'Mumbai',
 			'address_line_2': 'India',

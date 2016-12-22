@@ -118,10 +118,10 @@ config.users = [
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'shah',
+        enrollmentID: 'Shah',
         attributes: [
             {name: 'role', value: 'buyer'},
-            {name: 'username', value: 'shah'}
+            {name: 'username', value: 'Shah'}
         ],
         registrar: {},
         roles: [],
@@ -218,7 +218,7 @@ config.users = [
         affiliation: 'institution_a'
     },
     {
-        enrollmentID: 'Tanishiq',
+        enrollmentID: 'Tanishq',
         attributes: [
             {name: 'role', value: 'jewellery_makers'},
             {name: 'username', value: 'Tanishq'}
