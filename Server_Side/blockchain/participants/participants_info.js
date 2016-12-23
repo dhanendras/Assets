@@ -15,7 +15,7 @@ let participants_info = {
 	],
 	'distributors': [
 		{
-			'name': 'soham industrial diamonds',
+			'name': 'soham_industrial_diamonds',
 			'identity': 'soham_industrial_diamonds',
 			'password': 'fGMMQqWEPxVy',
 			'address_line_1': 'katragam',
@@ -44,7 +44,7 @@ let participants_info = {
 	],
 	'dealerships': [
 		{
-			'name': 'Beon Group',
+			'name': 'Beon_Group',
 			'identity': 'Beon_Group',
 			'password': 'TvNWKDgWTrfH',
 			'address_line_1': '84 Hull Road',
@@ -126,7 +126,7 @@ let participants_info = {
 	],
 	'Cutters': [
 		{
-			'name': 'Crayon Bros Ltd',
+			'name': 'Crayon_Bros_Ltd',
 			'identity': 'Cray_Bros_London_Ltd',
 			'password': 'BTaWHtHrCZry',
 			'address_line_1': '26 Electric Avenue',

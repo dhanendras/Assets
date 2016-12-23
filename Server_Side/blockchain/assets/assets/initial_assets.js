@@ -12,7 +12,7 @@ var simple = {
 			"Polish": "abr",
 			"Symmetry": "LHV",
 			"JewelleryType": "ring",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Adwaith"]
 		},
 		{
 			"Date": "10/07/2016",
@@ -24,7 +24,7 @@ var simple = {
 			"Polish":"Brn_Dop",
 			"Symmetry": "CHV",
 			"JewelleryType": "pendant",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Gaurav Singh"]
 		},
 		{
 			"Date": "28/07/2016",
@@ -36,7 +36,7 @@ var simple = {
 			"Polish": "scr",
 			"Symmetry": "CV",
 			"JewelleryType": "earrings",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Adwaith"]
 		}
 	]
 };
@@ -53,7 +53,7 @@ var full = {
 			"Polish": "abr",
 			"Symmetry": "GTV",
 			"JewelleryType": "ring",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Gaurav Singh"]
 		},
 		{
 			"Date": "15/08/2016",
@@ -65,7 +65,7 @@ var full = {
 			"Polish": "Brn_Dop",
 			"Symmetry":"LPV",
 			"JewelleryType": "pendant",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Amardev"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Amardev"]
 		},
 		{
 			"Date": "20/08/2016",
@@ -77,7 +77,7 @@ var full = {
 			"Polish":"abr",
 			"Symmetry":"CHV",
 			"JewelleryType": "earrings",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Adwaith"]
 		},
 		{
 			"Date": "15/09/2016",
@@ -89,7 +89,7 @@ var full = {
 			"Polish":"scr",
 			"Symmetry":"CHV",
 			"Jewelery_type": "nose_pin",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Amardev"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Amardev"]
 		},
 		{
 			"Date": "12/10/2016",
@@ -101,7 +101,7 @@ var full = {
 			"Polish":"Brn_Dop",
 			"Symmetry": "CV",
 			"JewelleryType": "ring",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Adwaith"]
 		},
 		{
 			"Date": "20/10/2016",
@@ -113,7 +113,7 @@ var full = {
 			"Polish": "scr",
 			"Symmetry":"GTV",
 			"JewelleryType": "ring",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Gaurav Singh"]
 		},
 		{
 			"Date": "20/10/2016",
@@ -125,7 +125,7 @@ var full = {
 			"Polish": "abr",
 			"Symmetry":"GTV",
 			"JewelleryType": "pendant",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Gaurav Singh"]
 		},
 		{
 			"Date": "21/10/2016",
@@ -137,7 +137,7 @@ var full = {
 			"Polish": "Brn_Dop",
 			"Symmetry": "LPV",
 			"Jeellery_type": "pendant",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Amardev"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Amardev"]
 		},
 		{
 			"Date": "25/10/2016",
@@ -149,7 +149,7 @@ var full = {
 			"Polish": "abr",
 			"Symmetry": "CHV",
 			"JewelleryType": "ring",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Adwaith"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Adwaith"]
 		},
 		{
 			"Date": "10/11/2016",
@@ -161,7 +161,7 @@ var full = {
 			"Polish": "scr",
 			"Symmetry": "CV",
 			"JewelleryType": "bracelet",
-			"Owners": ["Kollur","soham industrial diamonds","Beon Group","Shah","Anil Gosh","Crayon Bros Ltd","Adora","Gaurav Singh"]
+			"Owners": ["Kollur","soham_industrial_diamonds","Beon_Group","Shah","Ajay_Gosh","Crayon_Bros_Ltd","Adora","Gaurav Singh"]
 		}
 	]
 };

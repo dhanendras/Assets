@@ -111,7 +111,7 @@ config.participants.users.buyers[2].user = 'Luke';
 
 // Traders
 config.participants.users.traders[0] = {};
-config.participants.users.traders[0].company = 'Anil Gosh';
+config.participants.users.traders[0].company = 'Ajay_Gosh';
 config.participants.users.traders[0].type = 'Trader';
 config.participants.users.traders[0].user = 'Joe';
 
