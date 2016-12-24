@@ -14,7 +14,7 @@ function loadAssets()
 	xhr.onprogress = function () {
 		var data = xhr.responseText;
 		var array = data.split("&&");
-		
+		console.log("asset data",data);
 		for(var i = 0; i < array.length; i++)
 		{
 			if(array[i].trim() != "")
@@ -85,7 +85,7 @@ function loadAssets()
 			}
 		}
 	}
-	xhr.send()
+	xhr.send();
 }
 
 function loadUpdateAssets()
@@ -152,5 +152,5 @@ function loadUpdateAssets()
 			}
 		}
 	}
-	xhr.send()	
+	xhr.send();	
 }

@@ -22,7 +22,7 @@ function get_all_diamonds(req, res, next, usersToSecurityContext)
     user_id = req.session.identity;
     securityContext = usersToSecurityContext[user_id];
 
-    return Util.queryChaincode(securityContext, 'get_assets', [])
+    return Util.queryChaincode(securityContext, 'get_diamonds', [])
     .then(function(data) {
         let diamonds = JSON.parse(data.toString());
         console.log(diamonds);
