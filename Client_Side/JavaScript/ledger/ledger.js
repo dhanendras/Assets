@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	loadParticipant('miner')
+	loadParticipant('miner');
 	setCookie();
 	getAltUsers();
 	getTransactions();
@@ -176,7 +176,7 @@ function getTransactions(){
 						type = "Transfer";
 						function_name = "cutter_to_jewellery_maker";
 					}
-					if(payload.indexOf("jewellery_maker_to_customer" != -1)
+					if(payload.indexOf("jewellery_maker_to_customer" != -1))
 					{
 						type = "Transfer";
 						function_name = "jewellery_maker_to_customer";
