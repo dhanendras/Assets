@@ -17,18 +17,20 @@ function get_all_diamonds(req, res, next, usersToSecurityContext)
     if(typeof req.cookies.user !== 'undefined')
     {
         req.session.user = req.cookies.user;
+		console.log("map user id",req.cookies.user);
+    
         req.session.identity = map_ID.user_to_id(req.cookies.user);
     }
     user_id = req.session.identity;
     securityContext = usersToSecurityContext[user_id];
-
+	console.log("user id",user_id);
     return Util.queryChaincode(securityContext, 'get_diamonds', [])
     .then(function(data) {
         let diamonds = JSON.parse(data.toString());
         console.log(diamonds);
-        diamonds.forEach(function(car) {
-            tracing.create('INFO', 'GET blockchain/assets/assets', JSON.stringify(car));
-            res.write(JSON.stringify(car)+'&&');
+        diamonds.forEach(function(diamond) {
+            tracing.create('INFO', 'GET blockchain/assets/assets', JSON.stringify(diamond));
+            res.write(JSON.stringify(diamond)+'&&');
         });
         tracing.create('EXIT', 'GET blockchain/assets/assets', {});
         res.end('');
