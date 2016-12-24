@@ -55,7 +55,7 @@ type  SimpleChaincode struct {
 type Diamond struct {
 	assetsID       string      `json:"assetsID"`
 	Colour          string   `json:"colour"`
-	Diamondat           string      `json:"Diamondat"`
+	Diamondat           string      `json:"diamondat"`
 	Cut             string   `json:"cut"`					
 	Clarity         string   `json:"clarity"`
 	Location        string   `json:"location"`
@@ -63,7 +63,7 @@ type Diamond struct {
 	Timestamp           string	`json:"Timestamp"`
 	Polish          string   `json:"polish"`
 	Symmetry        string   `json:"symmetry"`
-    JewelleryType  string   `json:"jewelleryType"`
+    JewelleryType  string   `json:"jewellerytype"`
 	Owner           string 		`json:"owner"`
     Status          int      `json:"status"`
 }
@@ -340,20 +340,20 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 
 	var d Diamond																																										
 	
-	assetsID      := "\"assets_ID\":\""+assets_ID+"\", "							// Variables to define the JSON
+	assetsID      := "\"assetsID\":\""+assets_ID+"\", "							// Variables to define the JSON
 	colour         := "\"colour\":\"UNDEFINED\", "
-	Diamondat          := "\"Diamondat\":\"UNDEFINED\", "
+	Diamondat          := "\"diamondat\":\"UNDEFINED\", "
 	cut            := "\"cut\":\"UNDEFINED\", "
 	clarity        := "\"clarity\":\"UNDEFINED\", "
 	location       := "\"location\":\"UNDEFINED\", "
 	date           := "\"date\":\"UNDEFINED\", "
-	Timestamp          := "\"Timestamp\":\"UNDEFINED\", "
+	Timestamp          := "\"timestamp\":\"UNDEFINED\", "
 	polish         := "\"polish\":\"UNDEFINED\", "
 	symmetry       := "\"Symmetry\":\"UNDEFINED\", "
-    jewelleryType :="\"jewelleryType\":\"UNDEFINED\", " 
+    jewelleryType :="\"jewellerytype\":\"UNDEFINED\", " 
 	status         :="\"status\":0"
 	
-	diamond_json := "{"+assetsID+colour+Diamondat+cut+clarity+location+date+Timestamp+polish+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
+	diamond_json := "{"+assetsID+colour+diamondat+cut+clarity+location+date+Timestamp+polish+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(assets_ID))  				// matched = true if the assetsID passed fits format of two letters followed by seven digits
 	
@@ -677,7 +677,7 @@ func (t *SimpleChaincode) update_diamondat(stub  shim.ChaincodeStubInterface, d 
 	
 	if 		d.Owner				== caller		{
 			
-					d.Diamondat = new_value
+					d.diamondat = new_value
 	} else {
 	
 															return nil, errors.New("Permission denied")
