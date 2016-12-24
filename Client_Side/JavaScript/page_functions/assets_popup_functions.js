@@ -2,8 +2,8 @@ $(document).ready(function(){
 
 	$('#addToAssets').click(function(){
 	
-		setCookie()
-		$("#AssetsTbl").html('<tr><td style="text-align:center;"><img src="Images/'+pgNm+'/loading.gif" height="50" width="50" alt="loading" text="please wait..." /><br /><i>Found: <span class="numFound">0 assets</span></i></td></tr>');
+		setCookie();
+		$("#assetsTbl").html('<tr><td style="text-align:center;"><img src="Images/'+pgNm+'/loading.gif" height="50" width="50" alt="loading" text="please wait..." /><br /><i>Found: <span class="numFound">0 assets</span></i></td></tr>');
 		$('#chooseOptTbl').fadeIn(1000);
 		$('#fade').fadeIn(1000);
 		loadAssets();

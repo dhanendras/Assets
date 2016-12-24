@@ -1,11 +1,11 @@
-#vhclsTbl
+#assetsTbl
 {
 	width:100%;
 	color:#00648D;
 	table-layout:fixed;
 	border-collapse:collapse;
 }
-#vhclsTbl td
+#assetsTbl td
 {
 	white-space: nowrap;
 	overflow:hidden;
