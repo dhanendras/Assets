@@ -308,7 +308,7 @@ function updateAsset(clarity, diamondat, cut, colour, date, assetID, el)
     $('#loaderMessages').html('');
 
 
-    bigData = [{'value':clarity,'field':'clarity', 'title': 'clarity','assetID':assetID},{'value':diamondat,'field':'diamondat', 'title': 'diamondat','assetID':assetID},{'value':cut,'field':'cut', 'title': 'cut','assetID':assetID},{'value':colour,'field':'colour', 'title': 'Colour','assetID':assetID},{'value':date,'field':'date', 'title': 'dateistration','assetID':assetID},[{'value':timestamp,'field':'timestamp', 'title': 'timestamp','assetID':assetID},[{'value':symmetry,'field':'symmetry', 'title': 'symmetry','assetID':assetID},[{'value':polish,'field':'polish', 'title': 'polish','assetID':assetID},[{'value':JewelleryType,'field':'JewelleryType', 'title': 'JewelleryType','assetID':assetID}];
+    bigData = [{'value':clarity,'field':'clarity', 'title': 'clarity','assetID':assetID},{'value':diamondat,'field':'diamondat', 'title': 'diamondat','assetID':assetID},{'value':cut,'field':'cut', 'title': 'cut','assetID':assetID},{'value':colour,'field':'colour', 'title': 'Colour','assetID':assetID},{'value':date,'field':'date', 'title': 'date','assetID':assetID},{'value':timestamp,'field':'timestamp', 'title': 'timestamp','assetID':assetID},{'value':symmetry,'field':'symmetry', 'title': 'symmetry','assetID':assetID},{'value':polish,'field':'polish', 'title': 'polish','assetID':assetID},{'value':jewellerytype,'field':'jewellerytype', 'title': 'jewellerytype','assetID':assetID}];
     increment=0;
 
     for(var i = bigData.length-1; i >= 0; i--)

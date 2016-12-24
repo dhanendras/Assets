@@ -32,7 +32,7 @@ function loadAssets()
 				}
 				if(!found)
 				{
-					if(pgNm == "Dateulator")
+					if(pgNm == "Miner")
 					{
 						if(obj.status == 0)
 						{
@@ -40,12 +40,11 @@ function loadAssets()
 							obj.diamondat = '&lt;<i>diamondat</i>&gt;';
 							obj.cut = '&lt;<i>cut</i>&gt;';
 							obj.colour = '&lt;<i>colour</i>&gt;';
-							obj.Date = '&lt;<i>
-Dateistration</i>&gt;';			obj.symmetry = '&lt;<i>
-symmetry</i>&gt;';				obj.polish = '&lt;<i>
-polish</i>&gt;';					obj.timestamp = '&lt;<i>
-timestamp</i>&gt;';				obj.polish = '&lt;<i>
-JewelleryType</i>&gt;';
+							obj.date = '&lt;<i>date</i>&gt;';	
+							obj.symmetry = '&lt;<i>symmetry</i>&gt;';
+							obj.polish = '&lt;<i>polish</i>&gt;';
+							obj.timestamp = '&lt;<i>timestamp</i>&gt;';		
+							obj.jewellerytype = '&lt;<i>jewellerytype</i>&gt;';
 							objects.push(obj);
 						}
 					}
@@ -80,7 +79,7 @@ JewelleryType</i>&gt;';
 				for(var i = 0; i < objects.length; i++)
 				{
 					var data = objects[i];
-					$("#assetsTbl").append("<tr class='assetRw'><td class='clarity'>"+data.clarity+"</td><td class='assetDets' ><span class='diamondInfo'>" + data.diamondat + "</span><span class='diamondInfo'>" + data.cut + ", </span><span class='diamondInfo'>" + data.colour + ", </span><span class='diamondInfo'>" + data.Date + "</span></td><td class='chkHldr'><span class='chkSpc' ></span><span class='chkBx' ></span><input class='isChk' type='hidden' value='false' /><input class='assetID' type='hidden' value='"+data.assetID+"' /></td></tr>");
+					$("#assetsTbl").append("<tr class='assetRw'><td class='clarity'>"+data.clarity+"</td><td class='assetDets' ><span class='diamondInfo'>" + data.diamondat + "</span><span class='diamondInfo'>" + data.cut + ", </span><span class='diamondInfo'>" + data.colour + ", </span><span class='diamondInfo'>" + data.date + "</span></td><td class='chkHldr'><span class='chkSpc' ></span><span class='chkBx' ></span><input class='isChk' type='hidden' value='false' /><input class='assetID' type='hidden' value='"+data.assetID+"' /></td></tr>");
 				}
 				changeBarSize();
 			}
@@ -147,9 +146,9 @@ function loadUpdateAssets()
 				if(data.clarity == 0) data.clarity = '&lt;<i>clarity</i>&gt;';
 				if(data.diamondat.toLowerCase() == 'undefined' || data.diamondat.trim() == '') data.diamondat = '&lt;<i>diamondat</i>&gt;';
 				if(data.cut.toLowerCase() == 'undefined' || data.cut.trim() == '') data.cut = '&lt;<i>cut</i>&gt;';
-				if(data.Date.toLowerCase() == 'undefined' || data.Date.trim() == '') data.Date = '&lt;<i>Dateistration</i>&gt;';
+				if(data.date.toLowerCase() == 'undefined' || data.date.trim() == '') data.date = '&lt;<i>date</i>&gt;';
 				if(data.colour.toLowerCase() == 'undefined' || data.colour.trim() == '') data.colour = '&lt;<i>colour</i>&gt;';
-				$('<tr class="founddiamonds" ><td class="smlBrk"></td><td class="editRw" ><span class="diamondID">'+data.assetID+'</span></td><td class="editRw" colspan="2" >[<span class="diamondclarity">'+data.clarity+'</span>] <span class="diamonddiamondat">'+data.diamondat+'</span> <span class="diamondcut">'+data.cut+'</span>, <span class="diamondColour">'+data.colour+'</span>, <span class="diamondDate">'+data.Date+'</span><span class="diamondtimestamp">'+data.Timestamp+'</span><span class="diamondSymmetry">'+data.Symmetry+'</span><span class="diamondPolish">'+data.Polish+'</span><span class="diamondJewelleryType">'+data.JewelleryType+'</span><img src="Icons/distributor/edit.svg" onclick="showEditTbl(this)" class="rtBtn" width="20" height="20" /></td><td class="smlBrk" ></td></tr>').insertAfter('#insAft');
+				$('<tr class="founddiamonds" ><td class="smlBrk"></td><td class="editRw" ><span class="diamondID">'+data.assetID+'</span></td><td class="editRw" colspan="2" >[<span class="diamondclarity">'+data.clarity+'</span>] <span class="diamonddiamondat">'+data.diamondat+'</span> <span class="diamondcut">'+data.cut+'</span>, <span class="diamondColour">'+data.colour+'</span>, <span class="diamondDate">'+data.date+'</span><span class="diamondtimestamp">'+data.Timestamp+'</span><span class="diamondSymmetry">'+data.Symmetry+'</span><span class="diamondPolish">'+data.Polish+'</span><span class="diamondjewellerytype">'+data.jewellerytype+'</span><img src="Icons/distributor/edit.svg" onclick="showEditTbl(this)" class="rtBtn" width="20" height="20" /></td><td class="smlBrk" ></td></tr>').insertAfter('#insAft');
 			}
 		}
 	}
