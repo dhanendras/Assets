@@ -278,7 +278,7 @@ var timestamp = get_update("timestamp", assetID);
 
 
 
-						var diamondDetails = '['+clarity+'] '+diamondat+' '+cut+', '+date+', '+colour+','+symmetry+','+polish+','+JewelleryType+','+timestamp+'
+						var diamondDetails = clarity+diamondat+' '+cut+', '+date+', '+colour+','+symmetry+','+polish+','+JewelleryType+','+timestamp;
 						
 						if(diamondDetails.indexOf('undefined') != -1)
 						{
