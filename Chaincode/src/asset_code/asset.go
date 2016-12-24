@@ -342,7 +342,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 	assetsID      := "\"assetsID\":\""+assets_ID+"\", "							// Variables to define the JSON
 	colour         := "\"colour\":\"UNDEFINED\", "
-	Diamondat          := "\"diamondat\":\"UNDEFINED\", "
+	diamondat          := "\"diamondat\":\"UNDEFINED\", "
 	cut            := "\"cut\":\"UNDEFINED\", "
 	clarity        := "\"clarity\":\"UNDEFINED\", "
 	location       := "\"location\":\"UNDEFINED\", "
@@ -677,7 +677,7 @@ func (t *SimpleChaincode) update_diamondat(stub  shim.ChaincodeStubInterface, d 
 	
 	if 		d.Owner				== caller		{
 			
-					d.diamondat = new_value
+					d.Diamondat = new_value
 	} else {
 	
 															return nil, errors.New("Permission denied")
