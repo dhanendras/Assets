@@ -156,10 +156,10 @@ function getTransactions(){
 						type = "Transfer";
 						function_name = "distributor_to_dealer";
 					}
-					if(payload.indexOf("dealership_to_buyer") != -1)
+					if(payload.indexOf("dealer_to_buyer") != -1)
 					{
 						type = "Transfer";
-						function_name = "dealership_to_buyer";
+						function_name = "dealer_to_buyer";
 					}
 					if(payload.indexOf("buyer_to_trader") != -1)
 					{
@@ -176,7 +176,7 @@ function getTransactions(){
 						type = "Transfer";
 						function_name = "cutter_to_jewellery_maker";
 					}
-if(payload.indexOf("jewellery_maker_to_customer != -1)
+					if(payload.indexOf("jewellery_maker_to_customer" != -1)
 					{
 						type = "Transfer";
 						function_name = "jewellery_maker_to_customer";
@@ -199,7 +199,7 @@ if(payload.indexOf("jewellery_maker_to_customer != -1)
 						function_name = "update_cut";
 						update_type = "cut";
 					}
-					if(payload.indexOf("update_dateistration") != -1)
+					if(payload.indexOf("update_date") != -1)
 					{
 						type = "Update";
 						function_name = "update_date";
@@ -221,25 +221,25 @@ if(payload.indexOf("jewellery_maker_to_customer != -1)
 					{
 						type = "symmetry";
 						function_name = "symmetry";
-update_type = "symmetry";
+						update_type = "symmetry";
 					}
-if(payload.indexOf("polish") != -1)
+					if(payload.indexOf("polish") != -1)
 					{
 						type = "polish";
-						function_name = "polish";
-update_type = "polish";
+						function_name = "update_polish";
+						update_type = "polish";
 					}
-if(payload.indexOf("JewelleryType") != -1)
+					if(payload.indexOf("JewelleryType") != -1)
 					{
 						type = "JewelleryType";
-						function_name = "jeellery_type";
-update_type = "JewelleryType";
+						function_name = "update_jewellerytype";
+						update_type = "JewelleryType";
 					}
-if(payload.indexOf("timestamp") != -1)
+					if(payload.indexOf("timestamp") != -1)
 					{
 						type = "timestamp";
-						function_name = "timestamp";
-update_type = "timestamp";
+						function_name = "update_timestamp";
+						update_type = "timestamp";
 					}
 
 
@@ -268,11 +268,11 @@ update_type = "timestamp";
 						var clarity = get_update("clarity", assetID);
 						var diamondat = get_update("diamondat", assetID);
 						var cut = get_update("cut", assetID);
-						var date = get_update("dateistration", assetID);
+						var date = get_update("date", assetID);
 						var colour = get_update("colour", assetID);
 var symmetry = get_update("symmetry", assetID);
 var polish = get_update("polish", assetID);
-var JewelleryType = get_update("JewelleryType", assetID);
+var JewelleryType = get_update("jewellerytype", assetID);
 var timestamp = get_update("timestamp", assetID);
 
 
