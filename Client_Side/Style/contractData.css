@@ -63,14 +63,14 @@
 	background-size: 8px auto;
 	cursor:pointer;
 }
-#selVhclsTbl
+#selAssetsTbl
 {
 	width:100%;
 	color:#00648D;
 	table-layout:fixed;
 	border-collapse:collapse;
 }
-#selVhclsTbl td
+#selAssetsTbl td
 {
 	white-space: nowrap;
 	text-overflow: ellipsis;

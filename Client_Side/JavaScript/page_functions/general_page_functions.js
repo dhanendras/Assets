@@ -81,7 +81,7 @@ function changeUser(company, parent, pos)
         crossDomain:true,
         url: '/admin/identity',
         success: function(d) {
-            $('#selVhclsTbl').empty();
+            $('#selAssetsTbl').empty();
             console.log(getCookie('user'));
         },
         error: function(e){
