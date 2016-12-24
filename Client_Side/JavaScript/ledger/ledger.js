@@ -139,6 +139,7 @@ function getTransactions(){
 			for(var i = d.transactions.length-1; i >= 0 ; i--)
 			{
 				var obj = d.transactions[i];
+				console.log("response ",obj);
 				if(obj.payload.indexOf("create_diamond_log") == -1)
 				{
 					var payload = obj.payload;
@@ -229,11 +230,11 @@ function getTransactions(){
 						function_name = "update_polish";
 						update_type = "polish";
 					}
-					if(payload.indexOf("JewelleryType") != -1)
+					if(payload.indexOf("jewellerytype") != -1)
 					{
-						type = "JewelleryType";
+						type = "jewellerytype";
 						function_name = "update_jewellerytype";
-						update_type = "JewelleryType";
+						update_type = "jewellerytype";
 					}
 					if(payload.indexOf("timestamp") != -1)
 					{
@@ -272,13 +273,13 @@ function getTransactions(){
 						var colour = get_update("colour", assetID);
 var symmetry = get_update("symmetry", assetID);
 var polish = get_update("polish", assetID);
-var JewelleryType = get_update("jewellerytype", assetID);
+var jewellerytype = get_update("jewellerytype", assetID);
 var timestamp = get_update("timestamp", assetID);
 
 
 
 
-						var diamondDetails = clarity+diamondat+' '+cut+', '+date+', '+colour+','+symmetry+','+polish+','+JewelleryType+','+timestamp;
+						var diamondDetails = clarity+diamondat+' '+cut+', '+date+', '+colour+','+symmetry+','+polish+','+jewellerytype+','+timestamp;
 						
 						if(diamondDetails.indexOf('undefined') != -1)
 						{
