@@ -21,11 +21,11 @@ config.logo.jewellery_maker = {};
 config.logo.customer = {};
 
 // Logo size
-config.logo.width = '199px';
-config.logo.height = '196px';
+config.logo.width = '317px';
+config.logo.height = '118px';
 
 //Main Logo
-config.logo.logo = 'Icons/logo.jpg';
+config.logo.logo = 'Icons/logo.png';
 
 
 /******* Participants *******/
