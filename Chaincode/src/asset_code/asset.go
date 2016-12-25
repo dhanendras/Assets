@@ -53,7 +53,7 @@ type  SimpleChaincode struct {
 //==============================================================================================================================
 
 type Diamond struct {
-	assetid       string      `json:"assetid"`
+	Assetid       string      `json:"assetid"`
 	Colour          string   `json:"colour"`
 	Diamondat           string      `json:"diamondat"`
 	Cut             string   `json:"cut"`					
@@ -213,12 +213,12 @@ func (t *SimpleChaincode) save_changes(stub  shim.ChaincodeStubInterface, d Diam
 	
 																if err != nil { fmt.Printf("SAVE_CHANGES: Error converting assets record: %s", err); return false, errors.New("Error converting assets record") }
 
-	fmt.Printf("before put state asset id saved %s %s",d.assetid,bytes);
-	err = stub.PutState(d.assetid, bytes)
+	fmt.Printf("before put state asset id saved %s %s",d.Assetid,bytes);
+	err = stub.PutState(d.Assetid, bytes)
 	
 																if err != nil { fmt.Printf("SAVE_CHANGES: Error storing assets record: %s", err); return false, errors.New("Error storing assets record") }
 	
-	fmt.Printf("asset id saved %s %s",d.assetid,bytes);
+	fmt.Printf("asset id saved %s %s",d.Assetid,bytes);
 	return true, nil
 }
 
@@ -343,7 +343,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 
 	var d Diamond																																										
 	
-	assetid_diamond      := "\"assetid\":\""+asset_id+"\", "							
+	assetid_diamond      := "\"Assetid\":\""+asset_id+"\", "							
 	colour         := "\"Colour\":\"UNDEFINED\", "
 	diamondat          := "\"Diamondat\":\"UNDEFINED\", "
 	cut            := "\"Cut\":\"UNDEFINED\", "
@@ -373,10 +373,10 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	err = json.Unmarshal([]byte(diamond_json), &d)							// Convert the JSON defined above into a diamond object for go
 	
 																		if err != nil { return nil, errors.New("Invalid JSON object") }
-	fmt.Printf("diamond json object"+d);
+	fmt.Printf("diamond json object"+d.Assetid);
 	
 
-	record, err := stub.GetState(d.assetid) 								// If not an error then a record exists so cant create a new Diamond with this assets_id as it must be unique
+	record, err := stub.GetState(d.Assetid) 								// If not an error then a record exists so cant create a new Diamond with this assets_id as it must be unique
 	
 																		if record != nil { return nil, errors.New("Diamond already exists") }
 	
@@ -529,7 +529,7 @@ func (t *SimpleChaincode) buyer_to_trader(stub  shim.ChaincodeStubInterface, d D
 //=================================================================================================================================
 func (t *SimpleChaincode) trader_to_cutter(stub  shim.ChaincodeStubInterface, d Diamond, caller string, caller_affiliation string, recipient_name string, recipient_affiliation string) ([]byte, error) {
 	
-if 		        d.assetid 	 == "UNDEFINED" || 					
+if 		        d.Assetid 	 == "UNDEFINED" || 					
 			
 			d.Status				== STATE_CUTTING	&&
 			d.Owner  				== caller					&& 
@@ -557,7 +557,7 @@ func (t *SimpleChaincode) cutter_to_jewellery_maker(stub  shim.ChaincodeStubInte
 if 		        d.Cut 	    == "UNDEFINED" || 					
 			d.Symmetry  == "UNDEFINED" || 
                         d.Polish    == "UNDEFINED" || 
-                        d.assetid == "UNDEFINED" || 
+                        d.Assetid == "UNDEFINED" || 
  d.Status				== STATE_JEWEL_MAKING	&&
 			d.Owner					== caller					&& 
 			caller_affiliation		== CUTTER			&& 
