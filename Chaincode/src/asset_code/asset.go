@@ -187,17 +187,17 @@ func (t *SimpleChaincode) get_caller_data(stub  shim.ChaincodeStubInterface) (st
 //					JSON into the Diamond struct for use in the contract. Returns the Diamond struct.
 //					Returns empty d if it errors.
 //==============================================================================================================================
-func (t *SimpleChaincode) retrieve_assets(stub  shim.ChaincodeStubInterface, assetsID string) (Diamond, error) {
+func (t *SimpleChaincode) retrieve_assets(stub  shim.ChaincodeStubInterface, assett string) (Diamond, error) {
 	
 	var d Diamond
 
-	bytes, err := stub.GetState(assetsID);					
+	bytes, err := stub.GetState(assett);					
 				
-															if err != nil {	fmt.Printf("RETRIEVEassets: Failed to invoke assets_id: %s", err); return d, errors.New("RETRIEVEassets: Error retrieving assets with assetsID = " + assetsID) }
+															if err != nil {	fmt.Printf("RETRIEVEassets: Failed to invoke assets_id: %s", err); return d, errors.New("RETRIEVEassets: Error retrieving assets with assetsID = " + assett) }
 
 	err = json.Unmarshal(bytes, &d);						
 
-															if err != nil {	fmt.Printf("RETRIEVEassets: Corrupt assetsID record "+string(bytes)+": %s", err); return d, errors.New("RETRIEVEassets: Corrupt assets record"+assetsID+" data"+string(bytes))	}
+															if err != nil {	fmt.Printf("RETRIEVEassets: Corrupt assetsID record "+string(bytes)+": %s", err); return d, errors.New("RETRIEVEassets: Corrupt assets record"+assett+string(bytes))	}
 	
 	return d, nil
 }
@@ -215,7 +215,7 @@ func (t *SimpleChaincode) save_changes(stub  shim.ChaincodeStubInterface, d Diam
 	fmt.Printf("before put state asset id saved %s %s",d.assetsID,bytes);
 	err = stub.PutState(d.assetsID, bytes)
 	
-																if err != nil { fmt.Printf("SAVE_CHANGES: Error storing assets record:%s %s",d.assetsID, err); return false, errors.New("Error storing assets record") }
+																if err != nil { fmt.Printf("SAVE_CHANGES: Error storing assets record: %s", err); return false, errors.New("Error storing assets record") }
 	
 	fmt.Printf("asset id saved %s %s",d.assetsID,bytes);
 	return true, nil
