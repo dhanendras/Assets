@@ -60,7 +60,7 @@ type Diamond struct {
 	Clarity         string   `json:"clarity"`
 	Location        string   `json:"location"`
 	Date            string      `json:"date"`
-	Timestamp           string	`json:"Timestamp"`
+	Timestamp           string	`json:"timestamp"`
 	Polish          string   `json:"polish"`
 	Symmetry        string   `json:"symmetry"`
     JewelleryType  string   `json:"jewellerytype"`
@@ -216,6 +216,7 @@ func (t *SimpleChaincode) save_changes(stub  shim.ChaincodeStubInterface, d Diam
 	
 																if err != nil { fmt.Printf("SAVE_CHANGES: Error storing assets record: %s", err); return false, errors.New("Error storing assets record") }
 	
+	fmt.Printf("asset id saved %s %s",d.assetsID,bytes);
 	return true, nil
 }
 
@@ -355,6 +356,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 	diamond_json := "{"+assetsID+colour+diamondat+cut+clarity+location+date+Timestamp+polish+symmetry+jewelleryType+status+"}"; 	// Concatenates the variables to create the total JSON object
 	
+	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(assets_ID))  				// matched = true if the assetsID passed fits format of two letters followed by seven digits
 	
 												if err != nil { fmt.Printf("CREATE_DIAMOND: Invalid assets_ID: %s", err); return nil, errors.New("Invalid assets_ID") }
@@ -375,7 +377,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 	if 	caller_affiliation != MINER {							// Only the Miner can create a new unique
 
-																		return nil, errors.New("Permission Denied")
+																	fmt.Printf("Permission Denied");	return nil, errors.New("Permission Denied")
 	}
 	
 	_, err  = t.save_changes(stub, d)									
@@ -384,24 +386,24 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 	bytes, err := stub.GetState("assetIDs")
 
-																		if err != nil { return nil, errors.New("Unable to get assetIDs") }
+																		if err != nil {fmt.Printf("Unable to get assetIDs"); return nil, errors.New("Unable to get assetIDs") }
 																		
 	var assetIDs Asset_Holder
 	
 	err = json.Unmarshal(bytes, &assetIDs)
 	
-																		if err != nil {	return nil, errors.New("Corrupt Asset_Holder record") }
+																		if err != nil {fmt.Printf("Corrupt Asset_Holder record");	return nil, errors.New("Corrupt Asset_Holder record") }
 															
 	assetIDs.assetsID = append(assetIDs.assetsID, assetsID)
 	
 	
 	bytes, err = json.Marshal(assetIDs)
 	
-															if err != nil { fmt.Print("Error creating cutter record") }
+															if err != nil { fmt.Print("Error creating  record") }
 
 	err = stub.PutState("assetIDs", bytes)
 
-															if err != nil { return nil, errors.New("Unable to put the state") }
+															if err != nil {fmt.Printf("unable to put the state"); return nil, errors.New("Unable to put the state") }
 	
 	return nil, nil
 
