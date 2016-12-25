@@ -75,7 +75,7 @@ type Diamond struct {
 //==============================================================================================================================
 
 type Asset_Holder struct {
-	assetids []string `json:"assetids"`
+	Assetids []string `json:"assetids"`
 }
 
 //==============================================================================================================================
@@ -399,7 +399,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 																		if err != nil {fmt.Printf("Corrupt Asset_Holder record");	return nil, errors.New("Corrupt Asset_Holder record") }
 															
-	assetHolder.assetids = append(assetHolder.assetids, asset_id)
+	assetHolder.Assetids = append(assetHolder.Assetids, asset_id)
 	
 	
 	bytes, err = json.Marshal(assetHolder)
@@ -842,7 +842,7 @@ func (t *SimpleChaincode) get_diamonds(stub  shim.ChaincodeStubInterface, caller
 	var temp []byte
 	var d Diamond
 	
-	for _, unique := range assetHolder.assetids {
+	for _, unique := range assetHolder.Assetids {
 		
 		d, err = t.retrieve_assets(stub, unique)
 		
