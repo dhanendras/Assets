@@ -343,19 +343,19 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	var d Diamond																																										
 	
 	assetsID      := "\"assetsID\":\""+assets_ID+"\", "							// Variables to define the JSON
-	colour         := "\"colour\":\"UNDEFINED\", "
-	diamondat          := "\"diamondat\":\"UNDEFINED\", "
-	cut            := "\"cut\":\"UNDEFINED\", "
-	clarity        := "\"clarity\":\"UNDEFINED\", "
-	location       := "\"location\":\"UNDEFINED\", "
-	date           := "\"date\":\"UNDEFINED\", "
-	Timestamp          := "\"timestamp\":\"UNDEFINED\", "
-	polish         := "\"polish\":\"UNDEFINED\", "
+	colour         := "\"Colour\":\"UNDEFINED\", "
+	diamondat          := "\"Diamondat\":\"UNDEFINED\", "
+	cut            := "\"Cut\":\"UNDEFINED\", "
+	clarity        := "\"Clarity\":\"UNDEFINED\", "
+	location       := "\"Location\":\"UNDEFINED\", "
+	date           := "\"Date\":\"UNDEFINED\", "
+	Timestamp          := "\"Timestamp\":\"UNDEFINED\", "
+	polish         := "\"Polish\":\"UNDEFINED\", "
+	owner          := "\"Owner\":\""+caller+"\", "
 	symmetry       := "\"Symmetry\":\"UNDEFINED\", "
-    jewelleryType :="\"jewellerytype\":\"UNDEFINED\", " 
-	status         :="\"status\":0"
+    jewelleryType :="\"jewelleryType\":\"UNDEFINED\", " 
+	status         :="\"Status\":0"
 	
-	diamond_json := "{"+assetsID+colour+diamondat+cut+clarity+location+date+Timestamp+polish+symmetry+jewelleryType+status+"}"; 	// Concatenates the variables to create the total JSON object
 	
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(assets_ID))  				// matched = true if the assetsID passed fits format of two letters followed by seven digits
