@@ -212,6 +212,7 @@ func (t *SimpleChaincode) save_changes(stub  shim.ChaincodeStubInterface, d Diam
 	
 																if err != nil { fmt.Printf("SAVE_CHANGES: Error converting assets record: %s", err); return false, errors.New("Error converting assets record") }
 
+	fmt.Printf("before put state asset id saved %s %s",d.assetsID,bytes);
 	err = stub.PutState(d.assetsID, bytes)
 	
 																if err != nil { fmt.Printf("SAVE_CHANGES: Error storing assets record: %s", err); return false, errors.New("Error storing assets record") }
