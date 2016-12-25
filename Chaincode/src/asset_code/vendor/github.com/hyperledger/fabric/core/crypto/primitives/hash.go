@@ -43,9 +43,9 @@ func NewHash() hash.Hash {
 
 // Hash hashes the msh using the predefined hash function
 func Hash(msg []byte) []byte {
-	h := NewHash()
-	h.Write(msg)
-	return h.Sum(nil)
+	hash := NewHash()
+	hash.Write(msg)
+	return hash.Sum(nil)
 }
 
 // HMAC hmacs x using key key
@@ -62,4 +62,9 @@ func HMACTruncated(key, x []byte, truncation int) []byte {
 	mac.Write(x)
 
 	return mac.Sum(nil)[:truncation]
+}
+
+// HMACAESTruncated hmacs x using key key and truncate to AESKeyLength
+func HMACAESTruncated(key, x []byte) []byte {
+	return HMACTruncated(key, x, AESKeyLength)
 }
