@@ -57,8 +57,7 @@ type AssetManagementChaincode struct {
 }
 
 // Init initialization
-func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface) ([]byte, error) {
-	_, args := stub.GetFunctionAndParameters()
+func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	myLogger.Info("[AssetManagementChaincode] Init")
 	if len(args) != 0 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 0")
@@ -219,8 +218,8 @@ func (t *AssetManagementChaincode) transfer(stub shim.ChaincodeStubInterface, ar
 }
 
 // Invoke runs callback representing the invocation of a chaincode
-func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface) ([]byte, error) {
-	function, args := stub.GetFunctionAndParameters()
+func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+
 	// Handle different functions
 	if function == "assign" {
 		// Assign ownership
@@ -228,15 +227,17 @@ func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface) ([]b
 	} else if function == "transfer" {
 		// Transfer ownership
 		return t.transfer(stub, args)
-	} else if function == "query" {
-		// Query asset
-		return t.query(stub, args)
 	}
 
 	return nil, errors.New("Received unknown function invocation")
 }
 
-func (t *AssetManagementChaincode) query(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+// Query callback representing the query of a chaincode
+func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+	if function != "query" {
+		return nil, errors.New("Invalid query function name. Expecting 'query' but found '" + function + "'")
+	}
+
 	var err error
 
 	if len(args) != 1 {

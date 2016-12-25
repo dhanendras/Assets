@@ -33,8 +33,8 @@ type PassthruChaincode struct {
 }
 
 //Init func will return error if function has string "error" anywhere
-func (p *PassthruChaincode) Init(stub shim.ChaincodeStubInterface) ([]byte, error) {
-	function, _ := stub.GetFunctionAndParameters()
+func (p *PassthruChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+
 	if strings.Index(function, "error") >= 0 {
 		return nil, errors.New(function)
 	}
@@ -42,19 +42,26 @@ func (p *PassthruChaincode) Init(stub shim.ChaincodeStubInterface) ([]byte, erro
 }
 
 //helper
-func (p *PassthruChaincode) iq(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (p *PassthruChaincode) iq(invoke bool, stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	if function == "" {
 		return nil, errors.New("Chaincode ID not provided")
 	}
 	chaincodeID := function
 
-	return stub.InvokeChaincode(chaincodeID, util.ToChaincodeArgs(args...))
+	if invoke {
+		return stub.InvokeChaincode(chaincodeID, util.ToChaincodeArgs(args...))
+	}
+	return stub.QueryChaincode(chaincodeID, util.ToChaincodeArgs(args...))
 }
 
 // Invoke passes through the invoke call
-func (p *PassthruChaincode) Invoke(stub shim.ChaincodeStubInterface) ([]byte, error) {
-	function, args := stub.GetFunctionAndParameters()
-	return p.iq(stub, function, args)
+func (p *PassthruChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+	return p.iq(true, stub, function, args)
+}
+
+// Query passes through the query call
+func (p *PassthruChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+	return p.iq(false, stub, function, args)
 }
 
 func main() {

@@ -25,21 +25,22 @@ import (
 	"os/signal"
 	"path/filepath"
 	"strconv"
+	"sync"
 	"syscall"
 	"time"
 
+	"github.com/hyperledger/fabric/consensus/helper"
 	"github.com/hyperledger/fabric/core"
 	"github.com/hyperledger/fabric/core/chaincode"
 	"github.com/hyperledger/fabric/core/comm"
-	"github.com/hyperledger/fabric/core/committer/noopssinglechain"
-	"github.com/hyperledger/fabric/core/endorser"
+	"github.com/hyperledger/fabric/core/crypto"
+	"github.com/hyperledger/fabric/core/db"
+	"github.com/hyperledger/fabric/core/ledger/genesis"
 	"github.com/hyperledger/fabric/core/peer"
-	"github.com/hyperledger/fabric/core/util"
+	"github.com/hyperledger/fabric/core/rest"
+	"github.com/hyperledger/fabric/core/system_chaincode"
 	"github.com/hyperledger/fabric/events/producer"
-	"github.com/hyperledger/fabric/gossip/service"
-	"github.com/hyperledger/fabric/peer/common"
-	pb "github.com/hyperledger/fabric/protos/peer"
-	pbutils "github.com/hyperledger/fabric/protos/utils"
+	pb "github.com/hyperledger/fabric/protos"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
@@ -48,15 +49,12 @@ import (
 )
 
 var chaincodeDevMode bool
-var peerDefaultChain bool
 
 func startCmd() *cobra.Command {
 	// Set the flags on the node start command.
 	flags := nodeStartCmd.Flags()
 	flags.BoolVarP(&chaincodeDevMode, "peer-chaincodedev", "", false,
 		"Whether peer in chaincode development mode")
-	flags.BoolVarP(&peerDefaultChain, "peer-defaultchain", "", true,
-		"Whether to start peer with chain **TEST_CHAINID**")
 
 	return nodeStartCmd
 }
@@ -68,15 +66,6 @@ var nodeStartCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return serve(args)
 	},
-}
-
-//!!!!!----IMPORTANT----IMPORTANT---IMPORTANT------!!!!
-//This is a place holder for multichain work. Currently
-//user to create a single chain and initialize it
-func initChainless() {
-	//deploy the chainless system chaincodes
-	chaincode.DeployChainlessSysCCs()
-	logger.Infof("Deployed chainless system chaincodess")
 }
 
 func serve(args []string) error {
@@ -131,6 +120,8 @@ func serve(args []string) error {
 		logger.Infof("Privacy enabled status: false")
 	}
 
+	db.Start()
+
 	var opts []grpc.ServerOption
 	if comm.TLSEnabled() {
 		creds, err := credentials.NewServerTLSFromFile(viper.GetString("peer.tls.cert.file"),
@@ -144,55 +135,63 @@ func serve(args []string) error {
 
 	grpcServer := grpc.NewServer(opts...)
 
-	registerChaincodeSupport(grpcServer)
+	secHelper, err := getSecHelper()
+	if err != nil {
+		return err
+	}
 
-	logger.Debugf("Running peer")
+	secHelperFunc := func() crypto.Peer {
+		return secHelper
+	}
+
+	registerChaincodeSupport(chaincode.DefaultChain, grpcServer, secHelper)
+
+	var peerServer *peer.Impl
+
+	// Create the peerServer
+	if peer.ValidatorEnabled() {
+		logger.Debug("Running as validating peer - making genesis block if needed")
+		makeGenesisError := genesis.MakeGenesis()
+		if makeGenesisError != nil {
+			return makeGenesisError
+		}
+		logger.Debugf("Running as validating peer - installing consensus %s",
+			viper.GetString("peer.validator.consensus"))
+
+		peerServer, err = peer.NewPeerWithEngine(secHelperFunc, helper.GetEngine)
+	} else {
+		logger.Debug("Running as non-validating peer")
+		peerServer, err = peer.NewPeerWithHandler(secHelperFunc, peer.NewPeerHandler)
+	}
+
+	if err != nil {
+		logger.Fatalf("Failed creating new peer with handler %v", err)
+
+		return err
+	}
+
+	// Register the Peer server
+	pb.RegisterPeerServer(grpcServer, peerServer)
 
 	// Register the Admin server
 	pb.RegisterAdminServer(grpcServer, core.NewAdminServer())
 
-	// Register the Endorser server
-	serverEndorser := endorser.NewEndorserServer()
-	pb.RegisterEndorserServer(grpcServer, serverEndorser)
+	// Register Devops server
+	serverDevops := core.NewDevopsServer(peerServer)
+	pb.RegisterDevopsServer(grpcServer, serverDevops)
 
-	// Initialize gossip component
-	bootstrap := viper.GetStringSlice("peer.gossip.bootstrap")
-	service.InitGossipService(peerEndpoint.Address, grpcServer, bootstrap...)
-	defer service.GetGossipService().Stop()
+	// Register the ServerOpenchain server
+	serverOpenchain, err := rest.NewOpenchainServerWithPeerInfo(peerServer)
+	if err != nil {
+		err = fmt.Errorf("Error creating OpenchainServer: %s", err)
+		return err
+	}
 
-	//initialize the env for chainless startup
-	initChainless()
+	pb.RegisterOpenchainServer(grpcServer, serverOpenchain)
 
-	// Begin startup of default chain
-	if peerDefaultChain {
-		chainID := util.GetTestChainID()
-
-		block, err := pbutils.MakeConfigurationBlock(chainID)
-		if nil != err {
-			panic(fmt.Sprintf("Unable to create genesis block for [%s] due to [%s]", chainID, err))
-		}
-
-		//this creates block and calls JoinChannel on gossip service
-		if err = peer.CreateChainFromBlock(block); err != nil {
-			panic(fmt.Sprintf("Unable to create chain block for [%s] due to [%s]", chainID, err))
-		}
-
-		chaincode.DeploySysCCs(chainID)
-		logger.Infof("Deployed system chaincodes on %s", chainID)
-
-		commit := peer.GetCommitter(chainID)
-		if commit == nil {
-			panic(fmt.Sprintf("Unable to get committer for [%s]", chainID))
-		}
-
-		//this shoul not need the chainID. Delivery should be
-		//split up into network part and chain part. This should
-		//only init the network part...TBD, part of Join work
-		deliverService := noopssinglechain.NewDeliverService(chainID)
-
-		deliverService.Start(commit)
-
-		defer noopssinglechain.StopDeliveryService(deliverService)
+	// Create and register the REST service if configured
+	if viper.GetBool("rest.enabled") {
+		go rest.StartOpenchainRESTServer(serverOpenchain, serverDevops)
 	}
 
 	logger.Infof("Starting peer with ID=%s, network ID=%s, address=%s, rootnodes=%v, validator=%v",
@@ -241,19 +240,13 @@ func serve(args []string) error {
 		}()
 	}
 
-	// sets the logging level for the 'error' module to the default value from
-	// core.yaml. it can also be updated dynamically using
-	// "peer logging setlevel error <log-level>"
-	common.SetErrorLoggingLevel()
-
 	// Block until grpc server exits
 	return <-serve
 }
 
-//NOTE - when we implment JOIN we will no longer pass the chainID as param
-//The chaincode support will come up without registering system chaincodes
-//which will be registered only during join phase.
-func registerChaincodeSupport(grpcServer *grpc.Server) {
+func registerChaincodeSupport(chainname chaincode.ChainName, grpcServer *grpc.Server,
+	secHelper crypto.Peer) {
+
 	//get user mode
 	userRunsCC := false
 	if viper.GetString("chaincode.mode") == chaincode.DevModeUserRunsChaincode {
@@ -268,10 +261,11 @@ func registerChaincodeSupport(grpcServer *grpc.Server) {
 	}
 	ccStartupTimeout := time.Duration(tOut) * time.Millisecond
 
-	ccSrv := chaincode.NewChaincodeSupport(peer.GetPeerEndpoint, userRunsCC, ccStartupTimeout)
+	ccSrv := chaincode.NewChaincodeSupport(chainname, peer.GetPeerEndpoint, userRunsCC,
+		ccStartupTimeout, secHelper)
 
 	//Now that chaincode is initialized, register all system chaincodes.
-	chaincode.RegisterSysCCs()
+	system_chaincode.RegisterSysCCs()
 
 	pb.RegisterChaincodeSupportServer(grpcServer, ccSrv)
 }
@@ -344,4 +338,42 @@ func writePid(fileName string, pid int) error {
 		return fmt.Errorf("can't release lock '%s', lock is held", fd.Name())
 	}
 	return nil
+}
+
+var once sync.Once
+
+//this should be called exactly once and the result cached
+//NOTE- this crypto func might rightly belong in a crypto package
+//and universally accessed
+func getSecHelper() (crypto.Peer, error) {
+	var secHelper crypto.Peer
+	var err error
+	once.Do(func() {
+		if core.SecurityEnabled() {
+			enrollID := viper.GetString("security.enrollID")
+			enrollSecret := viper.GetString("security.enrollSecret")
+			if peer.ValidatorEnabled() {
+				logger.Debugf("Registering validator with enroll ID: %s", enrollID)
+				if err = crypto.RegisterValidator(enrollID, nil, enrollID, enrollSecret); nil != err {
+					return
+				}
+				logger.Debugf("Initializing validator with enroll ID: %s", enrollID)
+				secHelper, err = crypto.InitValidator(enrollID, nil)
+				if nil != err {
+					return
+				}
+			} else {
+				logger.Debugf("Registering non-validator with enroll ID: %s", enrollID)
+				if err = crypto.RegisterPeer(enrollID, nil, enrollID, enrollSecret); nil != err {
+					return
+				}
+				logger.Debugf("Initializing non-validator with enroll ID: %s", enrollID)
+				secHelper, err = crypto.InitPeer(enrollID, nil)
+				if nil != err {
+					return
+				}
+			}
+		}
+	})
+	return secHelper, err
 }

@@ -25,7 +25,7 @@ import (
 	"os"
 
 	"github.com/hyperledger/fabric/events/consumer"
-	pb "github.com/hyperledger/fabric/protos/peer"
+	pb "github.com/hyperledger/fabric/protos"
 )
 
 type adapter struct {
@@ -116,7 +116,7 @@ func main() {
 			fmt.Printf("\n")
 			fmt.Printf("Received block\n")
 			fmt.Printf("--------------\n")
-			for _, r := range b.Block.Data.Data {
+			for _, r := range b.Block.Transactions {
 				fmt.Printf("Transaction:\n\t[%v]\n", r)
 			}
 		case r := <-a.rejected:
@@ -124,9 +124,7 @@ func main() {
 			fmt.Printf("\n")
 			fmt.Printf("Received rejected transaction\n")
 			fmt.Printf("--------------\n")
-			//TODO get TxID from pb.ChaincodeHeader from TransactionAction's Header
-			//fmt.Printf("Transaction error:\n%s\t%s\n", r.Rejection.Tx.Txid, r.Rejection.ErrorMsg)
-			fmt.Printf("Transaction error:\n%s\n", r.Rejection.ErrorMsg)
+			fmt.Printf("Transaction error:\n%s\t%s\n", r.Rejection.Tx.Txid, r.Rejection.ErrorMsg)
 		case ce := <-a.cEvent:
 			fmt.Printf("\n")
 			fmt.Printf("\n")

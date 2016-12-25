@@ -1,6 +1,5 @@
 ###############################################################################
 #
-#
 #    CLI section
 #
 ###############################################################################
@@ -21,7 +20,7 @@ rest:
     # Enable/disable setting for the REST service. It is recommended to disable
     # REST service on validators in production deployment and use non-validating
     # nodes to host REST service
-    enabled: false
+    enabled: true
 
     # The address that the REST service will listen on for incoming requests.
     address: 0.0.0.0:7050
@@ -69,8 +68,6 @@ logging:
     network:   warning
     chaincode: warning
     version: warning
-    protoutils: debug
-    error:     warning
 
 ###############################################################################
 #
@@ -101,12 +98,6 @@ peer:
     # Setting for runtime.GOMAXPROCS(n). If n < 1, it does not change the current setting
     gomaxprocs: -1
     workers: 2
-
-    # Gossip related configuration
-    gossip:
-        bootstrap: 0.0.0.0:7051
-        # For debug - is peer is its org leader and should pass blocks from orderer to other peers in org
-        orgLeader: true
 
     # Sync related configuration
     sync:
@@ -162,20 +153,6 @@ peer:
             # if > 0, if buffer full, blocks till timeout
             timeout: 10
 
-    # ----!!!!IMPORTANT!!!-!!!IMPORTANT!!!-!!!IMPORTANT!!!!----
-    # THIS HAS TO BE DONE IN THE CONTEXT OF BOOTSTRAP. TILL THAT
-    # IS DESIGNED AND FINALIZED, THE FOLLOWING COMMITTER/ORDERER
-    # DEFINITIONS HAVE TO SERVE AS THE MEANS TO DRIVE A SIMPLE
-    # SKELETON.
-    #
-    # All "chaincode" commands from CLI (except "query") will
-    # send response from the endorser to the Committer defined below.
-    committer:
-        enabled: true
-        ledger:
-            # orderer to talk to
-            orderer: 0.0.0.0:7050
-
     # TLS Settings for p2p communications
     tls:
         enabled:  false
@@ -183,12 +160,6 @@ peer:
             file: testdata/server1.pem
         key:
             file: testdata/server1.key
-    # Root cert file for selfsigned certificates
-    # This represents a self-signed x509 cert that was used to sign the cert.file,
-    # this is sent to client to validate the recived certificate from server when
-    # establishing TLS connection
-        rootcert:
-            file:
         # The server name use to verify the hostname returned by TLS handshake
         serverhostoverride:
 
@@ -242,6 +213,11 @@ peer:
 
     # Path on the file system where peer will store data
     fileSystemPath: /var/hyperledger/production
+    # rocksdb configurations
+    db:
+        maxLogFileSize: 10485760
+        keepLogFileNum: 10
+        logLevel: "warn"
 
     profile:
         enabled:     false
@@ -310,9 +286,10 @@ chaincode:
         # This is the basis for the Golang Dockerfile.  Additional commands will
         # be appended depedendent upon the chaincode specification.
         Dockerfile:  |
-          FROM hyperledger/fabric-ccenv:$(ARCH)-$(PROJECT_VERSION)
-          COPY src $GOPATH/src
-          WORKDIR $GOPATH
+            from hyperledger/fabric-baseimage
+            #from utxo:0.1.0
+            COPY src $GOPATH/src
+            WORKDIR $GOPATH
 
     car:
 
@@ -353,13 +330,6 @@ chaincode:
     # A value <= 0 turns keepalive off
     keepalive: 0
 
-    # system chaincodes whitelist. To add system chaincode "myscc" to the
-    # whitelist, add "myscc: enable" to the list
-    system:
-        cscc: enable
-        lccc: enable
-        escc: enable
-        vscc: enable
 ###############################################################################
 #
 ###############################################################################
@@ -408,20 +378,6 @@ ledger:
         # configurations for 'trie'
         # 'tire' has no additional configurations exposed as yet
 
-    # stateDatabase - options are "goleveldb", "CouchDB"
-    # goleveldb - default state database stored in goleveldb.
-    # CouchDB - store state database in CouchDB
-    stateDatabase: goleveldb
-    couchDBConfig:
-       couchDBAddress: 127.0.0.1:5984
-       username:
-       password:
-    # historyDatabase - options are true or false
-    # Indicates if the transaction history should be stored in 
-    # a querable database such as "CouchDB".
-    # The stateDatabase must be also stored in CouchDB for 
-    # history to be enabled.
-    historyDatabase: false
 
 ###############################################################################
 #
@@ -432,7 +388,7 @@ security:
     # Enable security will force every entity on the network to enroll with obc-ca
     # and maintain a valid set of certificates in order to communicate with
     # other peers
-    enabled: false
+    enabled: true
     # To enroll NVP or VP with membersrvc. These parameters are for 1 time use.
     # They will not be valid on subsequent times without un-enroll first.
     # The values come from off-line registration with obc-ca. For testing, make
@@ -464,7 +420,7 @@ security:
       enabled: false
 
     # TCerts pool configuration.  Multi-thread pool can also be configured
-    # by multichannel option switching concurrency in communication with TCA.
+    # by multichannel option switching concurrency in communication with TCA. 
     multithreading:
       enabled: false
       multichannel: false

@@ -25,8 +25,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hyperledger/fabric/metadata"
-
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"golang.org/x/crypto/sha3"
 )
@@ -127,7 +125,6 @@ all:
 	return
 }
 
-// ToChaincodeArgs converts string args to []byte args
 func ToChaincodeArgs(args ...string) [][]byte {
 	bargs := make([][]byte, len(args))
 	for i, arg := range args {
@@ -136,26 +133,10 @@ func ToChaincodeArgs(args ...string) [][]byte {
 	return bargs
 }
 
-// ArrayToChaincodeArgs converts array of string args to array of []byte args
 func ArrayToChaincodeArgs(args []string) [][]byte {
 	bargs := make([][]byte, len(args))
 	for i, arg := range args {
 		bargs[i] = []byte(arg)
 	}
 	return bargs
-}
-
-const testchainid = "**TEST_CHAINID**"
-
-//GetTestChainID returns the CHAINID constant in use by orderer
-func GetTestChainID() string {
-	return testchainid
-}
-
-//GetSysCCVersion returns the version of all system chaincodes
-//This needs to be revisited on policies around system chaincode
-//"upgrades" from user and relationship with "fabric" upgrade. For
-//now keep it simple and use the fabric's version stamp
-func GetSysCCVersion() string {
-	return metadata.Version
 }

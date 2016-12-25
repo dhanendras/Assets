@@ -46,7 +46,7 @@ While confidential agreements are a key business case, there are many scenarios 
 
 ### Manufacturing Supply Chain
 
-Final assemblers, such as automobile manufacturers, can create a supply chain network managed by its peers and suppliers so that a final assembler can better manage its suppliers and be more responsive to events that would require vehicle recalls (possibly triggered by faulty parts provided by a supplier). The blockchain fabric must provide a standard protocol to allow every participant on a supply chain network to input and track numbered parts that are produced and used on a specific vehicle.
+Final assemblers, such as automobile manufacturers, can create a supply chain network managed by its peers and suppliers so that a final assembler can better manage its suppliers and be more responsive to events that would require asset recalls (possibly triggered by faulty parts provided by a supplier). The blockchain fabric must provide a standard protocol to allow every participant on a supply chain network to input and track numbered parts that are produced and used on a specific asset.
 
 Why is this specific example an abstract use case? Because while all blockchain cases store immutable information, and some add the need for transfer of assets between parties, this case emphasizes the need to provide deep searchability backwards through as many as 5-10 transaction layers. This backwards search capability is the core of establishing provenance of any manufactured good that is made up of other component goods and supplies.
 
@@ -62,7 +62,7 @@ Why is this specific example an abstract use case? Because while all blockchain 
 
 *  Payment upon delivery of goods - Integration with off-chain payment systems is required, so that payment instructions can be sent when parts are received.
 
-*  Third party Audit -  All supplied parts must be auditable by third parties. For example, regulators might need to track the total number of parts supplied by a specific supplier, for tax accounting purposes.
+*  Third party Audit -  All supplied parts must be auditable by third parties. For example, miners might need to track the total number of parts supplied by a specific supplier, for tax accounting purposes.
 
 *  Obfuscation of shipments - Balances must be obfuscated so that no supplier can deduce the business activities of any other supplier.
 
@@ -98,7 +98,7 @@ Assets such as financial securities must be able to be dematerialized on a block
 
 *  Asset Timer - Many types of financial assets have predefined life spans and are required to make periodic payments to their owners, so a timer is required to automate the operation management of these assets.
 
-*  Asset Auditor - Asset transactions must be made auditable to third parties. For example, regulators may want to audit transactions and movements of assets to measure market risks.
+*  Asset Auditor - Asset transactions must be made auditable to third parties. For example, miners may want to audit transactions and movements of assets to measure market risks.
 
 *  Obfuscation of account balances - Individual account balances must be obfuscated so that no one can deduce the exact amount that an investor owns.
 

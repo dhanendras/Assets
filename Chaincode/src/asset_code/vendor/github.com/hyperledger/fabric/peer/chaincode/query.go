@@ -22,20 +22,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var chaincodeQueryCmd *cobra.Command
-
-// queryCmd returns the cobra command for Chaincode Query
-func queryCmd(cf *ChaincodeCmdFactory) *cobra.Command {
-	chaincodeQueryCmd = &cobra.Command{
-		Use:       "query",
-		Short:     fmt.Sprintf("Query using the specified %s.", chainFuncName),
-		Long:      fmt.Sprintf(`Get endorsed result of %s function call and print it. It won't generate transaction.`, chainFuncName),
-		ValidArgs: []string{"1"},
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return chaincodeQuery(cmd, args, cf)
-		},
-	}
-
+func queryCmd() *cobra.Command {
 	chaincodeQueryCmd.Flags().BoolVarP(&chaincodeQueryRaw, "raw", "r", false,
 		"If true, output the query value as raw bytes, otherwise format as a printable string")
 	chaincodeQueryCmd.Flags().BoolVarP(&chaincodeQueryHex, "hex", "x", false,
@@ -44,15 +31,16 @@ func queryCmd(cf *ChaincodeCmdFactory) *cobra.Command {
 	return chaincodeQueryCmd
 }
 
-func chaincodeQuery(cmd *cobra.Command, args []string, cf *ChaincodeCmdFactory) error {
-	var err error
-	if cf == nil {
-		cf, err = InitCmdFactory()
-		if err != nil {
-			return err
-		}
-	}
-	defer cf.BroadcastClient.Close()
+var chaincodeQueryCmd = &cobra.Command{
+	Use:       "query",
+	Short:     fmt.Sprintf("Query using the specified %s.", chainFuncName),
+	Long:      fmt.Sprintf(`Query using the specified %s.`, chainFuncName),
+	ValidArgs: []string{"1"},
+	RunE: func(cmd *cobra.Command, args []string) error {
+		return chaincodeQuery(cmd, args)
+	},
+}
 
-	return chaincodeInvokeOrQuery(cmd, args, false, cf)
+func chaincodeQuery(cmd *cobra.Command, args []string) error {
+	return chaincodeInvokeOrQuery(cmd, args, false)
 }

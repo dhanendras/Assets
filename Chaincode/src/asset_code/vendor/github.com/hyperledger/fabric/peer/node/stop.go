@@ -25,8 +25,9 @@ import (
 	"syscall"
 
 	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/hyperledger/fabric/core/db"
 	"github.com/hyperledger/fabric/core/peer"
-	pb "github.com/hyperledger/fabric/protos/peer"
+	pb "github.com/hyperledger/fabric/protos"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"golang.org/x/net/context"
@@ -72,6 +73,7 @@ func stop() (err error) {
 	serverClient := pb.NewAdminClient(clientConn)
 
 	status, err := serverClient.StopServer(context.Background(), &empty.Empty{})
+	db.Stop()
 	if err != nil {
 		fmt.Println(&pb.ServerStatus{Status: pb.ServerStatus_STOPPED})
 		return nil

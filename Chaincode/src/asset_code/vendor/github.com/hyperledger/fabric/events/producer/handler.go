@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strconv"
 
-	pb "github.com/hyperledger/fabric/protos/peer"
+	pb "github.com/hyperledger/fabric/protos"
 )
 
 type handler struct {

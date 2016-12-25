@@ -37,13 +37,12 @@ type SimpleChaincode struct {
 }
 
 // Init does nothing in the UTXO chaincode
-func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface) ([]byte, error) {
+func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	return nil, nil
 }
 
 // Invoke callback representing the invocation of a chaincode
-func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) ([]byte, error) {
-	function, args := stub.GetFunctionAndParameters()
+func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	switch function {
 
 	case "execute":
@@ -72,6 +71,17 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) ([]byte, erro
 		}
 
 		return nil, nil
+
+	default:
+		return nil, errors.New("Unsupported operation")
+	}
+
+}
+
+// Query callback representing the query of a chaincode
+func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+
+	switch function {
 
 	case "getTran":
 

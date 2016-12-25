@@ -40,6 +40,19 @@ DEVENV_REVISION=`(cd /hyperledger/devenv; git rev-parse --short HEAD)`
 SCRIPT_DIR="$(readlink -f "$(dirname "$0")")"
 cat "$SCRIPT_DIR/failure-motd.in" >> /etc/motd
 
+# Update system
+apt-get update -qq
+
+# Prep apt-get for docker install
+apt-get install -y apt-transport-https ca-certificates
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+# Add docker repository
+echo deb https://apt.dockerproject.org/repo ubuntu-trusty main > /etc/apt/sources.list.d/docker.list
+
+# Update system
+apt-get update -qq
+
 # Storage backend logic
 case "${DOCKER_STORAGE_BACKEND}" in
   aufs|AUFS|"")
@@ -59,9 +72,8 @@ case "${DOCKER_STORAGE_BACKEND}" in
      exit 1;;
 esac
 
-# Install docker-compose
-curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+# Install docker
+apt-get install -y linux-image-extra-$(uname -r) apparmor docker-engine
 
 # Configure docker
 DOCKER_OPTS="-s=${DOCKER_STORAGE_BACKEND_STRING} -r=true --api-cors-header='*' -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock ${DOCKER_OPTS}"
@@ -73,6 +85,9 @@ usermod -a -G docker vagrant # Add vagrant user to the docker group
 # Test docker
 docker run --rm busybox echo All good
 
+# Run our common setup
+/hyperledger/scripts/provision/host.sh
+
 # Set Go environment variables needed by other scripts
 export GOPATH="/opt/gopath"
 export GOROOT="/opt/go/"
@@ -82,12 +97,9 @@ PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 sudo mkdir -p /var/hyperledger
 sudo chown -R vagrant:vagrant /var/hyperledger
 
-# clean any previous builds as they may have image/.dummy files without
-# the backing docker images (since we are, by definition, rebuilding the
-# filesystem) and then ensure we have a fresh set of our go-tools.
-# NOTE: This must be done before the chown below
+# Build the actual hyperledger peer (must be done before chown below)
 cd $GOPATH/src/github.com/hyperledger/fabric
-make clean gotools
+make clean peer gotools
 
 # Ensure permissions are set for GOPATH
 sudo chown -R vagrant:vagrant $GOPATH
@@ -95,7 +107,7 @@ sudo chown -R vagrant:vagrant $GOPATH
 # Update limits.conf to increase nofiles for RocksDB
 sudo cp /hyperledger/devenv/limits.conf /etc/security/limits.conf
 
-# Configure vagrant specific environment
+# configure vagrant specific environment
 cat <<EOF >/etc/profile.d/vagrant-devenv.sh
 # Expose the devenv/tools in the $PATH
 export PATH=\$PATH:/hyperledger/devenv/tools:/hyperledger/build/bin
@@ -105,11 +117,7 @@ export CGO_LDFLAGS="-lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy"
 EOF
 
 # Set our shell prompt to something less ugly than the default from packer
-# Also make it so that it cd's the user to the fabric dir upon logging in
-cat <<EOF >> /home/vagrant/.bashrc
-PS1="\u@hyperledger-devenv:v$BASEIMAGE_RELEASE-$DEVENV_REVISION:\w$ "
-cd $GOPATH/src/github.com/hyperledger/fabric/
-EOF
+echo "PS1=\"\u@hyperledger-devenv:v$BASEIMAGE_RELEASE-$DEVENV_REVISION:\w$ \"" >> /home/vagrant/.bashrc
 
 # finally, remove our warning so the user knows this was successful
 rm /etc/motd

@@ -18,84 +18,107 @@ package peer
 
 import (
 	"fmt"
-	"net"
+	"io"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/spf13/viper"
-	"github.com/stretchr/testify/assert"
-	"google.golang.org/grpc"
 
-	"github.com/hyperledger/fabric/gossip/service"
-	"github.com/hyperledger/fabric/protos/utils"
+	"github.com/hyperledger/fabric/core/config"
+	pb "github.com/hyperledger/fabric/protos"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
-func TestInitialize(t *testing.T) {
-	viper.Set("peer.fileSystemPath", "/var/hyperledger/test/")
+var peerClientConn *grpc.ClientConn
 
-	Initialize()
-}
+func TestMain(m *testing.M) {
+	config.SetupTestConfig("./../../peer")
+	viper.Set("ledger.blockchain.deploy-system-chaincode", "false")
 
-func TestCreateChainFromBlock(t *testing.T) {
-	viper.Set("peer.fileSystemPath", "/var/hyperledger/test/")
-	defer os.RemoveAll("/var/hyperledger/test/")
-	testChainID := "mytestchainid"
-	block, err := utils.MakeConfigurationBlock(testChainID)
+	tmpConn, err := NewPeerClientConnection()
 	if err != nil {
-		fmt.Printf("Failed to create a config block, err %s\n", err)
-		t.FailNow()
+		fmt.Printf("error connection to server at host:port = %s\n", viper.GetString("peer.address"))
+		os.Exit(1)
 	}
+	peerClientConn = tmpConn
+	os.Exit(m.Run())
+}
 
-	// Initialize gossip service
-	grpcServer := grpc.NewServer()
-	socket, err := net.Listen("tcp", fmt.Sprintf("%s:%d", "", 13611))
-	assert.NoError(t, err)
-	go grpcServer.Serve(socket)
-	defer grpcServer.Stop()
-	service.InitGossipService("localhost:13611", grpcServer)
+func TestMissingMessageHandlerUnicast(t *testing.T) {
+	emptyHandlerMap := handlerMap{m: make(map[pb.PeerID]MessageHandler)}
+	peerImpl := Impl{handlerMap: &emptyHandlerMap}
+	err := peerImpl.Unicast(nil, &pb.PeerID{})
+	if err == nil {
+		t.Error("Expected error with bad receiver handle, but there was none")
+	}
+}
 
-	err = CreateChainFromBlock(block)
+func performChat(t testing.TB, conn *grpc.ClientConn) error {
+	serverClient := pb.NewPeerClient(conn)
+	stream, err := serverClient.Chat(context.Background())
 	if err != nil {
-		t.Fatalf("failed to create chain")
+		t.Logf("%v.performChat(_) = _, %v", serverClient, err)
+		return err
 	}
+	defer stream.CloseSend()
+	t.Log("Starting performChat")
 
-	// Correct ledger
-	ledger := GetLedger(testChainID)
-	if ledger == nil {
-		t.Fatalf("failed to get correct ledger")
+	waitc := make(chan struct{})
+	go func() {
+		// Be sure to close the channel
+		defer close(waitc)
+		for {
+			in, err := stream.Recv()
+			if err == io.EOF {
+				t.Logf("Received EOR, exiting chat")
+				return
+			}
+			if err != nil {
+				t.Errorf("stream closed with unexpected error: %s", err)
+				return
+			}
+			if in.Type == pb.Message_DISC_HELLO {
+				t.Logf("Received message: %s, sending %s", in.Type, pb.Message_DISC_GET_PEERS)
+				stream.Send(&pb.Message{Type: pb.Message_DISC_GET_PEERS})
+			} else if in.Type == pb.Message_DISC_PEERS {
+				//stream.Send(&pb.DiscoveryMessage{Type: pb.DiscoveryMessage_PEERS})
+				t.Logf("Received message: %s", in.Type)
+				t.Logf("Closing stream and channel")
+				return
+			} else {
+				t.Logf("Received message: %s", in.Type)
+
+			}
+
+		}
+	}()
+	select {
+	case <-waitc:
+		return nil
+	case <-time.After(1 * time.Second):
+		t.Fail()
+		return fmt.Errorf("Timeout expired while performChat")
 	}
-
-	// Bad ledger
-	ledger = GetLedger("BogusChain")
-	if ledger != nil {
-		t.Fatalf("got a bogus ledger")
-	}
-
-	// Correct block
-	block = GetCurrConfigBlock(testChainID)
-	if block == nil {
-		t.Fatalf("failed to get correct block")
-	}
-
-	// Bad block
-	block = GetCurrConfigBlock("BogusBlock")
-	if block != nil {
-		t.Fatalf("got a bogus block")
-	}
-
-	// Chaos monkey test
-	Initialize()
-
-	SetCurrConfigBlock(block, testChainID)
 }
 
-func TestNewPeerClientConnection(t *testing.T) {
-	if _, err := NewPeerClientConnection(); err != nil {
-		t.Log(err)
+func Benchmark_Chat(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		performChat(b, peerClientConn)
 	}
 }
 
-func TestGetLocalIP(t *testing.T) {
-	ip := GetLocalIP()
-	t.Log(ip)
+func Benchmark_Chat_Parallel(b *testing.B) {
+	b.SetParallelism(10)
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			performChat(b, peerClientConn)
+		}
+	})
+}
+
+func TestServer_Chat(t *testing.T) {
+	t.Skip()
+	performChat(t, peerClientConn)
 }

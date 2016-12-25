@@ -20,24 +20,25 @@
 #
 #   - all (default) - builds all targets and runs all tests/checks
 #   - checks - runs all tests/checks
-#   - peer - builds a native fabric peer binary
-#   - orderer - builds a native fabric orderer binary
+#   - peer - builds the fabric peer binary
+#   - membersrvc - builds the membersrvc binary
 #   - unit-test - runs the go-test based unit tests
 #   - behave - runs the behave test
 #   - behave-deps - ensures pre-requisites are availble for running behave manually
 #   - gotools - installs go tools like golint
 #   - linter - runs all code checks
-#   - native - ensures all native binaries are available
-#   - docker[-clean] - ensures all docker images are available[/cleaned]
-#   - peer-docker[-clean] - ensures the peer container is available[/cleaned]
-#   - orderer-docker[-clean] - ensures the orderer container is available[/cleaned]
+#   - images[-clean] - ensures all docker images are available[/cleaned]
+#   - peer-image[-clean] - ensures the peer-image is available[/cleaned] (for behave, etc)
+#   - membersrvc-image[-clean] - ensures the membersrvc-image is available[/cleaned] (for behave, etc)
 #   - protos - generate all protobuf artifacts based on .proto files
+#   - node-sdk - builds the node.js client sdk
+#   - node-sdk-unit-tests - runs the node.js client sdk unit tests
 #   - clean - cleans the build area
 #   - dist-clean - superset of 'clean' that also removes persistent state
 
 PROJECT_NAME   = hyperledger/fabric
-BASE_VERSION   = 0.7.0
-IS_RELEASE     = false
+BASE_VERSION   = 0.6.1-preview
+IS_RELEASE     = true
 
 ifneq ($(IS_RELEASE),true)
 EXTRA_VERSION ?= snapshot-$(shell git rev-parse --short HEAD)
@@ -46,191 +47,218 @@ else
 PROJECT_VERSION=$(BASE_VERSION)
 endif
 
-PKGNAME = github.com/$(PROJECT_NAME)
-GO_LDFLAGS = -X $(PKGNAME)/metadata.Version=$(PROJECT_VERSION)
-CGO_FLAGS = CGO_CFLAGS=" "
-ARCH=$(shell uname -m)
-CHAINTOOL_RELEASE=v0.10.0
-BASEIMAGE_RELEASE=$(shell cat ./.baseimage-release)
+DOCKER_TAG=$(shell uname -m)-$(PROJECT_VERSION)
 
-export GO_LDFLAGS
+PKGNAME = github.com/$(PROJECT_NAME)
+GO_LDFLAGS = -X github.com/hyperledger/fabric/metadata.Version=$(PROJECT_VERSION)
+CGO_FLAGS = CGO_CFLAGS=" " CGO_LDFLAGS="-lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy"
+UID = $(shell id -u)
+CHAINTOOL_RELEASE=v0.9.1
 
 EXECUTABLES = go docker git curl
 K := $(foreach exec,$(EXECUTABLES),\
 	$(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH: Check dependencies")))
 
-GOSHIM_DEPS = $(shell ./scripts/goListFiles.sh $(PKGNAME)/core/chaincode/shim | sort | uniq)
+# SUBDIRS are components that have their own Makefiles that we can invoke
+SUBDIRS = gotools sdk/node
+SUBDIRS:=$(strip $(SUBDIRS))
+
+# Make our baseimage depend on any changes to images/base or scripts/provision
+BASEIMAGE_RELEASE = $(shell cat ./images/base/release)
+BASEIMAGE_DEPS    = $(shell git ls-files images/base scripts/provision)
+
 JAVASHIM_DEPS =  $(shell git ls-files core/chaincode/shim/java)
-PROTOS = $(shell git ls-files *.proto | grep -v vendor)
-MSP_SAMPLECONFIG = $(shell git ls-files msp/sampleconfig/*.pem)
 PROJECT_FILES = $(shell git ls-files)
-IMAGES = peer orderer ccenv javaenv testenv runtime
+IMAGES = base src ccenv peer membersrvc javaenv
 
-pkgmap.peer           := $(PKGNAME)/peer
-pkgmap.orderer        := $(PKGNAME)/orderer
-pkgmap.block-listener := $(PKGNAME)/examples/events/block-listener
-
-include docker-env.mk
-
-all: native docker checks
+all: peer membersrvc checks
 
 checks: linter unit-test behave
 
-.PHONY: gotools
-gotools:
-	mkdir -p build/bin
-	cd gotools && $(MAKE) install BINDIR=$(GOPATH)/bin
-
-gotools-clean:
-	cd gotools && $(MAKE) clean
-
-# This is a legacy target left to satisfy existing CI scripts
-membersrvc-image:
-	@echo "membersrvc has been removed from this build"
+.PHONY: $(SUBDIRS)
+$(SUBDIRS):
+	cd $@ && $(MAKE)
 
 .PHONY: peer
 peer: build/bin/peer
-peer-docker: build/image/peer/$(DUMMY)
+peer-image: build/image/peer/.dummy
 
-.PHONY: orderer
-orderer: build/bin/orderer
-orderer-docker: build/image/orderer/$(DUMMY)
+.PHONY: membersrvc
+membersrvc: build/bin/membersrvc
+membersrvc-image: build/image/membersrvc/.dummy
 
-testenv: build/image/testenv/$(DUMMY)
+unit-test: peer-image gotools
+	@./scripts/goUnitTests.sh $(DOCKER_TAG) "$(GO_LDFLAGS)"
 
-unit-test: peer-docker testenv
-	cd unit-test && docker-compose up --abort-on-container-exit --force-recreate && docker-compose down
+node-sdk: sdk/node
 
-unit-tests: unit-test
+node-sdk-unit-tests: peer membersrvc
+	cd sdk/node && $(MAKE) unit-tests
 
-docker: $(patsubst %,build/image/%/$(DUMMY), $(IMAGES))
-native: peer orderer
+unit-tests: unit-test node-sdk-unit-tests
 
-BEHAVE_ENVIRONMENTS = kafka orderer-1-kafka-1 orderer-1-kafka-3
-.PHONY: behave-environments $(BEHAVE_ENVIRONMENTS)
-behave-environments: $(BEHAVE_ENVIRONMENTS)
-$(BEHAVE_ENVIRONMENTS):
-	@docker-compose --file bddtests/environments/$@/docker-compose.yml build
+.PHONY: images
+images: $(patsubst %,build/image/%/.dummy, $(IMAGES))
 
-behave-deps: docker peer build/bin/block-listener behave-environments
+behave-deps: images peer build/bin/block-listener
 behave: behave-deps
 	@echo "Running behave tests"
 	@cd bddtests; behave $(BEHAVE_OPTS)
 
-linter: testenv
+linter: gotools
 	@echo "LINT: Running code checks.."
-	@$(DRUN) hyperledger/fabric-testenv:$(DOCKER_TAG) ./scripts/golinter.sh
+	@echo "Running go vet"
+	go vet ./consensus/...
+	go vet ./core/...
+	go vet ./events/...
+	go vet ./examples/...
+	go vet ./membersrvc/...
+	go vet ./peer/...
+	go vet ./protos/...
+	@echo "Running goimports"
+	@./scripts/goimports.sh
 
-%/chaintool: Makefile
+# We (re)build protoc-gen-go from within docker context so that
+# we may later inject the binary into a different docker environment
+# This is necessary since we cannot guarantee that binaries built
+# on the host natively will be compatible with the docker env.
+%/bin/protoc-gen-go: build/image/base/.dummy Makefile
+	@echo "Building $@"
+	@mkdir -p $(@D)
+	@docker run -i \
+		--user=$(UID) \
+		-v $(abspath vendor/github.com/golang/protobuf):/opt/gopath/src/github.com/golang/protobuf \
+		-v $(abspath $(@D)):/opt/gopath/bin \
+		hyperledger/fabric-baseimage go install github.com/golang/protobuf/protoc-gen-go
+
+build/bin/chaintool: Makefile
 	@echo "Installing chaintool"
 	@mkdir -p $(@D)
 	curl -L https://github.com/hyperledger/fabric-chaintool/releases/download/$(CHAINTOOL_RELEASE)/chaintool > $@
 	chmod +x $@
 
+%/bin/chaintool: build/bin/chaintool
+	@mkdir -p $(@D)
+	@cp $^ $@
+
+# JIRA FAB-243 - Mark build/docker/bin artifacts explicitly as secondary
+#                since they are never referred to directly. This prevents
+#                the makefile from deleting them inadvertently.
+.SECONDARY: build/docker/bin/peer build/docker/bin/membersrvc
+
 # We (re)build a package within a docker context but persist the $GOPATH/pkg
 # directory so that subsequent builds are faster
-build/docker/bin/%: $(PROJECT_FILES)
+build/docker/bin/%: build/image/src/.dummy $(PROJECT_FILES)
 	$(eval TARGET = ${patsubst build/docker/bin/%,%,${@}})
 	@echo "Building $@"
-	@mkdir -p build/docker/bin build/docker/$(TARGET)/pkg
-	@$(DRUN) \
+	@mkdir -p build/docker/bin build/docker/pkg
+	@docker run -i \
+		--user=$(UID) \
 		-v $(abspath build/docker/bin):/opt/gopath/bin \
-		-v $(abspath build/docker/$(TARGET)/pkg):/opt/gopath/pkg \
-		hyperledger/fabric-baseimage:$(BASE_DOCKER_TAG) \
-		go install -ldflags "$(DOCKER_GO_LDFLAGS)" $(pkgmap.$(@F))
+		-v $(abspath build/docker/pkg):/opt/gopath/pkg \
+		hyperledger/fabric-src:$(DOCKER_TAG) go install -ldflags "$(GO_LDFLAGS)" github.com/hyperledger/fabric/$(TARGET)
 	@touch $@
 
 build/bin:
 	mkdir -p $@
 
-build/docker/gotools/bin/protoc-gen-go: build/docker/gotools
+# Both peer and peer-image depend on ccenv-image and javaenv-image (all docker env images it supports)
+build/bin/peer: build/image/ccenv/.dummy build/image/javaenv/.dummy
+build/image/peer/.dummy: build/image/ccenv/.dummy build/image/javaenv/.dummy
 
-build/docker/gotools: gotools/Makefile
-	@mkdir -p $@/bin $@/obj
-	@$(DRUN) \
-		-v $(abspath $@):/opt/gotools \
-		-w /opt/gopath/src/$(PKGNAME)/gotools \
-		hyperledger/fabric-baseimage:$(BASE_DOCKER_TAG) \
-		make install BINDIR=/opt/gotools/bin OBJDIR=/opt/gotools/obj
-
-build/docker/busybox:
-	@$(DRUN) \
-		hyperledger/fabric-baseimage:$(BASE_DOCKER_TAG) \
-		make -f busybox/Makefile install BINDIR=$(@D)
-
-# Both peer and peer-docker depend on ccenv and javaenv (all docker env images it supports).
-build/bin/peer: build/image/ccenv/$(DUMMY) build/image/javaenv/$(DUMMY)
-build/image/peer/$(DUMMY): build/image/ccenv/$(DUMMY) build/image/javaenv/$(DUMMY)
-
-# Both peer-docker and orderer-docker depend on the runtime image
-build/image/peer/$(DUMMY): build/image/runtime/$(DUMMY)
-build/image/orderer/$(DUMMY): build/image/runtime/$(DUMMY)
-
-build/bin/%: $(PROJECT_FILES)
+build/bin/block-listener:
 	@mkdir -p $(@D)
-	@echo "$@"
-	$(CGO_FLAGS) GOBIN=$(abspath $(@D)) go install -ldflags "$(GO_LDFLAGS)" $(pkgmap.$(@F))
+	$(CGO_FLAGS) GOBIN=$(abspath $(@D)) go install $(PKGNAME)/examples/events/block-listener
 	@echo "Binary available as $@"
 	@touch $@
 
-# payload definitions'
-build/image/ccenv/payload:      build/docker/gotools/bin/protoc-gen-go \
-				build/bin/chaintool \
-				build/goshim.tar.bz2
-build/image/javaenv/payload:    build/javashim.tar.bz2 \
-				build/protos.tar.bz2 \
-				settings.gradle
-build/image/peer/payload:       build/docker/bin/peer \
-				peer/core.yaml \
-				build/msp-sampleconfig.tar.bz2
-build/image/orderer/payload:    build/docker/bin/orderer \
-				orderer/orderer.yaml
-build/image/testenv/payload:    build/gotools.tar.bz2
-build/image/runtime/payload:    build/docker/busybox
+build/bin/%: build/image/base/.dummy $(PROJECT_FILES)
+	@mkdir -p $(@D)
+	@echo "$@"
+	$(CGO_FLAGS) GOBIN=$(abspath $(@D)) go install -ldflags "$(GO_LDFLAGS)" $(PKGNAME)/$(@F)
+	@echo "Binary available as $@"
+	@touch $@
 
-build/image/%/payload:
-	mkdir -p $@
-	cp $^ $@
+# Special override for base-image.
+build/image/base/.dummy: $(BASEIMAGE_DEPS)
+	@echo "Building docker base-image"
+	@mkdir -p $(@D)
+	@./scripts/provision/docker.sh $(BASEIMAGE_RELEASE)
+	@touch $@
 
-build/image/%/$(DUMMY): Makefile build/image/%/payload
-	$(eval TARGET = ${patsubst build/image/%/$(DUMMY),%,${@}})
-	@echo "Building docker $(TARGET)-image"
-	@cat images/$(TARGET)/Dockerfile.in \
-		| sed -e 's/_BASE_TAG_/$(BASE_DOCKER_TAG)/g' \
+# Special override for src-image
+build/image/src/.dummy: build/image/base/.dummy $(PROJECT_FILES)
+	@echo "Building docker src-image"
+	@mkdir -p $(@D)
+	@cat images/src/Dockerfile.in \
 		| sed -e 's/_TAG_/$(DOCKER_TAG)/g' \
 		> $(@D)/Dockerfile
-	$(DBUILD) -t $(PROJECT_NAME)-$(TARGET) $(@D)
+	@git ls-files | tar -jcT - > $(@D)/gopath.tar.bz2
+	docker build -t $(PROJECT_NAME)-src $(@D)
+	docker tag $(PROJECT_NAME)-src $(PROJECT_NAME)-src:$(DOCKER_TAG)
+	@touch $@
+
+# Special override for ccenv-image (chaincode-environment)
+build/image/ccenv/.dummy: build/image/src/.dummy build/image/ccenv/bin/protoc-gen-go build/image/ccenv/bin/chaintool Makefile
+	@echo "Building docker ccenv-image"
+	@cat images/ccenv/Dockerfile.in \
+		| sed -e 's/_TAG_/$(DOCKER_TAG)/g' \
+		> $(@D)/Dockerfile
+	docker build -t $(PROJECT_NAME)-ccenv $(@D)
+	docker tag $(PROJECT_NAME)-ccenv $(PROJECT_NAME)-ccenv:$(DOCKER_TAG)
+	@touch $@
+
+# Special override for java-image
+# Following items are packed and sent to docker context while building image
+# 1. Java shim layer source code
+# 2. Proto files used to generate java classes
+# 3. Gradle settings file
+build/image/javaenv/.dummy: Makefile $(JAVASHIM_DEPS)
+	@echo "Building docker javaenv-image"
+	@mkdir -p $(@D)
+	@cat images/javaenv/Dockerfile.in > $(@D)/Dockerfile
+	@git ls-files core/chaincode/shim/java | tar -jcT - > $(@D)/javashimsrc.tar.bz2
+	@git ls-files protos core/chaincode/shim/table.proto settings.gradle  | tar -jcT - > $(@D)/protos.tar.bz2
+	docker build -t $(PROJECT_NAME)-javaenv $(@D)
+	docker tag $(PROJECT_NAME)-javaenv $(PROJECT_NAME)-javaenv:$(DOCKER_TAG)
+	@touch $@
+
+# Default rule for image creation
+build/image/%/.dummy: build/image/src/.dummy build/docker/bin/%
+	$(eval TARGET = ${patsubst build/image/%/.dummy,%,${@}})
+	@echo "Building docker $(TARGET)-image"
+	@mkdir -p $(@D)/bin
+	@cat images/app/Dockerfile.in \
+		| sed -e 's/_TAG_/$(DOCKER_TAG)/g' \
+		> $(@D)/Dockerfile
+	cp build/docker/bin/$(TARGET) $(@D)/bin
+	docker build -t $(PROJECT_NAME)-$(TARGET) $(@D)
 	docker tag $(PROJECT_NAME)-$(TARGET) $(PROJECT_NAME)-$(TARGET):$(DOCKER_TAG)
 	@touch $@
 
-build/gotools.tar.bz2: build/docker/gotools
-	(cd $</bin && tar -jc *) > $@
-
-build/goshim.tar.bz2: $(GOSHIM_DEPS)
-	@echo "Creating $@"
-	@tar -jhc -C $(GOPATH)/src $(patsubst $(GOPATH)/src/%,%,$(GOSHIM_DEPS)) > $@
-
-build/javashim.tar.bz2: $(JAVASHIM_DEPS)
-build/protos.tar.bz2: $(PROTOS)
-build/msp-sampleconfig.tar.bz2: $(MSP_SAMPLECONFIG)
-
-build/%.tar.bz2:
-	@echo "Creating $@"
-	@tar -jc $^ > $@
-
 .PHONY: protos
-protos: testenv
-	@$(DRUN) hyperledger/fabric-testenv:$(DOCKER_TAG) ./scripts/compile_protos.sh
+protos: gotools
+	./devenv/compile_protos.sh
 
-%-docker-clean:
-	$(eval TARGET = ${patsubst %-docker-clean,%,${@}})
-	-docker images -q $(PROJECT_NAME)-$(TARGET) | xargs -I '{}' docker rmi -f '{}'
+base-image-clean:
+	-docker rmi -f $(PROJECT_NAME)-baseimage
+	-@rm -rf build/image/base ||:
+
+src-image-clean: ccenv-image-clean peer-image-clean membersrvc-image-clean
+
+%-image-clean:
+	$(eval TARGET = ${patsubst %-image-clean,%,${@}})
+	-docker images -q $(PROJECT_NAME)-$(TARGET) | xargs -r docker rmi -f
 	-@rm -rf build/image/$(TARGET) ||:
 
-docker-clean: $(patsubst %,%-docker-clean, $(IMAGES))
+images-clean: $(patsubst %,%-image-clean, $(IMAGES))
+
+.PHONY: $(SUBDIRS:=-clean)
+$(SUBDIRS:=-clean):
+	cd $(patsubst %-clean,%,$@) && $(MAKE) clean
 
 .PHONY: clean
-clean: docker-clean
+clean: images-clean $(filter-out gotools-clean, $(SUBDIRS:=-clean))
 	-@rm -rf build ||:
 
 .PHONY: dist-clean

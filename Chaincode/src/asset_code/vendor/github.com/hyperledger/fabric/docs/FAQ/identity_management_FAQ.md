@@ -15,4 +15,4 @@ Like most other modules on the fabric, you can always replace the default module
 
 No. The only role of the Membership Service module is to issue digital certificates to validated entities that want to participate in the network. It does not execute transactions nor is it aware of how or when these certificates are used in any particular network.
 
-However, because certificates are the way networks regulate and manage their users, the module serves a central regulatory and organizational role.
+However, because certificates are the way networks regulate and manage their users, the module serves a central minery and organizational role.
