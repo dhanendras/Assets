@@ -396,7 +396,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 																		if err != nil {fmt.Printf("Corrupt Asset_Holder record");	return nil, errors.New("Corrupt Asset_Holder record") }
 															
-	assetIDs.assetsID = append(assetIDs.assetsID, assetsID)
+	assetIDs.assetsID = append(assetIDs.assetsID, assets_ID)
 	
 	
 	bytes, err = json.Marshal(assetIDs)
