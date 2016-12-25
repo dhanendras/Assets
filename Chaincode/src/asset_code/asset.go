@@ -373,6 +373,8 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	err = json.Unmarshal([]byte(diamond_json), &d)							// Convert the JSON defined above into a diamond object for go
 	
 																		if err != nil { return nil, errors.New("Invalid JSON object") }
+	fmt.Printf("diamond json object"+d);
+	
 
 	record, err := stub.GetState(d.assetid) 								// If not an error then a record exists so cant create a new Diamond with this assets_id as it must be unique
 	
