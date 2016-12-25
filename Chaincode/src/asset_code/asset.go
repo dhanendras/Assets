@@ -197,7 +197,7 @@ func (t *SimpleChaincode) retrieve_assets(stub  shim.ChaincodeStubInterface, ass
 
 	err = json.Unmarshal(bytes, &d);						
 
-															if err != nil {	fmt.Printf("RETRIEVEassets: Corrupt assetsID record "+string(bytes)+": %s", err); return d, errors.New("RETRIEVEassets: Corrupt assets record"+string(bytes))	}
+															if err != nil {	fmt.Printf("RETRIEVEassets: Corrupt assetsID record "+string(bytes)+": %s", err); return d, errors.New("RETRIEVEassets: Corrupt assets record"+assetsID+" data"+string(bytes))	}
 	
 	return d, nil
 }
@@ -215,7 +215,7 @@ func (t *SimpleChaincode) save_changes(stub  shim.ChaincodeStubInterface, d Diam
 	fmt.Printf("before put state asset id saved %s %s",d.assetsID,bytes);
 	err = stub.PutState(d.assetsID, bytes)
 	
-																if err != nil { fmt.Printf("SAVE_CHANGES: Error storing assets record: %s", err); return false, errors.New("Error storing assets record") }
+																if err != nil { fmt.Printf("SAVE_CHANGES: Error storing assets record:%s %s",d.assetsID, err); return false, errors.New("Error storing assets record") }
 	
 	fmt.Printf("asset id saved %s %s",d.assetsID,bytes);
 	return true, nil
@@ -363,7 +363,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 												if err != nil { fmt.Printf("CREATE_DIAMOND: Invalid assets_ID: %s", err); return nil, errors.New("Invalid assets_ID") }
 	
-	if 				assetsID  == "" 	 || 
+	if 				assets_ID  == "" 	 || 
 					matched == false    {
 																		fmt.Printf("CREATE_DIAMOND: Invalid assets_ID provided");
 																		return nil, errors.New("Invalid assets_ID provided")
