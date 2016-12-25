@@ -190,7 +190,7 @@ func (t *SimpleChaincode) get_caller_data(stub  shim.ChaincodeStubInterface) (st
 func (t *SimpleChaincode) retrieve_assets(stub  shim.ChaincodeStubInterface, assett string) (Diamond, error) {
 	
 	var d Diamond
-	fmt.Printf("diamond id"+assett);
+	fmt.Printf("diamond id"+assett)
 	
 	bytes, err := stub.GetState(assett);					
 				
@@ -358,7 +358,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	status         :="\"Status\":0"
 	
 	diamond_json := "{"+assetid_diamond+colour+diamondat+cut+clarity+location+date+Timestamp+polish+owner+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
-	fmt.Printf("diamond json"+diamond_json);
+	fmt.Printf("diamond json"+diamond_json)
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(asset_id))  				// matched = true if the assetid passed fits format of two letters followed by seven digits
 	
