@@ -30,12 +30,13 @@ import (
 func TestHashDiffRemoteRepo(t *testing.T) {
 	b := []byte("firstcontent")
 	hash := util.ComputeCryptoHash(b)
-	// TODO Change reference to an official test repo once established
-	// Same repo being used in behave tests
 
-	srcPath1, err := getCodeFromHTTP("https://github.com/xspeedcruiser/javachaincodemvn")
-	srcPath2, err := getCodeFromHTTP("https://github.com/xspeedcruiser/javachaincode")
-
+	srcPath1, err := getCodeFromHTTP("https://github.com/hyperledger/fabric-test-resources/")
+	if err != nil {
+		t.Logf("Error getting code from remote repo %s", err)
+		t.Fail()
+	}
+	srcPath2, err := getCodeFromHTTP("https://github.com/hyperledger/fabric-sdk-java")
 	if err != nil {
 		t.Logf("Error getting code from remote repo %s", err)
 		t.Fail()
@@ -67,8 +68,12 @@ func TestHashSameRemoteRepo(t *testing.T) {
 	b := []byte("firstcontent")
 	hash := util.ComputeCryptoHash(b)
 
-	srcPath1, err := getCodeFromHTTP("https://github.com/xspeedcruiser/javachaincodemvn")
-	srcPath2, err := getCodeFromHTTP("https://github.com/xspeedcruiser/javachaincodemvn")
+	srcPath1, err := getCodeFromHTTP("https://github.com/hyperledger/fabric-test-resources")
+	if err != nil {
+		t.Logf("Error getting code from remote repo %s", err)
+		t.Fail()
+	}
+	srcPath2, err := getCodeFromHTTP("https://github.com/hyperledger/fabric-test-resources")
 
 	if err != nil {
 		t.Logf("Error getting code from remote repo %s", err)

@@ -19,20 +19,55 @@ package common
 import (
 	"fmt"
 
+	"github.com/hyperledger/fabric/core/errors"
 	"github.com/hyperledger/fabric/core/peer"
-	pb "github.com/hyperledger/fabric/protos"
-	"github.com/spf13/cobra"
+	"github.com/hyperledger/fabric/core/peer/msp"
+	"github.com/hyperledger/fabric/flogging"
+	"github.com/hyperledger/fabric/msp"
+	pb "github.com/hyperledger/fabric/protos/peer"
+	"github.com/spf13/viper"
 )
 
 // UndefinedParamValue defines what undefined parameters in the command line will initialise to
 const UndefinedParamValue = ""
 
-// GetDevopsClient returns a new client connection for this peer
-func GetDevopsClient(cmd *cobra.Command) (pb.DevopsClient, error) {
+// GetEndorserClient returns a new endorser client connection for this peer
+func GetEndorserClient() (pb.EndorserClient, error) {
 	clientConn, err := peer.NewPeerClientConnection()
 	if err != nil {
-		return nil, fmt.Errorf("Error trying to connect to local peer: %s", err)
+		err = errors.ErrorWithCallstack(errors.Peer, errors.PeerConnectionError, err.Error())
+		return nil, err
 	}
-	devopsClient := pb.NewDevopsClient(clientConn)
-	return devopsClient, nil
+	endorserClient := pb.NewEndorserClient(clientConn)
+	return endorserClient, nil
+}
+
+// GetAdminClient returns a new admin client connection for this peer
+func GetAdminClient() (pb.AdminClient, error) {
+	clientConn, err := peer.NewPeerClientConnection()
+	if err != nil {
+		err = errors.ErrorWithCallstack(errors.Peer, errors.PeerConnectionError, err.Error())
+		return nil, err
+	}
+	adminClient := pb.NewAdminClient(clientConn)
+	return adminClient, nil
+}
+
+// SetErrorLoggingLevel sets the 'error' module's logger to the value in
+// core.yaml
+func SetErrorLoggingLevel() error {
+	viperErrorLoggingLevel := viper.GetString("logging.error")
+	_, err := flogging.SetModuleLogLevel("error", viperErrorLoggingLevel)
+
+	return err
+}
+
+// GetDefaultSigner return a default Signer(Default/PERR) for cli
+func GetDefaultSigner() (msp.SigningIdentity, error) {
+	signer, err := mspmgmt.GetLocalMSP().GetDefaultSigningIdentity()
+	if err != nil {
+		return nil, fmt.Errorf("Error obtaining the default signing identity, err %s", err)
+	}
+
+	return signer, err
 }

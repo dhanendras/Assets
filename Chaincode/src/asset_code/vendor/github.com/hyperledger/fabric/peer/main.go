@@ -30,10 +30,11 @@ import (
 	_ "net/http/pprof"
 
 	"github.com/hyperledger/fabric/core"
-	"github.com/hyperledger/fabric/core/crypto"
+	"github.com/hyperledger/fabric/core/crypto/primitives"
+	"github.com/hyperledger/fabric/core/peer/msp"
 	"github.com/hyperledger/fabric/flogging"
 	"github.com/hyperledger/fabric/peer/chaincode"
-	"github.com/hyperledger/fabric/peer/network"
+	"github.com/hyperledger/fabric/peer/clilogging"
 	"github.com/hyperledger/fabric/peer/node"
 	"github.com/hyperledger/fabric/peer/version"
 )
@@ -41,7 +42,6 @@ import (
 var logger = logging.MustGetLogger("main")
 
 // Constants go here.
-const fabric = "hyperledger"
 const cmdRoot = "core"
 
 // The main command describes the service and
@@ -107,14 +107,35 @@ func main() {
 
 	mainCmd.AddCommand(version.Cmd())
 	mainCmd.AddCommand(node.Cmd())
-	mainCmd.AddCommand(network.Cmd())
-	mainCmd.AddCommand(chaincode.Cmd())
+	mainCmd.AddCommand(chaincode.Cmd(nil))
+	mainCmd.AddCommand(clilogging.Cmd())
 
 	runtime.GOMAXPROCS(viper.GetInt("peer.gomaxprocs"))
 
 	// Init the crypto layer
-	if err := crypto.Init(); err != nil {
-		panic(fmt.Errorf("Failed to initialize the crypto layer: %s", err))
+	//TODO: integrate new crypto / idp code
+	primitives.SetSecurityLevel("SHA2", 256)
+
+	// Init the MSP
+	// TODO: determine the location of this config file
+	var mspMgrConfigDir string
+	if alternativeCfgPath != "" {
+		mspMgrConfigDir = alternativeCfgPath + "/msp/sampleconfig/"
+	} else if _, err := os.Stat("./msp/sampleconfig/"); err == nil {
+		mspMgrConfigDir = "./msp/sampleconfig/"
+	} else {
+		mspMgrConfigDir = os.Getenv("GOPATH") + "/src/github.com/hyperledger/fabric/msp/sampleconfig/"
+	}
+
+	// FIXME: when this peer joins a chain, it should get the
+	// config for that chain with the list of MSPs that the
+	// chain uses; however this is not yet implemented.
+	// Additionally, we might always want to have an MSP for
+	// the local test chain so that we can run tests with the
+	// peer CLI. This is why we create this fake setup here for now
+	err = mspmgmt.LoadFakeSetupWithLocalMspAndTestChainMsp(mspMgrConfigDir)
+	if err != nil {
+		panic(fmt.Errorf("Fatal error when setting up MSP from directory %s: err %s\n", mspMgrConfigDir, err))
 	}
 
 	// On failure Cobra prints the usage message and error string, so we only

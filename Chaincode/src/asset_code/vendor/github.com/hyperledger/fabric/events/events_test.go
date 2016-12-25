@@ -26,7 +26,8 @@ import (
 
 	"github.com/hyperledger/fabric/events/consumer"
 	"github.com/hyperledger/fabric/events/producer"
-	ehpb "github.com/hyperledger/fabric/protos"
+	"github.com/hyperledger/fabric/protos/common"
+	ehpb "github.com/hyperledger/fabric/protos/peer"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -80,9 +81,11 @@ func (a *Adapter) Disconnected(err error) {
 	}
 }
 
-func createTestBlock() *ehpb.Event {
-	emsg := producer.CreateBlockEvent(&ehpb.Block{Transactions: []*ehpb.Transaction{}})
-	return emsg
+func createTestBlock() *common.Block {
+	block := common.NewBlock(1, []byte{})
+	block.Data.Data = [][]byte{[]byte("tx1"), []byte("tx2")}
+	block.Header.DataHash = block.Data.Hash()
+	return block
 }
 
 func createTestChaincodeEvent(tid string, typ string) *ehpb.Event {
@@ -118,13 +121,13 @@ func TestReceiveAnyMessage(t *testing.T) {
 	var err error
 
 	adapter.count = 1
-	emsg := createTestBlock()
-	if err = producer.Send(emsg); err != nil {
+	block := createTestBlock()
+	if err = producer.SendProducerBlockEvent(block); err != nil {
 		t.Fail()
 		t.Logf("Error sending message %s", err)
 	}
 
-	emsg = createTestChaincodeEvent("0xffffffff", "event2")
+	emsg := createTestChaincodeEvent("0xffffffff", "event2")
 	if err = producer.Send(emsg); err != nil {
 		t.Fail()
 		t.Logf("Error sending message %s", err)

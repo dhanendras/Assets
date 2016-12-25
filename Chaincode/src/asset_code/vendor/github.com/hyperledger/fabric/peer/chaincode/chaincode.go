@@ -19,6 +19,7 @@ package chaincode
 import (
 	"fmt"
 
+	"github.com/hyperledger/fabric/core/util"
 	"github.com/hyperledger/fabric/peer/common"
 	"github.com/op/go-logging"
 	"github.com/spf13/cobra"
@@ -30,9 +31,8 @@ const (
 
 var logger = logging.MustGetLogger("chaincodeCmd")
 
-// Cmd returns the cobra command for Chaincode
-func Cmd() *cobra.Command {
-	flags := chaincodeCmd.PersistentFlags()
+func AddFlags(cmd *cobra.Command) {
+	flags := cmd.PersistentFlags()
 
 	flags.StringVarP(&chaincodeLang, "lang", "l", "golang",
 		fmt.Sprintf("Language the %s is written in", chainFuncName))
@@ -48,10 +48,18 @@ func Cmd() *cobra.Command {
 		fmt.Sprint("Username for chaincode operations when security is enabled"))
 	flags.StringVarP(&customIDGenAlg, "tid", "t", common.UndefinedParamValue,
 		fmt.Sprint("Name of a custom ID generation algorithm (hashing and decoding) e.g. sha256base64"))
+	flags.StringVarP(&chainID, "chainID", "C", util.GetTestChainID(),
+		fmt.Sprint("The chain on which this command should be executed"))
+}
 
-	chaincodeCmd.AddCommand(deployCmd())
-	chaincodeCmd.AddCommand(invokeCmd())
-	chaincodeCmd.AddCommand(queryCmd())
+// Cmd returns the cobra command for Chaincode
+func Cmd(cf *ChaincodeCmdFactory) *cobra.Command {
+	AddFlags(chaincodeCmd)
+
+	chaincodeCmd.AddCommand(deployCmd(cf))
+	chaincodeCmd.AddCommand(invokeCmd(cf))
+	chaincodeCmd.AddCommand(queryCmd(cf))
+	chaincodeCmd.AddCommand(upgradeCmd(cf))
 
 	return chaincodeCmd
 }
@@ -67,6 +75,7 @@ var (
 	chaincodeQueryHex       bool
 	chaincodeAttributesJSON string
 	customIDGenAlg          string
+	chainID                 string
 )
 
 var chaincodeCmd = &cobra.Command{

@@ -14,7 +14,7 @@ The new architecture introduces a clear functional separation of peer roles, and
 
 The consensus process (i.e. algorithmic computation) is entirely abstracted from the peer.  This modularity not only provides a powerful security layer – the consenting nodes are agnostic to the transaction logic – but it also generates a framework where consensus can become pluggable and scalability can truly occur.  There is no longer a parallel relationship between the number of peers in a network and the number of consenters.  Now networks can grow dynamically (i.e. add endorsers and committers) without having to add corresponding consenters, and exist in a modular infrastructure designed to support high transaction throughput.  Moreover, networks now have the capability to completely liberate themselves from the computational and legal burden of consensus by tapping into a pre-existing consensus cloud.
 
-As v1.0 manifests, we will see the foundation for interoperable blockchain networks that have the ability to scale and transact in a manner adherent with minery and industry standards. Watch how fabric v1.0 and the Hyperledger Project are building a true blockchain for business -  
+As v1.0 manifests, we will see the foundation for interoperable blockchain networks that have the ability to scale and transact in a manner adherent with regulatory and industry standards. Watch how fabric v1.0 and the Hyperledger Project are building a true blockchain for business -  
 
 [![HYPERLEDGERv1.0_ANIMATION](http://img.youtube.com/vi/EKa5Gh9whgU/0.jpg)](http://www.youtube.com/watch?v=EKa5Gh9whgU)
 

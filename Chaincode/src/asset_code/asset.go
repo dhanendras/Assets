@@ -353,7 +353,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
     jewelleryType :="\"jewellerytype\":\"UNDEFINED\", " 
 	status         :="\"status\":0"
 	
-	diamond_json := "{"+assetsID+colour+diamondat+cut+clarity+location+date+Timestamp+polish+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
+	diamond_json := "{"+assetsID+colour+diamondat+cut+clarity+location+date+Timestamp+polish+symmetry+jewelleryType+status+"}"; 	// Concatenates the variables to create the total JSON object
 	
 	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(assets_ID))  				// matched = true if the assetsID passed fits format of two letters followed by seven digits
 	
