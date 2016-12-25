@@ -190,7 +190,8 @@ func (t *SimpleChaincode) get_caller_data(stub  shim.ChaincodeStubInterface) (st
 func (t *SimpleChaincode) retrieve_assets(stub  shim.ChaincodeStubInterface, assett string) (Diamond, error) {
 	
 	var d Diamond
-
+	fmt.Printf("diamond id"+assett);
+	
 	bytes, err := stub.GetState(assett);					
 				
 															if err != nil {	fmt.Printf("RETRIEVEassets: Failed to invoke assets_id: %s", err); return d, errors.New("RETRIEVEassets: Error retrieving assets with assetid = " + assett) }
@@ -338,11 +339,11 @@ func (t *SimpleChaincode) ping(stub shim.ChaincodeStubInterface) ([]byte, error)
 //=================================================================================================================================									
 //	 Create Diamond - Creates the initial JSON for the diamond and then saves it to the ledger.									
 //=================================================================================================================================
-func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, caller string, caller_affiliation string, assets_ID string) ([]byte, error) {								
+func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, caller string, caller_affiliation string, asset_id string) ([]byte, error) {								
 
 	var d Diamond																																										
 	
-	assetid      := "\"assetid\":\""+assets_ID+"\", "							// Variables to define the JSON
+	assetid_diamond      := "\"assetid\":\""+asset_id+"\", "							
 	colour         := "\"Colour\":\"UNDEFINED\", "
 	diamondat          := "\"Diamondat\":\"UNDEFINED\", "
 	cut            := "\"Cut\":\"UNDEFINED\", "
@@ -356,17 +357,17 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
     jewelleryType :="\"jewelleryType\":\"UNDEFINED\", " 
 	status         :="\"Status\":0"
 	
-	diamond_json := "{"+assetid+colour+diamondat+cut+clarity+location+date+Timestamp+polish+owner+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
+	diamond_json := "{"+assetid_diamond+colour+diamondat+cut+clarity+location+date+Timestamp+polish+owner+symmetry+jewelleryType+status+"}" 	// Concatenates the variables to create the total JSON object
+	fmt.Printf("diamond json"+diamond_json);
 	
+	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(asset_id))  				// matched = true if the assetid passed fits format of two letters followed by seven digits
 	
-	matched, err := regexp.Match("^[A-z][A-z][0-9]{7}", []byte(assets_ID))  				// matched = true if the assetid passed fits format of two letters followed by seven digits
+												if err != nil { fmt.Printf("CREATE_DIAMOND: Invalid asset_id: %s", err); return nil, errors.New("Invalid asset_id") }
 	
-												if err != nil { fmt.Printf("CREATE_DIAMOND: Invalid assets_ID: %s", err); return nil, errors.New("Invalid assets_ID") }
-	
-	if 				assets_ID  == "" 	 || 
+	if 				asset_id  == "" 	 || 
 					matched == false    {
-																		fmt.Printf("CREATE_DIAMOND: Invalid assets_ID provided");
-																		return nil, errors.New("Invalid assets_ID provided")
+																		fmt.Printf("CREATE_DIAMOND: Invalid asset_id provided");
+																		return nil, errors.New("Invalid asset_id provided")
 	}
 
 	err = json.Unmarshal([]byte(diamond_json), &d)							// Convert the JSON defined above into a diamond object for go
@@ -396,7 +397,7 @@ func (t *SimpleChaincode) create_diamond(stub  shim.ChaincodeStubInterface, call
 	
 																		if err != nil {fmt.Printf("Corrupt Asset_Holder record");	return nil, errors.New("Corrupt Asset_Holder record") }
 															
-	assetHolder.assetids = append(assetHolder.assetids, assets_ID)
+	assetHolder.assetids = append(assetHolder.assetids, asset_id)
 	
 	
 	bytes, err = json.Marshal(assetHolder)
