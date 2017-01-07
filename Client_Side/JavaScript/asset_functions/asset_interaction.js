@@ -201,7 +201,7 @@ function scrapAsset()
 {
 
 	/*
-	Scraps the chosen asset, specified by v5cAddr. Because we want to ensure the V5C identifier or the clarity is never assigned to another contract, we
+	Scraps the chosen asset, specified by v5cAddr. Because we want to ensure the Asset identifier or the clarity is never assigned to another contract, we
 	don't actually delete the contract, instead we update the scrapped attribute to be true.
 	*/
     let found = [];
